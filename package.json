@@ -40,7 +40,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.0.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-jest-enzyme": "^7.1.2",
     "eslint-config-prettier": "^6.11.0",
