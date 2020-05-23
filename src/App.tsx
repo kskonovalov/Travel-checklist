@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'materialize-css';
 import { Collection, CollectionItem, Checkbox } from 'react-materialize';
 
@@ -6,23 +6,61 @@ import AddTask from './components/AddTask';
 
 type Task = {
   id: number;
-  text: string;
-  done: boolean;
+  value: string;
+  completed: boolean;
+};
+
+const getRandomKey = (): string => {
+  return Math.random().toString(36).substring(7);
 };
 
 const App: React.FC = () => {
-  const tasks: Task[] = [
+  const [tasks, setTasks] = useState<Task[]>([
     {
       id: 1,
-      text: 'Test task',
-      done: false,
+      value: 'Test task',
+      completed: false,
     },
     {
       id: 2,
-      text: 'Other task',
-      done: true,
+      value: 'Other task',
+      completed: true,
     },
-  ];
+  ]);
+
+  const addTask = (task: string) => {
+    setTasks((prev: Task[]) => [
+      ...prev,
+      {
+        id: getRandomKey(),
+        value: task,
+        completed: false,
+      },
+    ]);
+  };
+
+  const deleteTask = (taskId: string) => {
+    setTasks((prev) =>
+      prev.filter((item: Task): boolean => {
+        return taskId !== item.id;
+      })
+    );
+  };
+
+  const toggleTask = (taskId: string) => {
+    setTasks((prev) =>
+      prev.map(
+        (item: Task): Task => {
+          return taskId === item.id
+            ? {
+                ...item,
+                completed: !item.completed,
+              }
+            : item;
+        }
+      )
+    );
+  };
 
   return (
     <div className="container">
