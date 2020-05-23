@@ -1,12 +1,8 @@
 import React from 'react';
 import 'materialize-css';
-import {
-  TextInput,
-  Collection,
-  CollectionItem,
-  Button,
-  Icon,
-} from 'react-materialize';
+import { Collection, CollectionItem, Checkbox } from 'react-materialize';
+
+import AddTask from './components/AddTask';
 
 type Task = {
   id: number;
@@ -30,16 +26,20 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <TextInput id="TextInput-4" label="Добавить в чеклист" />
-      <Button node="button" waves="light">
-        Добавить
-        <Icon right>cloud</Icon>
-      </Button>
+      <AddTask />
       <Collection>
         {tasks.map((item) => {
           return (
             <CollectionItem key={item.id} href="">
-              {item.text}
+              <Checkbox
+                checked={item.done}
+                id={`checkbox-${item.id}`}
+                label={item.text}
+                value={item.text}
+                onChange={(e) => {
+                  console.log(e.target);
+                }}
+              />
             </CollectionItem>
           );
         })}
