@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import { Container, Box } from '@material-ui/core';
 
-import taskInterface from './interfaces/taskInterface';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-
-const getRandomKey = (): string => {
-  return Math.random()
-    .toString(36)
-    .substring(7);
-};
+import taskInterface from './interfaces/taskInterface';
+import { getRandomKey } from './helpers';
 
 const initialTasks: taskInterface[] = [
   {
@@ -72,9 +65,6 @@ const App: React.FC = () => {
     <>
       <Container>
         <Box mt={5} mb={5}>
-          <Typography variant="h4" component="h1" align="center">
-            Tasks list created with React + TypeScript + Material UI
-          </Typography>
           <Container maxWidth="sm">
             <Box mt={1} mb={1}>
               <TodoForm addTask={addTask} />
