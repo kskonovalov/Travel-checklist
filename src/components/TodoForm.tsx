@@ -31,14 +31,14 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTask }) => {
         <FormFieldsWrap>
           <TextField
             id="title"
-            label="Task title"
+            label="Перед поездкой нужно.."
             value={title}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setTitle(e.target.value);
             }}
           />
           <Button variant="outlined" type="submit">
-            Submit
+            Добавить
           </Button>
         </FormFieldsWrap>
       </form>

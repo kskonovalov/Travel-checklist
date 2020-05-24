@@ -43,7 +43,11 @@ const TodoList: React.FC<TodoListProps> = ({
             }}
           >
             <ListItemIcon>
-              {item.completed ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+              {item.completed ? (
+                <CheckBoxIcon color="primary" />
+              ) : (
+                <CheckBoxOutlineBlankIcon color="primary" />
+              )}
             </ListItemIcon>
             <ListItemText primary={item.value} />
             <ListItemIcon
@@ -52,7 +56,7 @@ const TodoList: React.FC<TodoListProps> = ({
                 deleteTask(item.id);
               }}
             >
-              <DeleteIcon />
+              <DeleteIcon color="primary" />
             </ListItemIcon>
           </Task>
         );
