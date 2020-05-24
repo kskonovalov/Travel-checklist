@@ -6,26 +6,19 @@ import TodoList from './components/TodoList';
 import taskInterface from './interfaces/taskInterface';
 import { getRandomKey } from './helpers';
 
-const initialTasks: taskInterface[] = [
-  {
-    id: '1',
-    value: 'Test task',
-    completed: false
-  },
-  {
-    id: '2',
-    value: 'Test task',
-    completed: false
-  },
-  {
-    id: '3',
-    value: 'Test task',
-    completed: false
+declare global {
+  interface Window {
+    __DATA__: any;
   }
-];
+}
+console.log(window.__DATA__);
+window.__DATA__ = window.__DATA__ || {};
+console.log(window.__DATA__);
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<taskInterface[]>(initialTasks);
+  const [tasks, setTasks] = useState<taskInterface[]>(
+    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
+  );
 
   const addTask = (task: string) => {
     setTasks(prev => [
