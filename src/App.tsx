@@ -4,7 +4,6 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
 import taskInterface from './interfaces/taskInterface';
-import NavBar from './components/NavBar';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 
@@ -14,8 +13,26 @@ const getRandomKey = (): string => {
     .substring(7);
 };
 
+const initialTasks: taskInterface[] = [
+  {
+    id: '1',
+    value: 'Test task',
+    completed: false
+  },
+  {
+    id: '2',
+    value: 'Test task',
+    completed: false
+  },
+  {
+    id: '3',
+    value: 'Test task',
+    completed: false
+  }
+];
+
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<taskInterface[]>([]);
+  const [tasks, setTasks] = useState<taskInterface[]>(initialTasks);
 
   const addTask = (task: string) => {
     setTasks(prev => [
@@ -53,7 +70,6 @@ const App: React.FC = () => {
 
   return (
     <>
-      <NavBar />
       <Container>
         <Box mt={5} mb={5}>
           <Typography variant="h4" component="h1" align="center">
@@ -64,7 +80,11 @@ const App: React.FC = () => {
               <TodoForm addTask={addTask} />
             </Box>
             <Box mt={1} mb={1}>
-              <TodoList tasks={tasks} deleteTask={deleteTask} toggleTask={toggleTask}></TodoList>
+              <TodoList
+                tasks={tasks}
+                deleteTask={deleteTask}
+                toggleTask={toggleTask}
+              ></TodoList>
             </Box>
           </Container>
         </Box>

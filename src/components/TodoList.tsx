@@ -18,7 +18,7 @@ interface TodoListProps {
 }
 
 interface StyledProps {
-  completed: boolean;
+  completed: boolean | number;
 }
 
 const Task = styled(ListItem)`
@@ -38,7 +38,7 @@ const TodoList: React.FC<TodoListProps> = ({
           <Task
             key={item.id}
             button
-            completed={item.completed}
+            completed={item.completed ? 1 : 0}
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
               toggleTask(item.id);
