@@ -1,10 +1,11 @@
 <?php
 
+$listID = $_POST["listID"];
 $tasks = json_encode("{
         tasks: [
           {
             id: '0',
-            value: 'api task',
+            value: 'api task for {$listID}',
             completed: false
           },
           {

@@ -33,6 +33,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ addTask }) => {
             id="title"
             label="Перед поездкой нужно.."
             value={title}
+            fullWidth={true}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setTitle(e.target.value);
             }}

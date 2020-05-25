@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Box } from '@material-ui/core';
+import { Container, Box, TextField } from '@material-ui/core';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -19,6 +19,21 @@ const App: React.FC = () => {
   const [tasks, setTasks] = useState<taskInterface[]>(
     typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
   );
+
+  const [listID, setListID] = useState('uniqlistid');
+
+  // get countries from api
+  /*useEffect(() => {
+    const apiUrl = 'https://flynow.ru/checklist/';
+    axios
+      .post(apiUrl, {
+        listID
+      })
+      .then(res => {
+        const { data } = res;
+        data.data && setCountries(data.data);
+      });
+  }, [listID]);*/
 
   const addTask = (task: string) => {
     setTasks(prev => [
@@ -59,6 +74,14 @@ const App: React.FC = () => {
       <Container>
         <Box mt={5} mb={5}>
           <Container maxWidth="sm">
+            <Box mt={1} mb={1}>
+              <TextField
+                id="standard-basic"
+                label="Ссылка на Ваш личный чеклист путешественника"
+                fullWidth={true}
+                value={`${window.location.href}#${listID}`}
+              />
+            </Box>
             <Box mt={1} mb={1}>
               <TodoForm addTask={addTask} />
             </Box>
