@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Container, Box, TextField } from '@material-ui/core';
+import axios from 'axios';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -23,6 +24,9 @@ const App: React.FC = () => {
     typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
   );
 
+  const words =
+    typeof window.__DATA__.words !== 'undefined' ? window.__DATA__.words : [];
+
   const params: IUrlParams = useParams();
   const { listID: paramListId } = params;
 
@@ -32,18 +36,36 @@ const App: React.FC = () => {
       : ''
   );
 
+  const history = useHistory();
+  useEffect(() => {
+    let newListID = '';
+    if (listID.length === 0) {
+      if (words.length > 0) {
+        // Shuffle array
+        const shuffled = words.sort(() => 0.5 - Math.random());
+        // Get sub-array of first 3 elements after shuffled
+        const selected = shuffled.slice(0, 3);
+        newListID = selected.join('-');
+      }
+      if (newListID.length === 0) {
+        newListID = getRandomKey() + getRandomKey() + getRandomKey();
+      }
+      history.push(`/${newListID}`);
+    }
+  }, [listID]);
+
   // get countries from api
-  /*useEffect(() => {
-    const apiUrl = 'https://flynow.ru/checklist/';
-    axios
-      .post(apiUrl, {
-        listID
-      })
-      .then(res => {
-        const { data } = res;
-        data.data && setCountries(data.data);
-      });
-  }, [listID]);*/
+  // useEffect(() => {
+  //   const apiUrl = 'https://flynow.ru/checklist/';
+  //   axios
+  //     .post(apiUrl, {
+  //       listID
+  //     })
+  //     .then(res => {
+  //       // const { data } = res;
+  //       console.log(res);
+  //     });
+  // }, [listID]);
 
   const addTask = (task: string) => {
     setTasks(prev => [

@@ -8,6 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <BrowserRouter>
+    <Route path="/" exact component={App} />
     <Route path="/:listID" component={App} />
   </BrowserRouter>,
   document.getElementById('root')
