@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Container, Box, TextField } from '@material-ui/core';
 
 import TodoForm from './components/TodoForm';
@@ -11,16 +12,25 @@ declare global {
     __DATA__: any;
   }
 }
-console.log(window.__DATA__);
 window.__DATA__ = window.__DATA__ || {};
-console.log(window.__DATA__);
+
+interface IUrlParams {
+  listID?: string;
+}
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<taskInterface[]>(
     typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
   );
 
-  const [listID, setListID] = useState('uniqlistid');
+  const params: IUrlParams = useParams();
+  const { listID: paramListId } = params;
+
+  const [listID, setListID] = useState(
+    typeof paramListId !== 'undefined' && paramListId.length > 0
+      ? paramListId
+      : ''
+  );
 
   // get countries from api
   /*useEffect(() => {
@@ -79,7 +89,7 @@ const App: React.FC = () => {
                 id="standard-basic"
                 label="Ссылка на Ваш личный чеклист путешественника"
                 fullWidth={true}
-                value={`${window.location.href}#${listID}`}
+                value={`${window.location.href}`}
               />
             </Box>
             <Box mt={1} mb={1}>
