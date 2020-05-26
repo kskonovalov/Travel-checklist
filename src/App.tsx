@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Container, Box, TextField } from '@material-ui/core';
+import { Container, Box, TextField, Button } from '@material-ui/core';
 import axios from 'axios';
 
 import TodoForm from './components/TodoForm';
@@ -103,30 +103,37 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Container>
-        <Box mt={5} mb={5}>
-          <Container maxWidth="sm">
-            <Box mt={1} mb={1}>
-              <TextField
-                id="standard-basic"
-                label="Ссылка на Ваш личный чеклист путешественника"
-                fullWidth={true}
-                value={`${window.location.href}`}
-              />
-            </Box>
-            <Box mt={1} mb={1}>
-              <TodoForm addTask={addTask} />
-            </Box>
-            <Box mt={1} mb={1}>
-              <TodoList
-                tasks={tasks}
-                deleteTask={deleteTask}
-                toggleTask={toggleTask}
-              ></TodoList>
-            </Box>
-          </Container>
-        </Box>
-      </Container>
+      <Box mt={5} mb={5}>
+        <Container maxWidth="sm">
+          <Box mt={1} mb={1}>
+            <TextField
+              id="standard-basic"
+              label="Ссылка на Ваш личный чеклист путешественника"
+              fullWidth={true}
+              value={`${window.location.href}`}
+            />
+          </Box>
+          <Box mt={1} mb={1}>
+            <TodoForm addTask={addTask} />
+          </Box>
+          <Box mt={1} mb={1}>
+            <TodoList
+              tasks={tasks}
+              deleteTask={deleteTask}
+              toggleTask={toggleTask}
+            ></TodoList>
+          </Box>
+          <Button
+            variant="outlined"
+            fullWidth={true}
+            onClick={() => {
+              history.push(`/`);
+            }}
+          >
+            Хочу новый лист
+          </Button>
+        </Container>
+      </Box>
     </>
   );
 };
