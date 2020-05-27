@@ -1,19 +1,14 @@
 import React from 'react';
-import { Dialog, DialogTitle } from '@material-ui/core';
+import { Dialog, DialogTitle, Button } from '@material-ui/core';
 
 interface IProps {
   open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
+  onClose: () => void;
 }
 
-const ConfirmDialog = ({ onClose, selectedValue, open }: IProps) => {
+const ConfirmDialog = ({ onClose, open }: IProps) => {
   const handleClose = () => {
-    onClose(selectedValue);
-  };
-
-  const handleListItemClick = (value: string) => {
-    onClose(value);
+    onClose();
   };
 
   return (
@@ -22,7 +17,17 @@ const ConfirmDialog = ({ onClose, selectedValue, open }: IProps) => {
       aria-labelledby="simple-dialog-title"
       open={open}
     >
-      <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Вы уверены?</DialogTitle>
+      <br />
+      <br />
+      <Button variant="outlined" onClick={handleClose}>
+        УДАЛИТЬ старый лист и создать НОВЫЙ
+      </Button>
+      <br />
+      <br />
+      <Button variant="outlined" onClick={handleClose}>
+        ОТМЕНИТЬ создание нового листа
+      </Button>
     </Dialog>
   );
 };

@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Container, Box, TextField, Button } from '@material-ui/core';
-import axios from 'axios';
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Dialog,
+  DialogTitle
+} from '@material-ui/core';
+// import axios from 'axios';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import ConfirmDialog from './components/ConfirmDialog';
 import taskInterface from './interfaces/taskInterface';
 import { getRandomKey } from './helpers';
 
@@ -53,6 +61,15 @@ const App: React.FC = () => {
       history.push(`/${newListID}`);
     }
   }, [listID]);
+
+  /* confirmation */
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // get countries from api
   // useEffect(() => {
@@ -121,17 +138,12 @@ const App: React.FC = () => {
               tasks={tasks}
               deleteTask={deleteTask}
               toggleTask={toggleTask}
-            ></TodoList>
+            />
           </Box>
-          <Button
-            variant="outlined"
-            fullWidth={true}
-            onClick={() => {
-              history.push(`/`);
-            }}
-          >
+          <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
             Хочу новый лист
           </Button>
+          <ConfirmDialog open={open} onClose={handleClose} />
         </Container>
       </Box>
     </>
