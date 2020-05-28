@@ -1,5 +1,13 @@
 import React from 'react';
-import { Dialog, DialogTitle, Button } from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  TextField
+} from '@material-ui/core';
 
 interface IProps {
   open: boolean;
@@ -18,16 +26,21 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
       open={open}
     >
       <DialogTitle id="simple-dialog-title">Вы уверены?</DialogTitle>
-      <br />
-      <br />
-      <Button variant="outlined" onClick={handleClose}>
-        УДАЛИТЬ старый лист и создать НОВЫЙ
-      </Button>
-      <br />
-      <br />
-      <Button variant="outlined" onClick={handleClose}>
-        ОТМЕНИТЬ создание нового листа
-      </Button>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Это действие создаст новый список дел, старый список останется
+          доступен по ссылке:
+          <TextField fullWidth={true} value={`${window.location.href}`} />
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Отменить
+        </Button>
+        <Button onClick={handleClose} color="primary" variant="outlined">
+          Создать новый
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };
