@@ -38,11 +38,10 @@ const App: React.FC = () => {
   const params: IUrlParams = useParams();
   const { listID: paramListId } = params;
 
-  const [listID, setListID] = useState(
+  const listID =
     typeof paramListId !== 'undefined' && paramListId.length > 0
       ? paramListId
-      : ''
-  );
+      : '';
 
   const history = useHistory();
   useEffect(() => {
