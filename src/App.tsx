@@ -5,9 +5,10 @@ import {
   Box,
   TextField,
   Button,
-  Dialog,
-  DialogTitle
+  InputAdornment
 } from '@material-ui/core';
+import { Link as LinkIcon } from '@material-ui/icons';
+
 // import axios from 'axios';
 
 import TodoForm from './components/TodoForm';
@@ -127,6 +128,14 @@ const App: React.FC = () => {
               label="Ссылка на Ваш личный чеклист путешественника"
               fullWidth={true}
               value={`${window.location.href}`}
+              helperText="Нажмите чтобы скопировать"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LinkIcon />
+                  </InputAdornment>
+                )
+              }}
             />
           </Box>
           <Box mt={1} mb={1}>
