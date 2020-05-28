@@ -138,7 +138,7 @@ const App: React.FC = () => {
               }}
             />
           </Box>
-          <Box mt={1} mb={1}>
+          <Box mt={3} mb={1}>
             <TodoForm addTask={addTask} />
           </Box>
           <Box mt={1} mb={1}>
