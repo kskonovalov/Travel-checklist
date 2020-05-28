@@ -8,6 +8,7 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 interface IProps {
   open: boolean;
@@ -15,6 +16,7 @@ interface IProps {
 }
 
 const ConfirmDialog = ({ onClose, open }: IProps) => {
+  const history = useHistory();
   const handleClose = () => {
     onClose();
   };
@@ -37,7 +39,13 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
         <Button onClick={handleClose} color="primary">
           Отменить
         </Button>
-        <Button onClick={handleClose} color="primary" variant="outlined">
+        <Button
+          onClick={() => {
+            history.push(`/`);
+          }}
+          color="primary"
+          variant="outlined"
+        >
           Создать новый
         </Button>
       </DialogActions>
