@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import {
-  Container,
-  Box,
-  TextField,
-  Button,
-  InputAdornment
-} from '@material-ui/core';
-import { Link as LinkIcon } from '@material-ui/icons';
+import { Container, Box, Button } from '@material-ui/core';
 
 // import axios from 'axios';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import taskInterface from './interfaces/taskInterface';
 import { getRandomKey } from './helpers';
@@ -123,20 +117,7 @@ const App: React.FC = () => {
       <Box mt={5} mb={5}>
         <Container maxWidth="sm">
           <Box mt={1} mb={1}>
-            <TextField
-              id="standard-basic"
-              label="Ссылка на Ваш личный чеклист путешественника"
-              fullWidth={true}
-              value={`${window.location.href}`}
-              helperText="Нажмите, чтобы скопировать"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LinkIcon />
-                  </InputAdornment>
-                )
-              }}
-            />
+            <LinkToList />
           </Box>
           <Box mt={3} mb={1}>
             <TodoForm addTask={addTask} />
