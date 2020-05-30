@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, InputAdornment } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import styled from 'styled-components';
 

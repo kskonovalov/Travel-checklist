@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Container, Box, Button } from '@material-ui/core';
-
-// import axios from 'axios';
+import axios from 'axios';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -65,18 +64,32 @@ const App: React.FC = () => {
     setOpen(false);
   };
 
-  // get countries from api
-  // useEffect(() => {
-  //   const apiUrl = 'https://flynow.ru/checklist/';
-  //   axios
-  //     .post(apiUrl, {
-  //       listID
-  //     })
-  //     .then(res => {
-  //       // const { data } = res;
-  //       console.log(res);
-  //     });
-  // }, [listID]);
+  // get checklist from api
+  useEffect(() => {
+    // const apiUrl = 'https://flynow.ru/checklist/';
+    const apiUrl = 'https://kskonovalov.me/samples/checklist/';
+    if (listID.length > 0) {
+      axios
+        .post(
+          apiUrl,
+          {
+            listID,
+            tasks
+          },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        )
+        .then(res => {
+          const { data } = res;
+          if (data.length > 0) {
+            console.log(data);
+            // console.log(JSON.parse(data));
+            setTasks(data);
+          }
+        });
+    }
+  }, [listID]);
 
   const addTask = (task: string) => {
     setTasks(prev => [
