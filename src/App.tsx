@@ -7,6 +7,7 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
+import Loader from './components/Loader';
 import taskInterface from './interfaces/taskInterface';
 import { getRandomKey } from './helpers';
 
@@ -22,9 +23,8 @@ interface IUrlParams {
 }
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<taskInterface[]>(
-    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
-  );
+  const [tasks, setTasks] = useState<taskInterface[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const words =
     typeof window.__DATA__.words !== 'undefined' ? window.__DATA__.words : [];
@@ -67,6 +67,7 @@ const App: React.FC = () => {
   // get checklist from api
   useEffect(() => {
     // const apiUrl = 'https://flynow.ru/checklist/';
+    setLoading(true);
     const apiUrl = 'https://kskonovalov.me/samples/checklist/';
     if (listID.length > 0) {
       axios
@@ -86,6 +87,7 @@ const App: React.FC = () => {
             console.log(data);
             // console.log(JSON.parse(data));
             setTasks(data);
+            setLoading(false);
           }
         });
     }
@@ -135,13 +137,17 @@ const App: React.FC = () => {
           <Box mt={3} mb={1}>
             <TodoForm addTask={addTask} />
           </Box>
-          <Box mt={1} mb={1}>
-            <TodoList
-              tasks={tasks}
-              deleteTask={deleteTask}
-              toggleTask={toggleTask}
-            />
-          </Box>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Box mt={1} mb={1}>
+              <TodoList
+                tasks={tasks}
+                deleteTask={deleteTask}
+                toggleTask={toggleTask}
+              />
+            </Box>
+          )}
           <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
             Хочу новый лист
           </Button>
