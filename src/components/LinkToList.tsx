@@ -2,15 +2,6 @@ import React, { useState } from 'react';
 import { InputAdornment, TextField } from '@material-ui/core';
 import { Link as LinkIcon } from '@material-ui/icons';
 
-// const copyToClipboard = e => {
-//   this.select();
-//   document.execCommand('copy');
-//   // This is just personal preference.
-//   // I prefer to not show the the whole text area selected.
-//   e.target.focus();
-//   this.setState({ copySuccess: 'Copied!' });
-// };
-
 const LinkToList = () => {
   const [helperText, setHelperText] = useState<string>(
     'Нажмите, чтобы скопировать'
