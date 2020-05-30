@@ -138,7 +138,7 @@ const App: React.FC = () => {
             <TodoForm addTask={addTask} />
           </Box>
           {loading ? (
-            <Loader />
+            <Loader loadingMessage="Список задач загружается.." />
           ) : (
             <Box mt={1} mb={1}>
               <TodoList

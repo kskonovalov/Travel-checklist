@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import Typography from '@material-ui/core/Typography';
 
 const loadingAnimation = keyframes`
   0% {
@@ -41,13 +42,24 @@ const StyledLoader = styled.div`
   }
 `;
 
-const Loader: React.FC = () => {
+interface ILoader {
+  loadingMessage?: string;
+}
+
+const Loader: React.FC<ILoader> = ({ loadingMessage }) => {
   return (
-    <StyledLoader>
-      <div />
-      <div />
-      <div />
-    </StyledLoader>
+    <>
+      {typeof loadingMessage !== 'undefined' && loadingMessage.length > 0 ? (
+        <Typography align="center" variant="h6">
+          {loadingMessage}
+        </Typography>
+      ) : null}
+      <StyledLoader>
+        <div />
+        <div />
+        <div />
+      </StyledLoader>
+    </>
   );
 };
 
