@@ -66,9 +66,8 @@ const App: React.FC = () => {
 
   // get checklist from api
   useEffect(() => {
-    // const apiUrl = 'https://flynow.ru/checklist/';
     setLoading(true);
-    const apiUrl = 'https://kskonovalov.me/samples/checklist/';
+    const apiUrl = 'https://flynow.ru/checklist/';
     if (listID.length > 0) {
       axios
         .post(
@@ -84,8 +83,6 @@ const App: React.FC = () => {
         .then(res => {
           const { data } = res;
           if (data.length > 0) {
-            console.log(data);
-            // console.log(JSON.parse(data));
             setTasks(data);
             setLoading(false);
           }
