@@ -10,6 +10,7 @@ import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import taskInterface from './interfaces/taskInterface';
 import { getRandomKey } from './helpers';
+import useHttp from './hooks/http.hook';
 
 declare global {
   interface Window {
@@ -41,6 +42,7 @@ const App: React.FC = () => {
   useEffect(() => {
     let newListID = '';
     if (listID.length === 0) {
+      // trying to create user-friendly list name
       if (words.length > 0) {
         // Shuffle array
         const shuffled = words.sort(() => 0.5 - Math.random());
@@ -48,9 +50,11 @@ const App: React.FC = () => {
         const selected = shuffled.slice(0, 3);
         newListID = selected.join('-');
       }
+      // in case of fail, just create random key
       if (newListID.length === 0) {
-        newListID = getRandomKey() + getRandomKey() + getRandomKey();
+        newListID = getRandomKey(13);
       }
+
       history.push(`/${newListID}`);
     }
   }, [listID]);
@@ -65,29 +69,27 @@ const App: React.FC = () => {
   };
 
   // get checklist from api
-  useEffect(() => {
-    setLoading(true);
+  const { request } = useHttp();
+  const getTasks = async (listID: string) => {
     const apiUrl = 'https://flynow.ru/checklist/';
     if (listID.length > 0) {
-      axios
-        .post(
-          apiUrl,
-          {
-            listID,
-            tasks
-          },
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
-        .then(res => {
-          const { data } = res;
-          if (data.length > 0) {
-            setTasks(data);
-            setLoading(false);
-          }
+      try {
+        const data = await request('https://flynow.ru/checklist/', 'POST', {
+          listID
         });
+        console.log(data);
+      } catch (e) {}
+      // if (data.length > 0) {
+      //   setTasks(data);
+      //   setLoading(false);
+      // }
     }
+  };
+  useEffect(() => {
+    setLoading(true);
+    const data = getTasks(listID);
+    console.log(data);
+    setLoading(false);
   }, [listID]);
 
   const addTask = (task: string) => {
