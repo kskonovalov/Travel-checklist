@@ -14,22 +14,41 @@ if ($mysqli->connect_error) {
 }
 
 $postData = json_decode(file_get_contents('php://input'), true);
+// list ID
 $listID = $mysqli->real_escape_string($postData["listID"]);
+// action type
+$checkListId = false;
+if(isset($postData["checkListId"]) && !empty($postData["checkListId"])) {
+    $checkListId = true;
+}
 
-/* Select запросы возвращают результирующий набор */
 /*
+ * id
+ * list_id
+ * content
  * date
- *
+ * removed | boolean
  * */
-$stmt = $mysqli->prepare("SELECT * FROM checklist WHERE ID = ? AND age = ?");
-$stmt->bind_param("si", $_POST['name'], $_POST['age']);
-$stmt->execute();
 
-if ($result = $mysqli->query("SELECT * FROM checklist where ID = ")) {
-    printf("Select вернул %d строк.\n", $result->num_rows);
-
-    /* очищаем результирующий набор */
-    $result->close();
+if($checkListId) {
+    // check availability of list ID
+    if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
+        if($result->num_rows > 0) {
+            echo json_encode(['available' => false]);
+        } else {
+            echo json_encode(['available' => true]);
+        }
+        /* очищаем результирующий набор */
+        $result->close();
+        die();
+    }
+} else {
+    // get current list data
+    if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
+        VAR_DUMP($result);
+        /* очищаем результирующий набор */
+        $result->close();
+    }
 }
 
 //$tasks = "[]";
