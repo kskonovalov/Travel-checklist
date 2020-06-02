@@ -17,9 +17,12 @@ $postData = json_decode(file_get_contents('php://input'), true);
 // list ID
 $listID = $mysqli->real_escape_string($postData["listID"]);
 // action type
-$checkListId = false;
-if(isset($postData["checkListId"]) && !empty($postData["checkListId"])) {
-    $checkListId = true;
+$action = 'default';
+if(isset($postData["action"]) && $postData["action"] == 'check') {
+    $action = 'check';
+}
+if(isset($postData["action"]) && $postData["action"] == 'save') {
+    $action = 'save';
 }
 
 /*
@@ -30,7 +33,8 @@ if(isset($postData["checkListId"]) && !empty($postData["checkListId"])) {
  * removed | boolean
  * */
 
-if($checkListId) {
+VAR_DUMP($action);
+if($action == 'check') {
     // check availability of list ID
     if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
         if($result->num_rows > 0) {
@@ -42,15 +46,37 @@ if($checkListId) {
         $result->close();
         die();
     }
+} if($action == 'save') {
+    // update list
+    $tasks = $postData["tasks"];
+    $tasks = $mysqli->real_escape_string($tasks);
+    $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
+    VAR_DUMP($result, $postData);
+    if ($result->num_rows > 0) {
+        $res = $mysqli->query("UPDATE checklist set content = '{$tasks}' WHERE list_id = '{$listID}'");
+        VAR_DUMP('update', $res);
+    } else {
+        $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$tasks}')");
+        VAR_DUMP('insert', $res);
+    }
+    /* очищаем результирующий набор */
+    $result->close();
+    die();
 } else {
     // get current list data
     if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
-        VAR_DUMP($result);
+        if ($result->num_rows > 0) {
+            echo [
+                'success' => true,
+                'data' => $result['content']
+            ];
+            die();
+        } else {
+            echo json_encode([
+                'success' => false
+            ]);
+        }
         /* очищаем результирующий набор */
         $result->close();
     }
 }
-
-//$tasks = "[]";
-$tasks = "[{\"id\":\"1\",\"value\":\"{$listID}\",\"completed\":false},{\"id\":\"2\",\"value\":\"Паспорта/заграны\",\"completed\":false},{\"id\":\"3\",\"value\":\"Деньги наличными\",\"completed\":false},{\"id\":\"4\",\"value\":\"Деньги на карту\",\"completed\":false},{\"id\":\"5\",\"value\":\"Деньги на телефон\",\"completed\":false},{\"id\":\"6\",\"value\":\"Фотоаппарат\",\"completed\":false},{\"id\":\"7\",\"value\":\"Пополнить мобильный\",\"completed\":false}]";
-echo $tasks;

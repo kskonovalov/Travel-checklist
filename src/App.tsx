@@ -29,6 +29,9 @@ const App: React.FC = () => {
   const words =
     typeof window.__DATA__.words !== 'undefined' ? window.__DATA__.words : [];
 
+  const defaultTasks =
+    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
+
   const params: IUrlParams = useParams();
   const { listID: paramListId } = params;
 
@@ -68,21 +71,22 @@ const App: React.FC = () => {
   };
 
   // get checklist from api
-  const getTasks = async (listID: string) => {
+  const apiRequest = async (payload?: object) => {
     const apiUrl = 'https://flynow.ru/checklist/';
     if (listID.length > 0) {
       try {
         const { data } = await axios.post(
           'https://flynow.ru/checklist/',
-          {
-            listID
-          },
+          payload,
           {
             headers: { 'Content-Type': 'application/json' }
           }
         );
-        if (data.length > 0) {
-          setTasks(data);
+        console.log(data);
+        if (data.success) {
+          setTasks(data.data);
+        } else {
+          setTasks(defaultTasks);
         }
         setLoading(false);
       } catch (e) {}
@@ -91,8 +95,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    getTasks(listID);
+    apiRequest();
   }, [listID]);
+
+  useEffect(() => {
+    setLoading(true);
+    apiRequest({
+      listID,
+      tasks,
+      action: 'save'
+    });
+  }, [tasks]);
 
   const addTask = (task: string) => {
     setTasks(prev => [
