@@ -77,19 +77,17 @@ const App: React.FC = () => {
         const data = await request('https://flynow.ru/checklist/', 'POST', {
           listID
         });
-        console.log(data);
+        if (data.length > 0) {
+          setTasks(data);
+        }
+        setLoading(false);
       } catch (e) {}
-      // if (data.length > 0) {
-      //   setTasks(data);
-      //   setLoading(false);
-      // }
     }
   };
+
   useEffect(() => {
     setLoading(true);
-    const data = getTasks(listID);
-    console.log(data);
-    setLoading(false);
+    getTasks(listID);
   }, [listID]);
 
   const addTask = (task: string) => {
