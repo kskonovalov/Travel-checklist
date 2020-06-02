@@ -10,7 +10,6 @@ import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import taskInterface from './interfaces/taskInterface';
 import { getRandomKey } from './helpers';
-import useHttp from './hooks/http.hook';
 
 declare global {
   interface Window {
@@ -69,14 +68,19 @@ const App: React.FC = () => {
   };
 
   // get checklist from api
-  const { request } = useHttp();
   const getTasks = async (listID: string) => {
     const apiUrl = 'https://flynow.ru/checklist/';
     if (listID.length > 0) {
       try {
-        const data = await request('https://flynow.ru/checklist/', 'POST', {
-          listID
-        });
+        const { data } = await axios.post(
+          'https://flynow.ru/checklist/',
+          {
+            listID
+          },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        );
         if (data.length > 0) {
           setTasks(data);
         }
