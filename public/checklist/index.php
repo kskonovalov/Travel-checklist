@@ -17,7 +17,7 @@ $postData = json_decode(file_get_contents('php://input'), true);
 // list ID
 $listID = $mysqli->real_escape_string($postData["listID"]);
 // action type
-$action = 'default';
+$action = 'get';
 if(isset($postData["action"]) && $postData["action"] == 'check') {
     $action = 'check';
 }

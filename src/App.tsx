@@ -24,7 +24,7 @@ interface IUrlParams {
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<taskInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const words =
     typeof window.__DATA__.words !== 'undefined' ? window.__DATA__.words : [];
@@ -71,7 +71,14 @@ const App: React.FC = () => {
   };
 
   // get checklist from api
-  const apiRequest = async (payload?: object) => {
+  const apiRequest = async (payload: {
+    listID: string;
+    tasks?: taskInterface[];
+    action: string;
+  }) => {
+    if (loading) {
+      return;
+    }
     const apiUrl = 'https://flynow.ru/checklist/';
     if (listID.length > 0) {
       try {
@@ -82,24 +89,34 @@ const App: React.FC = () => {
             headers: { 'Content-Type': 'application/json' }
           }
         );
-        console.log(data);
-        if (data.success) {
-          setTasks(data.data);
-        } else {
-          setTasks(defaultTasks);
+        if (
+          typeof payload !== 'undefined' &&
+          typeof payload.action !== 'undefined' &&
+          payload.action === 'get'
+        ) {
+          if (data.success) {
+            setTasks(data.data);
+          } else {
+            setTasks(defaultTasks);
+          }
         }
         setLoading(false);
       } catch (e) {}
     }
+    setLoading(false);
   };
 
+  // get tasks
   useEffect(() => {
     setLoading(true);
-    apiRequest();
+    apiRequest({
+      listID,
+      action: 'get'
+    });
   }, [listID]);
 
+  // save tasks
   useEffect(() => {
-    setLoading(true);
     apiRequest({
       listID,
       tasks,
