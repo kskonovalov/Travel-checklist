@@ -33,7 +33,7 @@ if(isset($postData["action"]) && $postData["action"] == 'save') {
  * removed | boolean
  * */
 
-VAR_DUMP($action);
+//VAR_DUMP($action);
 if($action == 'check') {
     // check availability of list ID
     if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
@@ -48,35 +48,33 @@ if($action == 'check') {
     }
 } if($action == 'save') {
     // update list
-    $tasks = $postData["tasks"];
+    $tasks = json_encode($postData["tasks"]);
     $tasks = $mysqli->real_escape_string($tasks);
     $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
-    VAR_DUMP($result, $postData);
     if ($result->num_rows > 0) {
         $res = $mysqli->query("UPDATE checklist set content = '{$tasks}' WHERE list_id = '{$listID}'");
-        VAR_DUMP('update', $res);
     } else {
         $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$tasks}')");
-        VAR_DUMP('insert', $res);
     }
     /* очищаем результирующий набор */
     $result->close();
     die();
 } else {
     // get current list data
-    if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
-        if ($result->num_rows > 0) {
-            echo [
-                'success' => true,
-                'data' => $result['content']
-            ];
-            die();
-        } else {
-            echo json_encode([
-                'success' => false
-            ]);
-        }
-        /* очищаем результирующий набор */
-        $result->close();
+   $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $response =  json_encode([
+            'success' => true,
+            'data' => json_decode($row['content'], true)
+        ]);
+        echo $response;
+        die();
+    } else {
+        echo json_encode([
+            'success' => false
+        ]);
     }
+    /* очищаем результирующий набор */
+    $result->close();
 }
