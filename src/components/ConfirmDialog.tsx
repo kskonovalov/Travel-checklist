@@ -32,8 +32,8 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
         <DialogContentText id="alert-dialog-description">
           Это действие создаст новый список дел, старый список останется
           доступен по ссылке:
-          <TextField fullWidth={true} value={`${window.location.href}`} />
         </DialogContentText>
+        <TextField fullWidth={true} value={`${window.location.href}`} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
