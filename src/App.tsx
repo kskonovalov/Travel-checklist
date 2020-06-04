@@ -24,7 +24,8 @@ interface IUrlParams {
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<taskInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [apiLoading, setApiLoading] = useState<boolean>(false);
+  const [tasksLoading, setTasksLoading] = useState<boolean>(false);
 
   const words =
     typeof window.__DATA__.words !== 'undefined' ? window.__DATA__.words : [];
@@ -41,6 +42,7 @@ const App: React.FC = () => {
       : '';
 
   const history = useHistory();
+  // set new listID if needed
   useEffect(() => {
     let newListID = '';
     if (listID.length === 0) {
@@ -70,59 +72,61 @@ const App: React.FC = () => {
     setOpen(false);
   };
 
-  // get checklist from api
-  const apiRequest = async (payload: {
-    listID: string;
-    tasks?: taskInterface[];
-    action: string;
-  }) => {
-    if (loading) {
-      return;
-    }
-    const apiUrl = 'https://flynow.ru/checklist/';
+  const apiUrl = 'https://flynow.ru/checklist/';
+
+  // get tasks
+  useEffect(() => {
     if (listID.length > 0) {
-      try {
-        const { data } = await axios.post(
-          'https://flynow.ru/checklist/',
-          payload,
+      setApiLoading(true);
+      setTasksLoading(true);
+      axios
+        .post(
+          apiUrl,
+          {
+            listID,
+            action: 'get'
+          },
           {
             headers: { 'Content-Type': 'application/json' }
           }
-        );
-        if (
-          typeof payload !== 'undefined' &&
-          typeof payload.action !== 'undefined' &&
-          payload.action === 'get'
-        ) {
+        )
+        .then(response => {
+          const { data } = response;
           if (data.success) {
             setTasks(data.data);
           } else {
             setTasks(defaultTasks);
           }
-        }
-        setLoading(false);
-      } catch (e) {}
+          setTasksLoading(false);
+          setApiLoading(false);
+        });
     }
-    setLoading(false);
-  };
-
-  // get tasks
-  useEffect(() => {
-    setLoading(true);
-    apiRequest({
-      listID,
-      action: 'get'
-    });
   }, [listID]);
 
   // save tasks
   useEffect(() => {
-    apiRequest({
-      listID,
-      tasks,
-      action: 'save'
-    });
-  }, [tasks]);
+    if (apiLoading || listID.length === 0) {
+      return;
+    }
+    setApiLoading(true);
+    axios
+      .post(
+        apiUrl,
+        {
+          listID,
+          tasks,
+          action: 'save'
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+      .then(response => {
+        const { data } = response;
+        console.log(data);
+        setApiLoading(false);
+      });
+  }, [listID, tasks]);
 
   const addTask = (task: string) => {
     setTasks(prev => [
@@ -168,7 +172,7 @@ const App: React.FC = () => {
           <Box mt={3} mb={1}>
             <TodoForm addTask={addTask} />
           </Box>
-          {loading ? (
+          {tasksLoading ? (
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
             <Box mt={1} mb={1}>
