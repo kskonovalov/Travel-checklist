@@ -24,6 +24,7 @@ interface IUrlParams {
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<taskInterface[]>([]);
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const [apiLoading, setApiLoading] = useState<boolean>(false);
   const [tasksLoading, setTasksLoading] = useState<boolean>(false);
 
@@ -79,6 +80,7 @@ const App: React.FC = () => {
     if (listID.length > 0) {
       setApiLoading(true);
       setTasksLoading(true);
+      console.log('get tasks');
       axios
         .post(
           apiUrl,
@@ -99,15 +101,18 @@ const App: React.FC = () => {
           }
           setTasksLoading(false);
           setApiLoading(false);
+          setInitialLoad(false);
         });
     }
   }, [listID]);
 
   // save tasks
   useEffect(() => {
-    if (apiLoading || listID.length === 0) {
+    if (initialLoad || apiLoading || listID.length === 0) {
       return;
     }
+    console.log('save tasks');
+    console.log(tasks);
     setApiLoading(true);
     axios
       .post(
@@ -123,10 +128,10 @@ const App: React.FC = () => {
       )
       .then(response => {
         const { data } = response;
-        console.log(data);
+        // console.log(data);
         setApiLoading(false);
       });
-  }, [listID, tasks]);
+  }, [tasks]);
 
   const addTask = (task: string) => {
     setTasks(prev => [
