@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import {
   Delete as DeleteIcon,
   CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon,
-  CheckBox as CheckBoxIcon
+  CheckBox as CheckBoxIcon,
+  Edit as EditIcon
 } from '@material-ui/icons';
 
 import taskInterface from '../interfaces/taskInterface';
@@ -50,6 +51,16 @@ const TodoList: React.FC<TodoListProps> = ({
               )}
             </ListItemIcon>
             <ListItemText primary={item.value} />
+            <ListItemIcon
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+                e.stopPropagation();
+                alert('edit task: todo!');
+                // editTask(item.id);
+              }}
+            >
+              <EditIcon color="primary" />
+            </ListItemIcon>
             <ListItemIcon
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
