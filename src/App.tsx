@@ -60,7 +60,7 @@ const App: React.FC = () => {
         newListID = getRandomKey(13);
       }
 
-      history.push(`/${newListID}`);
+      history.replace(`/${newListID}`);
     }
   }, [listID]);
 
