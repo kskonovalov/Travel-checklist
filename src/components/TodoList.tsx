@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
 import {
@@ -8,6 +8,7 @@ import {
   Edit as EditIcon
 } from '@material-ui/icons';
 
+import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 
 interface TodoListProps {
@@ -32,6 +33,15 @@ const TodoList: React.FC<TodoListProps> = ({
   toggleTask,
   editTask
 }) => {
+  /* edit task */
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <List>
       {tasks.map(item => {
@@ -57,6 +67,7 @@ const TodoList: React.FC<TodoListProps> = ({
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
                 e.stopPropagation();
+                handleClickOpen();
                 editTask({
                   task: 'edit task: todo!',
                   taskId: item.id
@@ -73,6 +84,7 @@ const TodoList: React.FC<TodoListProps> = ({
             >
               <DeleteIcon color="primary" />
             </ListItemIcon>
+            <EditDialog open={open} onClose={handleClose} task={item.value} />
           </Task>
         );
       })}
