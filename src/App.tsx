@@ -144,6 +144,19 @@ const App: React.FC = () => {
     ]);
   };
 
+  const editTask = ({ task, taskId }: { task: string; taskId: string }) => {
+    setTasks(prev =>
+      prev.map(item => {
+        return item.id !== taskId
+          ? item
+          : {
+              ...item,
+              value: task
+            };
+      })
+    );
+  };
+
   const deleteTask = (taskId: string) => {
     setTasks(prev =>
       prev.filter((item: taskInterface): boolean => {
@@ -185,6 +198,7 @@ const App: React.FC = () => {
                 tasks={tasks}
                 deleteTask={deleteTask}
                 toggleTask={toggleTask}
+                editTask={editTask}
               />
             </Box>
           )}

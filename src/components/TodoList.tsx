@@ -14,6 +14,7 @@ interface TodoListProps {
   tasks: taskInterface[];
   deleteTask: (taskId: string) => void;
   toggleTask: (taskId: string) => void;
+  editTask: ({ task, taskId }: { task: string; taskId: string }) => void;
 }
 
 interface StyledProps {
@@ -28,7 +29,8 @@ const Task = styled(ListItem)`
 const TodoList: React.FC<TodoListProps> = ({
   tasks,
   deleteTask,
-  toggleTask
+  toggleTask,
+  editTask
 }) => {
   return (
     <List>
@@ -55,8 +57,10 @@ const TodoList: React.FC<TodoListProps> = ({
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
                 e.stopPropagation();
-                alert('edit task: todo!');
-                // editTask(item.id);
+                editTask({
+                  task: 'edit task: todo!',
+                  taskId: item.id
+                });
               }}
             >
               <EditIcon color="primary" />
