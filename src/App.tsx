@@ -9,6 +9,7 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import taskInterface from './interfaces/taskInterface';
+import editTaskInterface from './interfaces/editTaskInterface';
 import { getRandomKey } from './helpers';
 
 declare global {
@@ -144,7 +145,7 @@ const App: React.FC = () => {
     ]);
   };
 
-  const editTask = ({ task, taskId }: { task: string; taskId: string }) => {
+  const editTask = ({ task, taskId }: editTaskInterface) => {
     setTasks(prev =>
       prev.map(item => {
         return item.id !== taskId

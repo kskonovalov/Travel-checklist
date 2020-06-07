@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -9,15 +9,23 @@ import {
   TextField
 } from '@material-ui/core';
 
+import editTaskInterface from '../interfaces/editTaskInterface';
+
 interface IProps {
   open: boolean;
   task: string;
   taskId: string;
-  editTask: ({ task, taskId }: { task: string; taskId: string }) => void;
+  editTask: ({ task, taskId }: editTaskInterface) => void;
   onClose: () => void;
 }
 
 const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
+  const [newTaskText, setNewTaskText] = useState<string>('');
+
+  useEffect(() => {
+    setNewTaskText(task);
+  }, [task]);
+
   const handleClose = () => {
     onClose();
   };
@@ -30,7 +38,13 @@ const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
     >
       <DialogTitle id="simple-dialog-title">Редактировать задачу</DialogTitle>
       <DialogContent>
-        <TextField fullWidth={true} defaultValue={`${task}`} />
+        <TextField
+          fullWidth={true}
+          value={newTaskText}
+          onChange={e => {
+            setNewTaskText(e.target.value);
+          }}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
@@ -38,7 +52,7 @@ const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
         </Button>
         <Button
           onClick={() => {
-            editTask({ task, taskId });
+            editTask({ task: newTaskText, taskId });
             handleClose();
           }}
           color="primary"

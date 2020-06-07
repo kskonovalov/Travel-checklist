@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
 import {
@@ -10,12 +10,13 @@ import {
 
 import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
+import editTaskInterface from '../interfaces/editTaskInterface';
 
 interface TodoListProps {
   tasks: taskInterface[];
   deleteTask: (taskId: string) => void;
   toggleTask: (taskId: string) => void;
-  editTask: ({ task, taskId }: { task: string; taskId: string }) => void;
+  editTask: ({ task, taskId }: editTaskInterface) => void;
 }
 
 interface StyledProps {
@@ -35,12 +36,21 @@ const TodoList: React.FC<TodoListProps> = ({
 }) => {
   /* edit task */
   const [open, setOpen] = useState<boolean>(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [currentEditingTask, setCurrentEditingTask] = useState<
+    editTaskInterface
+  >({
+    task: '',
+    taskId: ''
+  });
+
   const handleClose = () => {
     setOpen(false);
+    setCurrentEditingTask({ task: '', taskId: '' });
   };
+
+  useEffect(() => {
+    console.log(currentEditingTask);
+  });
 
   return (
     <List>
@@ -67,7 +77,8 @@ const TodoList: React.FC<TodoListProps> = ({
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
                 e.stopPropagation();
-                handleClickOpen();
+                setCurrentEditingTask({ task: item.value, taskId: item.id });
+                setOpen(true);
               }}
             >
               <EditIcon color="primary" />
@@ -80,16 +91,16 @@ const TodoList: React.FC<TodoListProps> = ({
             >
               <DeleteIcon color="primary" />
             </ListItemIcon>
-            <EditDialog
-              open={open}
-              editTask={editTask}
-              onClose={handleClose}
-              task={item.value}
-              taskId={item.id}
-            />
           </Task>
         );
       })}
+      <EditDialog
+        open={open}
+        editTask={editTask}
+        onClose={handleClose}
+        task={currentEditingTask.task}
+        taskId={currentEditingTask.taskId}
+      />
     </List>
   );
 };
