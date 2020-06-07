@@ -68,10 +68,6 @@ const TodoList: React.FC<TodoListProps> = ({
                 e.preventDefault();
                 e.stopPropagation();
                 handleClickOpen();
-                editTask({
-                  task: 'edit task: todo!',
-                  taskId: item.id
-                });
               }}
             >
               <EditIcon color="primary" />
@@ -84,7 +80,13 @@ const TodoList: React.FC<TodoListProps> = ({
             >
               <DeleteIcon color="primary" />
             </ListItemIcon>
-            <EditDialog open={open} onClose={handleClose} task={item.value} />
+            <EditDialog
+              open={open}
+              editTask={editTask}
+              onClose={handleClose}
+              task={item.value}
+              taskId={item.id}
+            />
           </Task>
         );
       })}

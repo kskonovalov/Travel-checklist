@@ -11,11 +11,13 @@ import {
 
 interface IProps {
   open: boolean;
-  onClose: () => void;
   task: string;
+  taskId: string;
+  editTask: ({ task, taskId }: { task: string; taskId: string }) => void;
+  onClose: () => void;
 }
 
-const EditDialog = ({ onClose, open, task }: IProps) => {
+const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
   const handleClose = () => {
     onClose();
   };
@@ -28,7 +30,7 @@ const EditDialog = ({ onClose, open, task }: IProps) => {
     >
       <DialogTitle id="simple-dialog-title">Редактировать задачу</DialogTitle>
       <DialogContent>
-        <TextField fullWidth={true} value={`${task}`} />
+        <TextField fullWidth={true} defaultValue={`${task}`} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
@@ -36,6 +38,7 @@ const EditDialog = ({ onClose, open, task }: IProps) => {
         </Button>
         <Button
           onClick={() => {
+            editTask({ task, taskId });
             handleClose();
           }}
           color="primary"
