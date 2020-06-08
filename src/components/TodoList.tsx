@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
 import {
@@ -47,10 +47,6 @@ const TodoList: React.FC<TodoListProps> = ({
     setOpen(false);
     setCurrentEditingTask({ task: '', taskId: '' });
   };
-
-  useEffect(() => {
-    console.log(currentEditingTask);
-  });
 
   return (
     <List>

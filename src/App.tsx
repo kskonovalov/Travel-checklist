@@ -81,7 +81,6 @@ const App: React.FC = () => {
     if (listID.length > 0) {
       setApiLoading(true);
       setTasksLoading(true);
-      console.log('get tasks');
       axios
         .post(
           apiUrl,
@@ -112,8 +111,6 @@ const App: React.FC = () => {
     if (initialLoad || apiLoading || listID.length === 0) {
       return;
     }
-    console.log('save tasks');
-    console.log(tasks);
     setApiLoading(true);
     axios
       .post(
@@ -128,8 +125,7 @@ const App: React.FC = () => {
         }
       )
       .then(response => {
-        const { data } = response;
-        // console.log(data);
+        // const { data } = response;
         setApiLoading(false);
       });
   }, [tasks]);
