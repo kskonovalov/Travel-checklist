@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Button,
   TextField
@@ -26,12 +25,8 @@ const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
     setNewTaskText(task);
   }, [task]);
 
-  const handleClose = () => {
-    onClose();
-  };
-
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={onClose} open={open}>
       <DialogTitle>Редактировать задачу</DialogTitle>
       <DialogContent>
         <TextField
@@ -43,13 +38,13 @@ const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={onClose} color="primary">
           Отменить
         </Button>
         <Button
           onClick={() => {
             editTask({ task: newTaskText, taskId });
-            handleClose();
+            onClose();
           }}
           color="primary"
           variant="outlined"

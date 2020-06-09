@@ -17,12 +17,9 @@ interface IProps {
 
 const ConfirmDialog = ({ onClose, open }: IProps) => {
   const history = useHistory();
-  const handleClose = () => {
-    onClose();
-  };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={onClose} open={open}>
       <DialogTitle>Вы уверены?</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
@@ -32,7 +29,7 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
         <TextField fullWidth={true} value={`${window.location.href}`} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={onClose} color="primary">
           Отменить
         </Button>
         <Button
