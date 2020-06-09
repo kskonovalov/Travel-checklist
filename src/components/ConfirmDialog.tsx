@@ -22,12 +22,8 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
   };
 
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <DialogTitle id="simple-dialog-title">Вы уверены?</DialogTitle>
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Вы уверены?</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           Это действие создаст новый список дел, старый список останется

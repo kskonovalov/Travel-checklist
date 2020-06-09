@@ -31,12 +31,8 @@ const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
   };
 
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <DialogTitle id="simple-dialog-title">Редактировать задачу</DialogTitle>
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Редактировать задачу</DialogTitle>
       <DialogContent>
         <TextField
           fullWidth={true}
