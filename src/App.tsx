@@ -46,21 +46,17 @@ const App: React.FC = () => {
   const history = useHistory();
   // set new listID if needed
   useEffect(() => {
-    let newListID = '';
     if (listID.length === 0) {
-      // trying to create user-friendly list name
-      if (words.length > 0) {
-        // Shuffle array
-        const shuffled = words.sort(() => 0.5 - Math.random());
-        // Get sub-array of first 3 elements after shuffled
-        const selected = shuffled.slice(0, 3);
-        newListID = selected.join('-');
-      }
-      // in case of fail, just create random key
-      if (newListID.length === 0) {
-        newListID = getRandomKey(13);
-      }
-
+      // get 3 random words from array to create some-travel-slug (user-friendly list name)
+      const newListID =
+        words.length > 0
+          ? // get 3 random words from array to create some-travel-slug (user-friendly list name)
+            words
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 3)
+              .join('-')
+          : // or just create random slug
+            getRandomKey(13);
       history.replace(`/${newListID}`);
     }
   }, [listID]);
