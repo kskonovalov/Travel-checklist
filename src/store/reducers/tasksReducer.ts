@@ -1,7 +1,7 @@
 import { ADD_TASK, EDIT_TASK, DELETE_TASK, TOGGLE_TASK } from '../constants';
+import { getRandomKey } from '../../helpers';
 import ITaskAction from '../interfaces/ITaskAction';
-import { getRandomKey } from '../../src/helpers';
-import taskInterface from '../../src/interfaces/taskInterface';
+import taskInterface from '../../interfaces/taskInterface';
 
 const tasksReducer = (state = [], action: ITaskAction) => {
   switch (action.type) {
