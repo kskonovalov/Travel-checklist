@@ -9,3 +9,6 @@ const theme = createMuiTheme({
 });
 
 export { theme };
+
+const apiUrl: string = 'https://flynow.ru/checklist/';
+export { apiUrl };

@@ -11,6 +11,7 @@ import Loader from './components/Loader';
 import taskInterface from './interfaces/taskInterface';
 import editTaskInterface from './interfaces/editTaskInterface';
 import { getRandomKey } from './helpers';
+import { apiUrl } from './config';
 
 declare global {
   interface Window {
@@ -69,8 +70,6 @@ const App: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const apiUrl = 'https://flynow.ru/checklist/';
 
   // get tasks
   useEffect(() => {
