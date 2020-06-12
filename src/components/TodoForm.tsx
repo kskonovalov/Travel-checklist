@@ -16,13 +16,13 @@ const FormFieldsWrap = styled.div`
 const TodoForm: React.FC = () => {
   const dispatch = useDispatch();
 
-  const [title, setTitle] = useState<string>('');
+  const [newTask, setNewTask] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch({ type: ADD_TASK, action: { task: title } });
+    dispatch({ type: ADD_TASK, task: newTask });
     // addTask(title);
-    setTitle('');
+    setNewTask('');
   };
 
   return (
@@ -31,11 +31,11 @@ const TodoForm: React.FC = () => {
         <FormFieldsWrap>
           <TextField
             id="title"
-            label="Перед поездкой нужно.."
-            value={title}
+            label="Перед поездкой нужно&hellip;"
+            value={newTask}
             fullWidth={true}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setTitle(e.target.value);
+              setNewTask(e.target.value);
             }}
           />
           <Button variant="outlined" type="submit">
