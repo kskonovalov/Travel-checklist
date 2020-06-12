@@ -25,7 +25,8 @@ interface IUrlParams {
 }
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<taskInterface[]>([]);
+  // const [tasks, setTasks] = useState<taskInterface[]>([]);
+
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const [apiLoading, setApiLoading] = useState<boolean>(false);
   const [tasksLoading, setTasksLoading] = useState<boolean>(false);
@@ -72,105 +73,105 @@ const App: React.FC = () => {
   };
 
   // get tasks
-  useEffect(() => {
-    if (listID.length > 0) {
-      setApiLoading(true);
-      setTasksLoading(true);
-      axios
-        .post(
-          apiUrl,
-          {
-            listID,
-            action: 'get'
-          },
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
-        .then(response => {
-          const { data } = response;
-          if (data.success) {
-            setTasks(data.data);
-          } else {
-            setTasks(defaultTasks);
-          }
-          setTasksLoading(false);
-          setApiLoading(false);
-          setInitialLoad(false);
-        });
-    }
-  }, [listID]);
+  // useEffect(() => {
+  //   if (listID.length > 0) {
+  //     setApiLoading(true);
+  //     setTasksLoading(true);
+  //     axios
+  //       .post(
+  //         apiUrl,
+  //         {
+  //           listID,
+  //           action: 'get'
+  //         },
+  //         {
+  //           headers: { 'Content-Type': 'application/json' }
+  //         }
+  //       )
+  //       .then(response => {
+  //         const { data } = response;
+  //         if (data.success) {
+  //           setTasks(data.data);
+  //         } else {
+  //           setTasks(defaultTasks);
+  //         }
+  //         setTasksLoading(false);
+  //         setApiLoading(false);
+  //         setInitialLoad(false);
+  //       });
+  //   }
+  // }, [listID]);
 
   // save tasks
-  useEffect(() => {
-    if (initialLoad || apiLoading || listID.length === 0) {
-      return;
-    }
-    setApiLoading(true);
-    axios
-      .post(
-        apiUrl,
-        {
-          listID,
-          tasks,
-          action: 'save'
-        },
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      )
-      .then(response => {
-        // const { data } = response;
-        setApiLoading(false);
-      });
-  }, [tasks]);
+  // useEffect(() => {
+  //   if (initialLoad || apiLoading || listID.length === 0) {
+  //     return;
+  //   }
+  //   setApiLoading(true);
+  //   axios
+  //     .post(
+  //       apiUrl,
+  //       {
+  //         listID,
+  //         tasks,
+  //         action: 'save'
+  //       },
+  //       {
+  //         headers: { 'Content-Type': 'application/json' }
+  //       }
+  //     )
+  //     .then(response => {
+  //       // const { data } = response;
+  //       setApiLoading(false);
+  //     });
+  // }, [tasks]);
 
-  const addTask = (task: string) => {
-    setTasks(prev => [
-      ...prev,
-      {
-        id: getRandomKey(),
-        value: task,
-        completed: false
-      }
-    ]);
-  };
-
-  const editTask = ({ task, taskId }: editTaskInterface) => {
-    setTasks(prev =>
-      prev.map(item => {
-        return item.id !== taskId
-          ? item
-          : {
-              ...item,
-              value: task
-            };
-      })
-    );
-  };
-
-  const deleteTask = (taskId: string) => {
-    setTasks(prev =>
-      prev.filter((item: taskInterface): boolean => {
-        return taskId !== item.id;
-      })
-    );
-  };
-
-  const toggleTask = (taskId: string) => {
-    setTasks(prev =>
-      prev.map(
-        (item: taskInterface): taskInterface => {
-          return taskId === item.id
-            ? {
-                ...item,
-                completed: !item.completed
-              }
-            : item;
-        }
-      )
-    );
-  };
+  // const addTask = (task: string) => {
+  //   setTasks(prev => [
+  //     ...prev,
+  //     {
+  //       id: getRandomKey(),
+  //       value: task,
+  //       completed: false
+  //     }
+  //   ]);
+  // };
+  //
+  // const editTask = ({ task, taskId }: editTaskInterface) => {
+  //   setTasks(prev =>
+  //     prev.map(item => {
+  //       return item.id !== taskId
+  //         ? item
+  //         : {
+  //             ...item,
+  //             value: task
+  //           };
+  //     })
+  //   );
+  // };
+  //
+  // const deleteTask = (taskId: string) => {
+  //   setTasks(prev =>
+  //     prev.filter((item: taskInterface): boolean => {
+  //       return taskId !== item.id;
+  //     })
+  //   );
+  // };
+  //
+  // const toggleTask = (taskId: string) => {
+  //   setTasks(prev =>
+  //     prev.map(
+  //       (item: taskInterface): taskInterface => {
+  //         return taskId === item.id
+  //           ? {
+  //               ...item,
+  //               completed: !item.completed
+  //             }
+  //           : item;
+  //       }
+  //     )
+  //   );
+  // };
 
   return (
     <>
@@ -180,18 +181,13 @@ const App: React.FC = () => {
             <LinkToList />
           </Box>
           <Box mt={3} mb={1}>
-            <TodoForm addTask={addTask} />
+            <TodoForm />
           </Box>
           {tasksLoading ? (
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
             <Box mt={1} mb={1}>
-              <TodoList
-                tasks={tasks}
-                deleteTask={deleteTask}
-                toggleTask={toggleTask}
-                editTask={editTask}
-              />
+              <TodoList />
             </Box>
           )}
           <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>

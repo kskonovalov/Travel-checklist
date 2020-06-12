@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TextField, Button } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import styled from 'styled-components';
 
 import { theme } from '../config';
+import { ADD_TASK } from '../store/constants';
 
 const FormFieldsWrap = styled.div`
   display: flex;
@@ -11,16 +13,15 @@ const FormFieldsWrap = styled.div`
   justify-content: center;
 `;
 
-interface TodoFormProps {
-  addTask: (task: string) => void;
-}
+const TodoForm: React.FC = () => {
+  const dispatch = useDispatch();
 
-const TodoForm: React.FC<TodoFormProps> = ({ addTask }) => {
   const [title, setTitle] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addTask(title);
+    dispatch({ type: ADD_TASK, action: { task: title } });
+    // addTask(title);
     setTitle('');
   };
 

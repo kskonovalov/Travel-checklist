@@ -1,6 +1,8 @@
 import { compose, createStore } from 'redux';
 
 import rootReducer from './reducers';
+import taskInterface from '../interfaces/taskInterface';
+// import IStore from './interfaces/IStore';
 
 declare global {
   interface Window {
@@ -10,7 +12,11 @@ declare global {
 }
 window.__DATA__ = window.__DATA__ || {};
 
-const initialState = {
+interface IStore {
+  tasks: taskInterface[] | any;
+}
+
+const initialState: IStore = {
   tasks:
     typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
 };

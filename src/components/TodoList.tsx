@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
 import {
@@ -12,11 +13,8 @@ import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 import editTaskInterface from '../interfaces/editTaskInterface';
 
-interface TodoListProps {
+interface ITasks {
   tasks: taskInterface[];
-  deleteTask: (taskId: string) => void;
-  toggleTask: (taskId: string) => void;
-  editTask: ({ task, taskId }: editTaskInterface) => void;
 }
 
 interface StyledProps {
@@ -28,12 +26,9 @@ const Task = styled(ListItem)`
     props.completed ? 'text-decoration: line-through;' : ''}
 `;
 
-const TodoList: React.FC<TodoListProps> = ({
-  tasks,
-  deleteTask,
-  toggleTask,
-  editTask
-}) => {
+const TodoList: React.FC = () => {
+  const tasks = useSelector((state: ITasks) => state.tasks);
+
   /* edit task */
   const [open, setOpen] = useState<boolean>(false);
   const [currentEditingTask, setCurrentEditingTask] = useState<
@@ -58,7 +53,7 @@ const TodoList: React.FC<TodoListProps> = ({
             completed={item.completed ? 1 : 0}
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
-              toggleTask(item.id);
+              // toggleTask(item.id);
             }}
           >
             <ListItemIcon>
@@ -82,7 +77,7 @@ const TodoList: React.FC<TodoListProps> = ({
             <ListItemIcon
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
-                deleteTask(item.id);
+                // deleteTask(item.id);
               }}
             >
               <DeleteIcon color="primary" />
@@ -92,7 +87,6 @@ const TodoList: React.FC<TodoListProps> = ({
       })}
       <EditDialog
         open={open}
-        editTask={editTask}
         onClose={handleClose}
         task={currentEditingTask.task}
         taskId={currentEditingTask.taskId}

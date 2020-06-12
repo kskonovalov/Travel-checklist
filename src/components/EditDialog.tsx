@@ -14,11 +14,11 @@ interface IProps {
   open: boolean;
   task: string;
   taskId: string;
-  editTask: ({ task, taskId }: editTaskInterface) => void;
+  // editTask?: ({ task, taskId }: editTaskInterface) => void;
   onClose: () => void;
 }
 
-const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
+const EditDialog = ({ open, task, taskId, onClose }: IProps) => {
   const [newTaskText, setNewTaskText] = useState<string>('');
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const EditDialog = ({ open, task, taskId, editTask, onClose }: IProps) => {
         </Button>
         <Button
           onClick={() => {
-            editTask({ task: newTaskText, taskId });
+            // editTask({ task: newTaskText, taskId });
             onClose();
           }}
           color="primary"
