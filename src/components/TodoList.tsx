@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
 import {
@@ -12,6 +12,7 @@ import {
 import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 import editTaskInterface from '../interfaces/editTaskInterface';
+import { ADD_TASK, DELETE_TASK } from '../store/constants';
 
 interface ITasks {
   tasks: taskInterface[];
@@ -28,6 +29,7 @@ const Task = styled(ListItem)`
 
 const TodoList: React.FC = () => {
   const tasks = useSelector((state: ITasks) => state.tasks);
+  const dispatch = useDispatch();
 
   /* edit task */
   const [open, setOpen] = useState<boolean>(false);
@@ -77,7 +79,7 @@ const TodoList: React.FC = () => {
             <ListItemIcon
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
-                // deleteTask(item.id);
+                dispatch({ type: DELETE_TASK, id: item.id });
               }}
             >
               <DeleteIcon color="primary" />
