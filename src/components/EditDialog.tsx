@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Dialog,
   DialogTitle,
@@ -9,6 +10,7 @@ import {
 } from '@material-ui/core';
 
 import editTaskInterface from '../interfaces/editTaskInterface';
+import { EDIT_TASK } from '../store/constants';
 
 interface IProps {
   open: boolean;
@@ -19,6 +21,7 @@ interface IProps {
 }
 
 const EditDialog = ({ open, task, taskId, onClose }: IProps) => {
+  const dispatch = useDispatch();
   const [newTaskText, setNewTaskText] = useState<string>('');
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const EditDialog = ({ open, task, taskId, onClose }: IProps) => {
         </Button>
         <Button
           onClick={() => {
-            // editTask({ task: newTaskText, taskId });
+            dispatch({ type: EDIT_TASK, id: taskId, task: newTaskText });
             onClose();
           }}
           color="primary"
