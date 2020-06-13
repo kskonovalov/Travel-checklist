@@ -1,4 +1,5 @@
-import { compose, createStore } from 'redux';
+import { compose, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
 import taskInterface from '../interfaces/taskInterface';
@@ -30,6 +31,10 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers();
 
-const store = createStore(rootReducer, initialState, compose(enhancer));
+const store = createStore(
+  rootReducer,
+  initialState,
+  compose(applyMiddleware(thunk), enhancer)
+);
 
 export default store;
