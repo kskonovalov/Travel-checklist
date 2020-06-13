@@ -9,14 +9,12 @@ import {
   TextField
 } from '@material-ui/core';
 
-import editTaskInterface from '../interfaces/editTaskInterface';
 import { EDIT_TASK } from '../store/constants';
 
 interface IProps {
   open: boolean;
   task: string;
   taskId: string;
-  // editTask?: ({ task, taskId }: editTaskInterface) => void;
   onClose: () => void;
 }
 

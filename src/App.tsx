@@ -8,8 +8,6 @@ import TodoList from './components/TodoList';
 import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
-import taskInterface from './interfaces/taskInterface';
-import editTaskInterface from './interfaces/editTaskInterface';
 import { getRandomKey } from './helpers';
 import { apiUrl } from './config';
 
@@ -25,8 +23,6 @@ interface IUrlParams {
 }
 
 const App: React.FC = () => {
-  // const [tasks, setTasks] = useState<taskInterface[]>([]);
-
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const [apiLoading, setApiLoading] = useState<boolean>(false);
   const [tasksLoading, setTasksLoading] = useState<boolean>(false);
@@ -125,53 +121,6 @@ const App: React.FC = () => {
   //       setApiLoading(false);
   //     });
   // }, [tasks]);
-
-  // const addTask = (task: string) => {
-  //   setTasks(prev => [
-  //     ...prev,
-  //     {
-  //       id: getRandomKey(),
-  //       value: task,
-  //       completed: false
-  //     }
-  //   ]);
-  // };
-  //
-  // const editTask = ({ task, taskId }: editTaskInterface) => {
-  //   setTasks(prev =>
-  //     prev.map(item => {
-  //       return item.id !== taskId
-  //         ? item
-  //         : {
-  //             ...item,
-  //             value: task
-  //           };
-  //     })
-  //   );
-  // };
-  //
-  // const deleteTask = (taskId: string) => {
-  //   setTasks(prev =>
-  //     prev.filter((item: taskInterface): boolean => {
-  //       return taskId !== item.id;
-  //     })
-  //   );
-  // };
-  //
-  // const toggleTask = (taskId: string) => {
-  //   setTasks(prev =>
-  //     prev.map(
-  //       (item: taskInterface): taskInterface => {
-  //         return taskId === item.id
-  //           ? {
-  //               ...item,
-  //               completed: !item.completed
-  //             }
-  //           : item;
-  //       }
-  //     )
-  //   );
-  // };
 
   return (
     <>
