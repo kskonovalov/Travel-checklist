@@ -12,7 +12,7 @@ import {
 import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 import editTaskInterface from '../interfaces/editTaskInterface';
-import { DELETE_TASK, TOGGLE_TASK } from '../store/constants';
+import { deleteTask, toggleTask } from '../store/actions';
 
 interface ITasks {
   tasks: taskInterface[];
@@ -55,7 +55,7 @@ const TodoList: React.FC = () => {
             completed={item.completed ? 1 : 0}
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
-              dispatch({ type: TOGGLE_TASK, id: item.id });
+              dispatch(deleteTask({ id: item.id }));
             }}
           >
             <ListItemIcon>
@@ -79,7 +79,7 @@ const TodoList: React.FC = () => {
             <ListItemIcon
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
-                dispatch({ type: DELETE_TASK, id: item.id });
+                dispatch(deleteTask({ id: item.id }));
               }}
             >
               <DeleteIcon color="primary" />
