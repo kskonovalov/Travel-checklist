@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-import { ADD_TASK, EDIT_TASK, DELETE_TASK, TOGGLE_TASK } from './constants';
+import {
+  ADD_TASK,
+  EDIT_TASK,
+  DELETE_TASK,
+  TOGGLE_TASK,
+  SET_LIST_ID
+} from './constants';
 import { apiUrl } from '../config';
 import ITaskAction from './interfaces/ITaskAction';
 
@@ -50,4 +56,9 @@ export const deleteTask = ({ id }: ITask): ITaskAction => ({
 export const toggleTask = ({ id }: ITask): ITaskAction => ({
   type: TOGGLE_TASK,
   id
+});
+
+export const setListId = ({ listID }: { listID: string }) => ({
+  type: SET_LIST_ID,
+  listID
 });

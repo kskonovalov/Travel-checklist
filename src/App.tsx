@@ -9,7 +9,9 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import { getRandomKey } from './helpers';
+import { deleteTask, setListId } from './store/actions';
 import { apiUrl } from './config';
+import { useDispatch } from 'react-redux';
 
 declare global {
   interface Window {
@@ -43,6 +45,7 @@ const App: React.FC = () => {
 
   const history = useHistory();
   // set new listID if needed
+  const dispatch = useDispatch();
   useEffect(() => {
     if (listID.length === 0) {
       // get 3 random words from array to create some-travel-slug (user-friendly list name)
@@ -55,6 +58,7 @@ const App: React.FC = () => {
               .join('-')
           : // or just create random slug
             getRandomKey(13);
+      dispatch(setListId({ listID }));
       history.replace(`/${newListID}`);
     }
   }, [listID]);
