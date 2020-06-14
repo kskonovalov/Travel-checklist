@@ -15,11 +15,13 @@ window.__DATA__ = window.__DATA__ || {};
 
 interface IStore {
   tasks: taskInterface[] | any;
+  listID: string;
 }
 
 const initialState: IStore = {
   tasks:
-    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : []
+    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [],
+  listID: ''
 };
 
 const composeEnhancers =
