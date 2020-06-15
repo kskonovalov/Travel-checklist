@@ -14,6 +14,7 @@ import { getRandomKey } from '../helpers';
 interface ITask {
   task?: string;
   id?: string;
+  completed?: boolean;
 }
 
 export const addTask = ({ task }: ITask): ITaskAction => ({
@@ -23,8 +24,8 @@ export const addTask = ({ task }: ITask): ITaskAction => ({
 
 export const addTaskAsync = ({ task }: ITask) => {
   return (dispatch: any, getState: any) => {
-    const taskId: string = getRandomKey();
-    dispatch(addTask({ task, id: taskId }));
+    const id: string = getRandomKey();
+    dispatch(addTask({ task, id }));
     const { listID } = getState();
     axios
       .post(
@@ -32,7 +33,7 @@ export const addTaskAsync = ({ task }: ITask) => {
         {
           listID,
           task,
-          taskId,
+          id,
           action: 'add'
         },
         {
@@ -52,6 +53,42 @@ export const editTask = ({ id, task }: ITask): ITaskAction => ({
   id,
   task
 });
+
+export const editTaskAsync = ({
+  id,
+  task = undefined,
+  completed = undefined
+}: ITask) => {
+  return (dispatch: any, getState: any) => {
+    if (typeof task !== 'undefined') {
+      dispatch(editTask({ task, id }));
+    }
+    if (typeof completed !== 'undefined') {
+      dispatch(toggleTask({ id }));
+    }
+    const { listID } = getState();
+
+    axios
+      .post(
+        apiUrl,
+        {
+          listID,
+          task,
+          completed: completed !== undefined ? !completed : completed,
+          id,
+          action: 'edit'
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+      .then(response => {
+        // const { data } = response;
+        console.log(response);
+        // setApiLoading(false);
+      });
+  };
+};
 
 export const deleteTask = ({ id }: ITask): ITaskAction => ({
   type: DELETE_TASK,

@@ -9,7 +9,7 @@ import {
   TextField
 } from '@material-ui/core';
 
-import { editTask } from '../store/actions';
+import { editTaskAsync } from '../store/actions';
 
 interface IProps {
   open: boolean;
@@ -44,7 +44,7 @@ const EditDialog = ({ open, task, taskId, onClose }: IProps) => {
         </Button>
         <Button
           onClick={() => {
-            dispatch(editTask({ id: taskId, task: newTaskText }));
+            dispatch(editTaskAsync({ id: taskId, task: newTaskText }));
             onClose();
           }}
           color="primary"
