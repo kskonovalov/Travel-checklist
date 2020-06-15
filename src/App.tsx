@@ -58,9 +58,9 @@ const App: React.FC = () => {
               .join('-')
           : // or just create random slug
             getRandomKey(13);
-      dispatch(setListId({ listID }));
       history.replace(`/${newListID}`);
     }
+    dispatch(setListId({ listID }));
   }, [listID]);
 
   /* confirmation */
