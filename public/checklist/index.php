@@ -17,12 +17,16 @@ $postData = json_decode(file_get_contents('php://input'), true);
 // list ID
 $listID = $mysqli->real_escape_string($postData["listID"]);
 // action type
-$action = 'get';
-if(isset($postData["action"]) && $postData["action"] == 'check') {
-    $action = 'check';
-}
-if(isset($postData["action"]) && $postData["action"] == 'save') {
-    $action = 'save';
+$availableActions = [
+    'check',
+    'save',
+    'get',
+    'add'
+];
+if(isset($postData["action"]) && in_array($postData["action"], $availableActions)) {
+    $action = $postData["action"];
+} else {
+    $action = 'get';
 }
 
 /*
@@ -42,7 +46,9 @@ if($action == 'check') {
         } else {
             echo json_encode(['available' => true]);
         }
-        /* очищаем результирующий набор */
+        echo json_encode([
+            'success' => false
+        ]);
         $result->close();
         die();
     }
@@ -56,7 +62,42 @@ if($action == 'check') {
     } else {
         $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$tasks}')");
     }
-    /* очищаем результирующий набор */
+    echo json_encode([
+        'success' => true
+    ]);
+    $result->close();
+    die();
+} if($action == 'add') {
+    // add task
+    $task = json_encode($postData["task"]);
+    $task = $mysqli->real_escape_string($task);
+    $taskId = json_encode($postData["taskId"]);
+    $taskId = $mysqli->real_escape_string($taskId);
+    $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
+    if ($result->num_rows > 0) {
+        $object = $result->fetch_object();
+        $tasks = $object->content;
+        $tasks = json_decode($tasks, true);
+        $tasks[] = [
+            "id" => $taskId,
+            "value" => $task,
+            "completed" => false
+        ];
+        $tasks = json_encode($tasks);
+        $res = $mysqli->query("UPDATE checklist set content = '{$tasks}' WHERE list_id = '{$listID}'");
+    } else {
+        $tasks = [];
+        $tasks[] = [
+            "id" => $taskId,
+            "value" => $task,
+            "completed" => false
+        ];
+        $tasks = json_encode($tasks);
+        $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$tasks}')");
+    }
+    echo json_encode([
+        'success' => true
+    ]);
     $result->close();
     die();
 } else {
@@ -70,11 +111,10 @@ if($action == 'check') {
         ]);
         echo $response;
         die();
-    } else {
-        echo json_encode([
-            'success' => false
-        ]);
     }
-    /* очищаем результирующий набор */
     $result->close();
 }
+
+echo json_encode([
+    'success' => false
+]);

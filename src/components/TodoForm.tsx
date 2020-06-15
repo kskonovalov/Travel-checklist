@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import styled from 'styled-components';
 
 import { theme } from '../config';
-import { addTask } from '../store/actions';
+import { addTaskAsync } from '../store/actions';
 
 const FormFieldsWrap = styled.div`
   display: flex;
@@ -20,8 +20,7 @@ const TodoForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addTask({ task: newTask }));
-    // addTask(title);
+    dispatch(addTaskAsync({ task: newTask }));
     setNewTask('');
   };
 

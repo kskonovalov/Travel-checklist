@@ -9,38 +9,43 @@ import {
 } from './constants';
 import { apiUrl } from '../config';
 import ITaskAction from './interfaces/ITaskAction';
+import { getRandomKey } from '../helpers';
 
 interface ITask {
   task?: string;
   id?: string;
 }
 
-export const addTask = ({ task }: ITask) => {
-  return (dispatch: any) => {
-    // axios
-    //   .post(
-    //     apiUrl,
-    //     {
-    //       listID,
-    //       tasks,
-    //       action: 'save'
-    //     },
-    //     {
-    //       headers: { 'Content-Type': 'application/json' }
-    //     }
-    //   )
-    //   .then(response => {
-    //     // const { data } = response;
-    //     // setApiLoading(false);
-    //   });
-    dispatch(addTaskFinished({ task }));
-  };
-};
-
-export const addTaskFinished = ({ task }: ITask): ITaskAction => ({
+export const addTask = ({ task }: ITask): ITaskAction => ({
   type: ADD_TASK,
   task
 });
+
+export const addTaskAsync = ({ task }: ITask) => {
+  return (dispatch: any, getState: any) => {
+    const taskId: string = getRandomKey();
+    dispatch(addTask({ task, id: taskId }));
+    const { listID } = getState();
+    axios
+      .post(
+        apiUrl,
+        {
+          listID,
+          task,
+          taskId,
+          action: 'add'
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+      .then(response => {
+        // const { data } = response;
+        console.log(response);
+        // setApiLoading(false);
+      });
+  };
+};
 
 export const editTask = ({ id, task }: ITask): ITaskAction => ({
   type: EDIT_TASK,
