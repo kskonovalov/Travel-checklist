@@ -5,18 +5,19 @@ import {
   DELETE_TASK,
   TOGGLE_TASK
 } from '../constants';
+import { getRandomKey } from '../../helpers';
 import ITaskAction from '../interfaces/ITaskAction';
 import taskInterface from '../../interfaces/taskInterface';
 
 const tasksReducer = (state = [], action: ITaskAction) => {
   switch (action.type) {
     case SET_TASKS:
-      return [action.tasks];
+      return action.tasks;
     case ADD_TASK:
       return [
         ...state,
         {
-          id: action.id,
+          id: getRandomKey(),
           value: action.task,
           completed: false
         }

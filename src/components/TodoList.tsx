@@ -12,11 +12,7 @@ import {
 import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 import editTaskInterface from '../interfaces/editTaskInterface';
-import {
-  deleteTaskAsync,
-  editTaskAsync,
-  setTasksAsync
-} from '../store/actions';
+import { deleteTask, editTask } from '../store/actions';
 
 interface ITasks {
   tasks: taskInterface[];
@@ -61,7 +57,7 @@ const TodoList: React.FC = () => {
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
               dispatch(
-                editTaskAsync({
+                editTask({
                   id: item.id,
                   task: item.value,
                   completed: item.completed
@@ -90,7 +86,7 @@ const TodoList: React.FC = () => {
             <ListItemIcon
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
-                dispatch(deleteTaskAsync({ id: item.id }));
+                dispatch(deleteTask({ id: item.id }));
               }}
             >
               <DeleteIcon color="primary" />
