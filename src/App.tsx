@@ -90,15 +90,6 @@ const App: React.FC = () => {
     }
   }, [listID]);
 
-  /* confirmation */
-  const [open, setOpen] = useState<boolean>(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   // save tasks
   useEffect(() => {
     if (!initialLoad && listID.length > 0) {
@@ -115,6 +106,15 @@ const App: React.FC = () => {
       );
     }
   }, [tasks]);
+
+  // new list confirmation
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
