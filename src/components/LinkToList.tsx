@@ -7,7 +7,7 @@ const LinkToList = () => {
     'Нажмите на скрепку, чтобы скопировать'
   );
 
-  const textInputRef = useRef(null);
+  const textInputRef = useRef<HTMLInputElement>(null);
   return (
     <TextField
       id="standard-basic"
@@ -22,11 +22,11 @@ const LinkToList = () => {
             <LinkIcon
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                console.log(textInputRef);
-                // @ts-ignore
-                textInputRef.current.select();
-                document.execCommand('copy');
-                setHelperText('Скопировано в буфер обмена!');
+                if (textInputRef !== null && textInputRef.current !== null) {
+                  textInputRef.current.select();
+                  document.execCommand('copy');
+                  setHelperText('Скопировано в буфер обмена!');
+                }
               }}
             />
           </InputAdornment>
