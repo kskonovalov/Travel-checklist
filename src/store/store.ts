@@ -19,8 +19,7 @@ export interface IStore {
 }
 
 const initialState: IStore = {
-  tasks:
-    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [],
+  tasks: [],
   listID: ''
 };
 

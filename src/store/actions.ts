@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import {
   ADD_TASK,
   EDIT_TASK,
@@ -8,7 +6,6 @@ import {
   SET_LIST_ID,
   SET_TASKS
 } from './constants';
-import { apiUrl } from '../config';
 import ITaskAction from './interfaces/ITaskAction';
 import taskInterface from '../interfaces/taskInterface';
 

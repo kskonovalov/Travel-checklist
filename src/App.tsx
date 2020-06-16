@@ -27,16 +27,13 @@ interface IUrlParams {
 
 const App: React.FC = () => {
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
-  const [apiLoading, setApiLoading] = useState<boolean>(false);
   const [tasksLoading, setTasksLoading] = useState<boolean>(false);
-
-  const params: IUrlParams = useParams();
-  const { listID = '' } = params;
-
   const history = useHistory();
-  // set new listID if needed
   const dispatch = useDispatch();
-  const tasks = useSelector((state: IStore) => state.tasks);
+  const params: IUrlParams = useParams();
+
+  // set new listID if needed
+  const { listID = '' } = params;
   useEffect(() => {
     if (listID.length === 0) {
       const words =
@@ -58,19 +55,10 @@ const App: React.FC = () => {
     dispatch(setListId({ listID }));
   }, [listID]);
 
-  /* confirmation */
-  const [open, setOpen] = useState<boolean>(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // get tasks
+  // initial load. get tasks
+  const tasks = useSelector((state: IStore) => state.tasks);
   useEffect(() => {
     if (listID.length > 0) {
-      setApiLoading(true);
       setTasksLoading(true);
       axios
         .post(
@@ -85,15 +73,29 @@ const App: React.FC = () => {
         )
         .then(response => {
           const { data } = response;
-          if (data.success) {
+          if (data.success && data.data.length > 0) {
             dispatch(setTasks({ tasks: data.data }));
+          } else {
+            const defaultTasks =
+              typeof window.__DATA__.tasks !== 'undefined'
+                ? window.__DATA__.tasks
+                : [];
+            dispatch(setTasks({ tasks: defaultTasks }));
           }
           setTasksLoading(false);
-          setApiLoading(false);
           setInitialLoad(false);
         });
     }
   }, [listID]);
+
+  /* confirmation */
+  const [open, setOpen] = useState<boolean>(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // save tasks
   useEffect(() => {
@@ -110,14 +112,7 @@ const App: React.FC = () => {
             headers: { 'Content-Type': 'application/json' }
           }
         )
-        .then(response => {
-          const { data } = response;
-          console.log(response);
-          if (data.success) {
-            // dispatch(setTasks({ tasks: data.data }));
-            // setTasks(data.data);
-          }
-        });
+        .then(response => {});
     }
   }, [tasks]);
 
