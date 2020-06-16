@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import {
 import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 import editTaskInterface from '../interfaces/editTaskInterface';
-import { deleteTask, editTask } from '../store/actions';
+import { deleteTask, toggleTask } from '../store/actions';
 
 interface ITasks {
   tasks: taskInterface[];
@@ -57,7 +57,7 @@ const TodoList: React.FC = () => {
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.preventDefault();
               dispatch(
-                editTask({
+                toggleTask({
                   id: item.id,
                   task: item.value,
                   completed: item.completed

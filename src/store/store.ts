@@ -2,8 +2,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import taskInterface from '../interfaces/taskInterface';
-// import IStore from './interfaces/IStore';
+import storeInterface from './interfaces/storeInterface';
 
 declare global {
   interface Window {
@@ -13,12 +12,7 @@ declare global {
 }
 window.__DATA__ = window.__DATA__ || {};
 
-export interface IStore {
-  tasks: taskInterface[] | any;
-  listID: string;
-}
-
-const initialState: IStore = {
+const initialState: storeInterface = {
   tasks: [],
   listID: ''
 };

@@ -12,7 +12,7 @@ import Loader from './components/Loader';
 import { getRandomKey } from './helpers';
 import { setListId, setTasks } from './store/actions';
 import { apiUrl } from './config';
-import { IStore } from './store/store';
+import storeInterface from './store/interfaces/storeInterface';
 
 declare global {
   interface Window {
@@ -56,7 +56,7 @@ const App: React.FC = () => {
   }, [listID]);
 
   // initial load. get tasks
-  const tasks = useSelector((state: IStore) => state.tasks);
+  const tasks = useSelector((state: storeInterface) => state.tasks);
   useEffect(() => {
     if (listID.length > 0) {
       setTasksLoading(true);
@@ -73,9 +73,11 @@ const App: React.FC = () => {
         )
         .then(response => {
           const { data } = response;
+          // save tasks from db, if presents
           if (data.success && data.data.length > 0) {
             dispatch(setTasks({ tasks: data.data }));
           } else {
+            // or fill with default tasks
             const defaultTasks =
               typeof window.__DATA__.tasks !== 'undefined'
                 ? window.__DATA__.tasks
@@ -100,19 +102,17 @@ const App: React.FC = () => {
   // save tasks
   useEffect(() => {
     if (!initialLoad && listID.length > 0) {
-      axios
-        .post(
-          apiUrl,
-          {
-            listID,
-            tasks,
-            action: 'save'
-          },
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
-        .then(response => {});
+      axios.post(
+        apiUrl,
+        {
+          listID,
+          tasks,
+          action: 'save'
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
     }
   }, [tasks]);
 

@@ -9,7 +9,7 @@ import { getRandomKey } from '../../helpers';
 import ITaskAction from '../interfaces/ITaskAction';
 import taskInterface from '../../interfaces/taskInterface';
 
-const tasksReducer = (state = [], action: ITaskAction) => {
+const tasksReducer = (state: taskInterface[] = [], action: ITaskAction) => {
   switch (action.type) {
     case SET_TASKS:
       return action.tasks;

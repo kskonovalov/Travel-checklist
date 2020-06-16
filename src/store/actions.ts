@@ -7,7 +7,6 @@ import {
   SET_TASKS
 } from './constants';
 import ITaskAction from './interfaces/ITaskAction';
-import taskInterface from '../interfaces/taskInterface';
 
 interface ITask {
   task?: string;
