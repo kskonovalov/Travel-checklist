@@ -1,9 +1,17 @@
-import { ADD_TASK, EDIT_TASK, DELETE_TASK, TOGGLE_TASK } from '../constants';
+import {
+  SET_TASKS,
+  ADD_TASK,
+  EDIT_TASK,
+  DELETE_TASK,
+  TOGGLE_TASK
+} from '../constants';
 import ITaskAction from '../interfaces/ITaskAction';
 import taskInterface from '../../interfaces/taskInterface';
 
 const tasksReducer = (state = [], action: ITaskAction) => {
   switch (action.type) {
+    case SET_TASKS:
+      return [action.tasks];
     case ADD_TASK:
       return [
         ...state,

@@ -13,7 +13,7 @@ declare global {
 }
 window.__DATA__ = window.__DATA__ || {};
 
-interface IStore {
+export interface IStore {
   tasks: taskInterface[] | any;
   listID: string;
 }

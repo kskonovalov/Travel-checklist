@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Container, Box, Button } from '@material-ui/core';
 import axios from 'axios';
@@ -9,9 +10,14 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import { getRandomKey } from './helpers';
-import { deleteTask, setListId } from './store/actions';
+import {
+  addTaskAsync,
+  setListId,
+  setTasks,
+  setTasksAsync
+} from './store/actions';
 import { apiUrl } from './config';
-import { useDispatch } from 'react-redux';
+import { IStore } from './store/store';
 
 declare global {
   interface Window {
@@ -38,15 +44,14 @@ const App: React.FC = () => {
   const params: IUrlParams = useParams();
   const { listID: paramListId } = params;
 
-  const listID =
-    typeof paramListId !== 'undefined' && paramListId.length > 0
-      ? paramListId
-      : '';
+  const listID = useSelector((state: IStore) => state.listID);
 
   const history = useHistory();
   // set new listID if needed
   const dispatch = useDispatch();
+  const tasks = useSelector((state: IStore) => state.tasks);
   useEffect(() => {
+    dispatch(setListId({ listID }));
     if (listID.length === 0) {
       // get 3 random words from array to create some-travel-slug (user-friendly list name)
       const newListID =
@@ -59,8 +64,9 @@ const App: React.FC = () => {
           : // or just create random slug
             getRandomKey(13);
       history.replace(`/${newListID}`);
+      // save in DB on initial load
+      dispatch(setTasksAsync({ tasks }));
     }
-    dispatch(setListId({ listID }));
   }, [listID]);
 
   /* confirmation */
@@ -73,58 +79,33 @@ const App: React.FC = () => {
   };
 
   // get tasks
-  // useEffect(() => {
-  //   if (listID.length > 0) {
-  //     setApiLoading(true);
-  //     setTasksLoading(true);
-  //     axios
-  //       .post(
-  //         apiUrl,
-  //         {
-  //           listID,
-  //           action: 'get'
-  //         },
-  //         {
-  //           headers: { 'Content-Type': 'application/json' }
-  //         }
-  //       )
-  //       .then(response => {
-  //         const { data } = response;
-  //         if (data.success) {
-  //           setTasks(data.data);
-  //         } else {
-  //           setTasks(defaultTasks);
-  //         }
-  //         setTasksLoading(false);
-  //         setApiLoading(false);
-  //         setInitialLoad(false);
-  //       });
-  //   }
-  // }, [listID]);
-
-  // save tasks
-  // useEffect(() => {
-  //   if (initialLoad || apiLoading || listID.length === 0) {
-  //     return;
-  //   }
-  //   setApiLoading(true);
-  //   axios
-  //     .post(
-  //       apiUrl,
-  //       {
-  //         listID,
-  //         tasks,
-  //         action: 'save'
-  //       },
-  //       {
-  //         headers: { 'Content-Type': 'application/json' }
-  //       }
-  //     )
-  //     .then(response => {
-  //       // const { data } = response;
-  //       setApiLoading(false);
-  //     });
-  // }, [tasks]);
+  useEffect(() => {
+    if (listID.length > 0) {
+      setApiLoading(true);
+      setTasksLoading(true);
+      axios
+        .post(
+          apiUrl,
+          {
+            listID,
+            action: 'get'
+          },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        )
+        .then(response => {
+          const { data } = response;
+          if (data.success) {
+            dispatch(setTasks({ tasks: data.data }));
+            // setTasks(data.data);
+          }
+          setTasksLoading(false);
+          setApiLoading(false);
+          setInitialLoad(false);
+        });
+    }
+  }, [listID]);
 
   return (
     <>

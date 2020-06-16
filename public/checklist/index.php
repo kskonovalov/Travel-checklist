@@ -18,11 +18,12 @@ $postData = json_decode(file_get_contents('php://input'), true);
 $listID = $mysqli->real_escape_string($postData["listID"]);
 // action type
 $availableActions = [
-    'check',
-    'save',
-    'get',
-    'edit',
-    'add'
+    'check', // check list id if busy or not
+    'save', // save tasks
+    'get', // get all tasks to db
+    'edit', // edit task
+    'delete', // delete task
+    'add' // add new task
 ];
 if(isset($postData["action"]) && in_array($postData["action"], $availableActions)) {
     $action = $postData["action"];
@@ -126,6 +127,34 @@ if($action == 'check') {
                     if (isset($postData["completed"])) {
                         $tasks[$curTaskId]["completed"] = $completed;
                     }
+                }
+            }
+            $tasks = json_encode($tasks);
+            $tasks = $mysqli->real_escape_string($tasks);
+            $res = $mysqli->query("UPDATE checklist set content = '{$tasks}' WHERE list_id = '{$listID}'");
+            echo json_encode([
+                'success' => true
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false
+            ]);
+        }
+    }
+    $result->close();
+    die();
+} if($action == 'delete') {
+    // delete task
+    if(isset($postData["id"])) {
+        $id = $mysqli->real_escape_string($postData["id"]);
+        $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
+        if ($result->num_rows > 0) {
+            $object = $result->fetch_object();
+            $tasks = $object->content;
+            $tasks = json_decode($tasks, true);
+            foreach ($tasks as $curTaskId => $curTask) {
+                if ($curTask["id"] == $id) {
+                    unset($tasks[$curTaskId]);
                 }
             }
             $tasks = json_encode($tasks);

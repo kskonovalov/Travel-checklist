@@ -5,17 +5,52 @@ import {
   EDIT_TASK,
   DELETE_TASK,
   TOGGLE_TASK,
-  SET_LIST_ID
+  SET_LIST_ID,
+  SET_TASKS
 } from './constants';
 import { apiUrl } from '../config';
 import ITaskAction from './interfaces/ITaskAction';
 import { getRandomKey } from '../helpers';
+import taskInterface from '../interfaces/taskInterface';
 
 interface ITask {
   task?: string;
   id?: string;
   completed?: boolean;
 }
+
+export const setTasksAsync = ({ tasks }: { tasks: taskInterface[] }) => {
+  return (dispatch: any, getState: any) => {
+    dispatch(setTasks({ tasks }));
+    const { listID } = getState();
+    axios
+      .post(
+        apiUrl,
+        {
+          listID,
+          tasks,
+          action: 'save'
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+      .then(response => {
+        // const { data } = response;
+        console.log(response);
+        // setApiLoading(false);
+      });
+  };
+};
+
+export const setTasks = ({
+  tasks
+}: {
+  tasks: taskInterface[];
+}): ITaskAction => ({
+  type: SET_TASKS,
+  tasks
+});
 
 export const addTask = ({ task }: ITask): ITaskAction => ({
   type: ADD_TASK,
@@ -77,6 +112,30 @@ export const editTaskAsync = ({
           completed: completed !== undefined ? !completed : completed,
           id,
           action: 'edit'
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+      .then(response => {
+        // const { data } = response;
+        console.log(response);
+        // setApiLoading(false);
+      });
+  };
+};
+
+export const deleteTaskAsync = ({ id }: ITask) => {
+  return (dispatch: any, getState: any) => {
+    dispatch(deleteTask({ id }));
+    const { listID } = getState();
+    axios
+      .post(
+        apiUrl,
+        {
+          listID,
+          id,
+          action: 'delete'
         },
         {
           headers: { 'Content-Type': 'application/json' }

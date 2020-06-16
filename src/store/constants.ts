@@ -1,3 +1,5 @@
+export const SET_TASKS: string = 'SET_TASKS';
+
 export const ADD_TASK: string = 'ADD_TASK';
 export const EDIT_TASK: string = 'EDIT_TASK';
 export const DELETE_TASK: string = 'DELETE_TASK';
