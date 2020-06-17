@@ -26,14 +26,14 @@ interface IUrlParams {
 }
 
 const App: React.FC = () => {
-  const [initialLoad, setInitialLoad] = useState<boolean>(true);
-  const [tasksLoading, setTasksLoading] = useState<boolean>(false);
   const history = useHistory();
   const dispatch = useDispatch();
-  const params: IUrlParams = useParams();
+
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
+  const [error, setError] = useState<string | boolean>(false);
 
   // set new listID if needed
-  const { listID = '' } = params;
+  const { listID = '' }: IUrlParams = useParams();
   useEffect(() => {
     if (listID.length === 0) {
       const words =
@@ -58,8 +58,10 @@ const App: React.FC = () => {
   // initial load. get tasks
   const tasks = useSelector((state: storeInterface) => state.tasks);
   useEffect(() => {
+    const defaultTasks =
+      typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
+
     if (listID.length > 0) {
-      setTasksLoading(true);
       axios
         .post(
           apiUrl,
@@ -78,14 +80,15 @@ const App: React.FC = () => {
             dispatch(setTasks({ tasks: data.data }));
           } else {
             // or fill with default tasks
-            const defaultTasks =
-              typeof window.__DATA__.tasks !== 'undefined'
-                ? window.__DATA__.tasks
-                : [];
             dispatch(setTasks({ tasks: defaultTasks }));
           }
-          setTasksLoading(false);
           setInitialLoad(false);
+        })
+        .catch(e => {
+          // fill with default tasks in case of api error
+          setInitialLoad(false);
+          dispatch(setTasks({ tasks: defaultTasks }));
+          // setError('Ошибка при сохранении списка!');
         });
     }
   }, [listID]);
@@ -93,17 +96,22 @@ const App: React.FC = () => {
   // save tasks
   useEffect(() => {
     if (!initialLoad && listID.length > 0) {
-      axios.post(
-        apiUrl,
-        {
-          listID,
-          tasks,
-          action: 'save'
-        },
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
+      setError(false);
+      axios
+        .post(
+          apiUrl,
+          {
+            listID,
+            tasks,
+            action: 'save'
+          },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        )
+        .catch(e => {
+          setError('Ошибка при сохранении списка!');
+        });
     }
   }, [tasks]);
 
@@ -123,20 +131,23 @@ const App: React.FC = () => {
           <Box mt={1} mb={1}>
             <LinkToList />
           </Box>
-          <Box mt={3} mb={1}>
-            <TodoForm />
-          </Box>
-          {initialLoad || tasksLoading ? (
+          {initialLoad ? (
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
-            <Box mt={1} mb={1}>
-              <TodoList />
-            </Box>
+            <>
+              <Box mt={3} mb={1}>
+                <TodoForm />
+              </Box>
+              <Box mt={1} mb={1}>
+                <TodoList />
+              </Box>
+            </>
           )}
           <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
             Хочу новый лист
           </Button>
           <ConfirmDialog open={open} onClose={handleClose} />
+          {error && <p>{error}</p>}
         </Container>
       </Box>
     </>
