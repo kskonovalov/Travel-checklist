@@ -12,3 +12,6 @@ export { theme };
 
 const apiUrl: string = 'https://flynow.ru/checklist/';
 export { apiUrl };
+
+const saveErrorMessage: string = 'Error while saving on server!';
+export { saveErrorMessage };

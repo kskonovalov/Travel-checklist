@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Container, Box, Button } from '@material-ui/core';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -11,7 +12,7 @@ import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import { getRandomKey } from './helpers';
 import { setListId, setTasks } from './store/actions';
-import { apiUrl } from './config';
+import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 
 declare global {
@@ -37,6 +38,13 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
     dispatch(setTasks({ tasks: defaultTasks }));
   }
 };
+
+const Message = styled.div`
+  text-align: center;
+  color: #932727;
+  font-size: 12px;
+  margin-top: 10px;
+`;
 
 const App: React.FC = () => {
   const history = useHistory();
@@ -129,7 +137,7 @@ const App: React.FC = () => {
           }
         )
         .catch(e => {
-          setError('Ошибка при сохранении списка!');
+          setError(saveErrorMessage);
         });
     }
   }, [tasks]);
@@ -166,7 +174,7 @@ const App: React.FC = () => {
             Хочу новый лист
           </Button>
           <ConfirmDialog open={open} onClose={handleClose} />
-          {error && <p>{error}</p>}
+          {error && <Message>{error}</Message>}
         </Container>
       </Box>
     </>
