@@ -25,6 +25,19 @@ interface IUrlParams {
   listID?: string;
 }
 
+const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
+  const savedTasks = localStorage.getItem('tasks');
+  const defaultTasks =
+    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
+  if (savedTasks !== null) {
+    // or fill with local saved tasks
+    dispatch(setTasks({ tasks: JSON.parse(savedTasks) }));
+  } else {
+    // or fill with default tasks
+    dispatch(setTasks({ tasks: defaultTasks }));
+  }
+};
+
 const App: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -64,9 +77,6 @@ const App: React.FC = () => {
   // initial load. get tasks
   const tasks = useSelector((state: storeInterface) => state.tasks);
   useEffect(() => {
-    const defaultTasks =
-      typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
-
     if (listID.length > 0) {
       axios
         .post(
@@ -81,20 +91,19 @@ const App: React.FC = () => {
         )
         .then(response => {
           const { data } = response;
-          // save tasks from db, if presents
+          // load tasks from api
           if (data.success && data.data.length > 0) {
             dispatch(setTasks({ tasks: data.data }));
           } else {
-            // or fill with default tasks
-            dispatch(setTasks({ tasks: defaultTasks }));
+            // or fill with default tasks in case of api error
+            fillWithDefaultTasks({ dispatch, setTasks });
           }
           setInitialLoad(false);
         })
         .catch(e => {
-          // fill with default tasks in case of api error
           setInitialLoad(false);
-          dispatch(setTasks({ tasks: defaultTasks }));
-          // setError('Ошибка при сохранении списка!');
+          // fill with default tasks in case of api error
+          fillWithDefaultTasks({ dispatch, setTasks });
         });
     }
   }, [listID]);
