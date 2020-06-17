@@ -34,6 +34,7 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
         </Button>
         <Button
           onClick={() => {
+            localStorage.removeItem('listID');
             history.push(`/`);
           }}
           color="primary"

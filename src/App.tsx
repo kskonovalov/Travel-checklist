@@ -36,6 +36,12 @@ const App: React.FC = () => {
   const { listID = '' }: IUrlParams = useParams();
   useEffect(() => {
     if (listID.length === 0) {
+      // first, checking localStorage
+      const savedListID = localStorage.getItem('listID');
+      if (savedListID !== null) {
+        history.replace(`/${savedListID}`);
+        return;
+      }
       const words =
         typeof window.__DATA__.words !== 'undefined'
           ? window.__DATA__.words
@@ -96,6 +102,10 @@ const App: React.FC = () => {
   // save tasks
   useEffect(() => {
     if (!initialLoad && listID.length > 0) {
+      // save in local storage
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      localStorage.setItem('listID', listID);
+      // save to api
       setError(false);
       axios
         .post(
