@@ -14,6 +14,7 @@ import { getRandomKey } from './helpers';
 import { setListId, setTasks } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
+import ErrorMessage from './components/ErrorMessage';
 
 declare global {
   interface Window {
@@ -39,19 +40,12 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   }
 };
 
-const Message = styled.div`
-  text-align: center;
-  color: #932727;
-  font-size: 12px;
-  margin-top: 10px;
-`;
-
 const App: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
-  const [error, setError] = useState<string | boolean>(false);
+  const [error, setError] = useState<string>('');
 
   // set new listID if needed
   const { listID = '' }: IUrlParams = useParams();
@@ -123,7 +117,7 @@ const App: React.FC = () => {
       localStorage.setItem('tasks', JSON.stringify(tasks));
       localStorage.setItem('listID', listID);
       // save to api
-      setError(false);
+      setError('');
       axios
         .post(
           apiUrl,
@@ -174,7 +168,7 @@ const App: React.FC = () => {
             Хочу новый лист
           </Button>
           <ConfirmDialog open={open} onClose={handleClose} />
-          {error && <Message>{error}</Message>}
+          {error && <ErrorMessage text={error} />}
         </Container>
       </Box>
     </>
