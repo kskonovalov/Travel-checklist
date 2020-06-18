@@ -28,9 +28,13 @@ interface IUrlParams {
 }
 
 const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
+  const savedTasks = localStorage.getItem('tasks');
   const defaultTasks =
     typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
-  if (defaultTasks !== null) {
+  if (savedTasks !== null) {
+    // or fill with local saved tasks
+    dispatch(setTasks({ tasks: JSON.parse(savedTasks) }));
+  } else {
     // or fill with default tasks
     dispatch(setTasks({ tasks: defaultTasks }));
   }
@@ -75,11 +79,7 @@ const App: React.FC = () => {
   // initial load. get tasks
   const tasks = useSelector((state: storeInterface) => state.tasks);
   useEffect(() => {
-    const savedTasks = localStorage.getItem('tasks');
-    if (savedTasks !== null) {
-      // first, fill with local saved tasks
-      dispatch(setTasks({ tasks: JSON.parse(savedTasks) }));
-    } else if (listID.length > 0) {
+    if (listID.length > 0) {
       axios
         .post(
           apiUrl,
@@ -100,13 +100,13 @@ const App: React.FC = () => {
             // or fill with default tasks in case of api error
             fillWithDefaultTasks({ dispatch, setTasks });
           }
+          setInitialLoad(false);
         })
         .catch(e => {
           // fill with default tasks in case of api error
           fillWithDefaultTasks({ dispatch, setTasks });
         });
     }
-    setInitialLoad(false);
   }, [listID]);
 
   // save tasks
