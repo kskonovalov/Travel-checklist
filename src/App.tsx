@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Container, Box, Button } from '@material-ui/core';
 import axios from 'axios';
-import styled from 'styled-components';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
