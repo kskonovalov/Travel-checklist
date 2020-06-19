@@ -6,7 +6,7 @@ describe('getRandomKey test', () => {
     expect(randomKey.length).toBeGreaterThan(0);
   });
   it('Length of generated key should be same as param we passed', () => {
-    const keyLength = 13;
+    const keyLength = 10;
     const randomKey: string = getRandomKey(keyLength);
     expect(randomKey.length).toEqual(keyLength);
   });
