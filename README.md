@@ -6,7 +6,7 @@ TODO checklist things to do before travel. Save data to db and local storage.
 Personal checklists available by personal links, so you can use it on PC/smartphone in browser.
 
 ### Tech stack:
-* React
+* Reactex
 * Redux
 * TypeScript
 * [Material-UI](https://material-ui.com/)

@@ -4,7 +4,7 @@ import { Link as LinkIcon } from '@material-ui/icons';
 
 const LinkToList = () => {
   const [helperText, setHelperText] = useState<string>(
-    'Нажмите на скрепку, чтобы скопировать'
+    'Нажмите на скрепку, чтобы скопировать ссылку на Ваш лист'
   );
 
   const textInputRef = useRef<HTMLInputElement>(null);
