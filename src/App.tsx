@@ -10,7 +10,7 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import { getRandomKey } from './helpers';
-import { setListId, setTasks } from './store/actions';
+import { setListId, setTasks, addList } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
@@ -27,25 +27,26 @@ interface IUrlParams {
 }
 
 const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
-  const savedTasks = localStorage.getItem('tasks');
-  const defaultTasks =
-    typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
-  if (savedTasks !== null) {
-    // or fill with local saved tasks
-    dispatch(setTasks({ tasks: JSON.parse(savedTasks) }));
-  } else {
-    // or fill with default tasks
-    dispatch(setTasks({ tasks: defaultTasks }));
-  }
+  // const savedTasks = localStorage.getItem('tasks');
+  // const defaultTasks =
+  //   typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
+  // if (savedTasks !== null) {
+  //   // or fill with local saved tasks
+  //   dispatch(setTasks({ tasks: JSON.parse(savedTasks) }));
+  // } else {
+  //   // or fill with default tasks
+  //   dispatch(setTasks({ tasks: defaultTasks }));
+  // }
 };
 
-const fillWithDefaultLists = () => {
+const fillWithDefaultLists = ({ dispatch }: any) => {
   // const savedLists = localStorage.getItem('lists');
   const defaultLists =
     typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
 
   Object.keys(defaultLists).map((key: string) => {
     console.log(key, defaultLists[key]);
+    dispatch(addList({ listID: key, tasks: defaultLists[key] }));
   });
 
   // if (savedLists !== null) {
@@ -65,7 +66,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    fillWithDefaultLists();
+    fillWithDefaultLists({ dispatch });
   }, []);
 
   // set new listID if needed
