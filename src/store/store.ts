@@ -13,7 +13,8 @@ declare global {
 window.__DATA__ = window.__DATA__ || {};
 
 const initialState: storeInterface = {
-  tasks: [],
+  tasks: [], // TODO: remove
+  lists: {},
   listID: ''
 };
 

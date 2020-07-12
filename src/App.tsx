@@ -39,17 +39,22 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   }
 };
 
-const fillWithDefaultLists = ({ dispatch, setTasks }: any) => {
-  const savedLists = localStorage.getItem('lists');
+const fillWithDefaultLists = () => {
+  // const savedLists = localStorage.getItem('lists');
   const defaultLists =
-    typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : [];
-  if (savedLists !== null) {
-    // or fill with local saved tasks
-    dispatch(setTasks({ tasks: JSON.parse(savedLists) }));
-  } else {
-    // or fill with default tasks
-    dispatch(setTasks({ tasks: defaultLists }));
-  }
+    typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
+
+  Object.keys(defaultLists).map((key: string) => {
+    console.log(key, defaultLists[key]);
+  });
+
+  // if (savedLists !== null) {
+  //   // or fill with local saved tasks
+  //   dispatch(setTasks({ tasks: JSON.parse(savedLists) }));
+  // } else {
+  //   // or fill with default tasks
+  //   dispatch(setTasks({ tasks: defaultLists }));
+  // }
 };
 
 const App: React.FC = () => {
@@ -58,6 +63,10 @@ const App: React.FC = () => {
 
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    fillWithDefaultLists();
+  }, []);
 
   // set new listID if needed
   const { listID = '' }: IUrlParams = useParams();
