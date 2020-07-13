@@ -14,6 +14,7 @@ import { setListId, setTasks, addList } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
+import List from './components/List';
 
 declare global {
   interface Window {
@@ -180,11 +181,7 @@ const App: React.FC = () => {
           ) : (
             <>
               {Object.keys(lists).map((key: any) => {
-                return (
-                  <>
-                    <p>{key}</p>
-                  </>
-                );
+                return <List key={key} listTitle={key} tasks={lists[key]} />;
               })}
               <Box mt={3} mb={1}>
                 <TodoForm />
