@@ -166,6 +166,8 @@ const App: React.FC = () => {
     setOpen(false);
   };
 
+  const lists = useSelector((state: any) => state.lists);
+
   return (
     <>
       <Box mt={5} mb={5}>
@@ -177,6 +179,13 @@ const App: React.FC = () => {
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
             <>
+              {Object.keys(lists).map((key: any) => {
+                return (
+                  <>
+                    <p>{key}</p>
+                  </>
+                );
+              })}
               <Box mt={3} mb={1}>
                 <TodoForm />
               </Box>

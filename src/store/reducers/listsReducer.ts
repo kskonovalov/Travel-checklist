@@ -11,6 +11,7 @@ const listsReducer = (state: any = {}, action: any) => {
         ...state,
         [action.listID]: action.tasks
       };
+
     default:
       return state;
   }
