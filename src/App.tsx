@@ -9,13 +9,12 @@ import TodoList from './components/TodoList';
 import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
-import { getRandomKey } from './helpers';
+import { getRandomKey, maybePrepareTask } from './helpers';
 import { setListId, setTasks, addList } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
 import List from './components/List';
-import taskInterface from './interfaces/taskInterface';
 
 declare global {
   interface Window {
@@ -39,33 +38,6 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   //   // or fill with default tasks
   //   dispatch(setTasks({ tasks: defaultTasks }));
   // }
-};
-
-/**
- * @param task
- */
-const maybePrepareTask = (
-  task:
-    | string
-    | {
-        id?: string;
-        value?: string;
-        completed?: boolean;
-      }
-): taskInterface => {
-  if (typeof task === 'string') {
-    return {
-      id: getRandomKey(),
-      value: task,
-      completed: false
-    };
-  }
-  return {
-    ...task,
-    id: task.id || getRandomKey(),
-    value: task.value || '',
-    completed: task.completed || false
-  };
 };
 
 const fillWithDefaultLists = ({ dispatch }: any) => {
