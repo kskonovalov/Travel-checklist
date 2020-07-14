@@ -15,6 +15,7 @@ import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
 import List from './components/List';
+import taskInterface from './interfaces/taskInterface';
 
 declare global {
   interface Window {
@@ -40,6 +41,33 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   // }
 };
 
+/**
+ * @param task
+ */
+const maybePrepareTask = (
+  task:
+    | string
+    | {
+        id?: string;
+        value?: string;
+        completed?: boolean;
+      }
+): taskInterface => {
+  if (typeof task === 'string') {
+    return {
+      id: getRandomKey(),
+      value: task,
+      completed: false
+    };
+  }
+  return {
+    ...task,
+    id: task.id || getRandomKey(),
+    value: task.value || '',
+    completed: task.completed || false
+  };
+};
+
 const fillWithDefaultLists = ({ dispatch }: any) => {
   // const savedLists = localStorage.getItem('lists');
   const defaultLists =
@@ -47,7 +75,14 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
 
   Object.keys(defaultLists).map((key: string) => {
     console.log(key, defaultLists[key]);
-    dispatch(addList({ listID: key, tasks: defaultLists[key] }));
+    dispatch(
+      addList({
+        listID: key,
+        tasks: defaultLists[key].map((item: string | object) => {
+          return maybePrepareTask(item);
+        })
+      })
+    );
   });
 
   // if (savedLists !== null) {
