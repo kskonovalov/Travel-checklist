@@ -1,8 +1,10 @@
 import React from 'react';
 
+import taskInterface from '../interfaces/taskInterface';
+
 type TList = {
   listTitle: string;
-  tasks: any;
+  tasks: taskInterface[];
 };
 
 const List: React.FC<TList> = ({ listTitle, tasks }) => {
@@ -12,8 +14,8 @@ const List: React.FC<TList> = ({ listTitle, tasks }) => {
         <strong>{listTitle}</strong>
       </p>
       <ul>
-        {Object.keys(tasks).map(key => {
-          return <li key={key}>{tasks[key]}</li>;
+        {tasks.map(task => {
+          return <li key={task.id}>{task.value}</li>;
         })}
       </ul>
     </>
