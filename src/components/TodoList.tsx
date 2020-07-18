@@ -54,60 +54,63 @@ const TodoList: React.FC<TList> = ({ listTitle, tasks = [] }) => {
   }
 
   return (
-    <List>
-      {tasks.map(item => {
-        return (
-          <Task
-            key={item.id}
-            button
-            completed={item.completed ? 1 : 0}
-            onClick={(e: React.MouseEvent<HTMLElement>) => {
-              e.preventDefault();
-              dispatch(
-                toggleTask({
-                  id: item.id,
-                  task: item.value,
-                  completed: item.completed
-                })
-              );
-            }}
-          >
-            <ListItemIcon>
-              {item.completed ? (
-                <CheckBoxIcon color="primary" />
-              ) : (
-                <CheckBoxOutlineBlankIcon color="primary" />
-              )}
-            </ListItemIcon>
-            <ListItemText primary={item.value} />
-            <ListItemIcon
+    <>
+      <b>{listTitle}</b>
+      <List>
+        {tasks.map(item => {
+          return (
+            <Task
+              key={item.id}
+              button
+              completed={item.completed ? 1 : 0}
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
-                e.stopPropagation();
-                setCurrentEditingTask({ task: item.value, taskId: item.id });
-                setOpen(true);
+                dispatch(
+                  toggleTask({
+                    id: item.id,
+                    task: item.value,
+                    completed: item.completed
+                  })
+                );
               }}
             >
-              <EditIcon color="primary" />
-            </ListItemIcon>
-            <ListItemIcon
-              onClick={(e: React.MouseEvent<HTMLElement>) => {
-                e.preventDefault();
-                dispatch(deleteTask({ id: item.id }));
-              }}
-            >
-              <DeleteIcon color="primary" />
-            </ListItemIcon>
-          </Task>
-        );
-      })}
-      <EditDialog
-        open={open}
-        onClose={handleClose}
-        task={currentEditingTask.task}
-        taskId={currentEditingTask.taskId}
-      />
-    </List>
+              <ListItemIcon>
+                {item.completed ? (
+                  <CheckBoxIcon color="primary" />
+                ) : (
+                  <CheckBoxOutlineBlankIcon color="primary" />
+                )}
+              </ListItemIcon>
+              <ListItemText primary={item.value} />
+              <ListItemIcon
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setCurrentEditingTask({ task: item.value, taskId: item.id });
+                  setOpen(true);
+                }}
+              >
+                <EditIcon color="primary" />
+              </ListItemIcon>
+              <ListItemIcon
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  e.preventDefault();
+                  dispatch(deleteTask({ id: item.id }));
+                }}
+              >
+                <DeleteIcon color="primary" />
+              </ListItemIcon>
+            </Task>
+          );
+        })}
+        <EditDialog
+          open={open}
+          onClose={handleClose}
+          task={currentEditingTask.task}
+          taskId={currentEditingTask.taskId}
+        />
+      </List>
+    </>
   );
 };
 
