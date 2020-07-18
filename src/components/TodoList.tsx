@@ -27,9 +27,12 @@ const Task = styled(ListItem)`
     props.completed ? 'text-decoration: line-through;' : ''}
 `;
 
-const TodoList: React.FC = () => {
-  const tasks = useSelector((state: ITasks) => state.tasks);
+type TList = {
+  listTitle?: string;
+  tasks?: taskInterface[];
+};
 
+const TodoList: React.FC<TList> = ({ listTitle, tasks = [] }) => {
   const dispatch = useDispatch();
 
   /* edit task */
@@ -45,6 +48,10 @@ const TodoList: React.FC = () => {
     setOpen(false);
     setCurrentEditingTask({ task: '', taskId: '' });
   };
+
+  if (tasks.length === 0) {
+    return null;
+  }
 
   return (
     <List>

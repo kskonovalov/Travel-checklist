@@ -188,7 +188,9 @@ const App: React.FC = () => {
           ) : (
             <>
               {Object.keys(lists).map((key: any) => {
-                return <List key={key} listTitle={key} tasks={lists[key]} />;
+                return (
+                  <TodoList key={key} listTitle={key} tasks={lists[key]} />
+                );
               })}
               <Box mt={3} mb={1}>
                 <TodoForm />
