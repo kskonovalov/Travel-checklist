@@ -47,8 +47,9 @@ export const setListId = ({ listID }: { listID: string }) => ({
   listID
 });
 
-export const addList = ({ tasks, listID }: any): any => ({
+export const addList = ({ tasks, listID, listTitle }: any): any => ({
   type: ADD_LIST,
   listID,
+  listTitle,
   tasks
 });

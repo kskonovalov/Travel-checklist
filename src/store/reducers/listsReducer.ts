@@ -6,10 +6,12 @@ import { ADD_LIST, DELETE_LIST } from '../constants';
 const listsReducer = (state: any = {}, action: any) => {
   switch (action.type) {
     case ADD_LIST:
-      console.log(action);
       return {
         ...state,
-        [action.listID]: action.tasks
+        [action.listID]: {
+          listTitle: action.listTitle,
+          tasks: action.tasks
+        }
       };
 
     default:

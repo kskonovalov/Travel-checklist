@@ -45,10 +45,10 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
     typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
 
   Object.keys(defaultLists).map((key: string) => {
-    console.log(key, defaultLists[key]);
     dispatch(
       addList({
-        listID: key,
+        listID: getRandomKey(),
+        listTitle: key,
         tasks: defaultLists[key].map((item: string | object) => {
           return maybePrepareTask(item);
         })
@@ -187,15 +187,10 @@ const App: React.FC = () => {
           ) : (
             <>
               {Object.keys(lists).map((key: any) => {
-                return (
-                  <TodoList key={key} listTitle={key} tasks={lists[key]} />
-                );
+                return <TodoList key={key} listId={key} />;
               })}
               <Box mt={3} mb={1}>
                 <TodoForm />
-              </Box>
-              <Box mt={1} mb={1}>
-                <TodoList />
               </Box>
             </>
           )}
