@@ -14,7 +14,6 @@ import { setListId, setTasks, addList } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
-import List from './components/List';
 
 declare global {
   interface Window {
