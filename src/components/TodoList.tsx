@@ -35,91 +35,88 @@ const TodoList: React.FC<TList> = ({ listId }) => {
   const dispatch = useDispatch();
 
   const list = useSelector((state: any) => {
-    return Object.keys(state.lists).map(iteratedListId => {
-      return iteratedListId === listId;
-    });
+    return listId in state.lists ? state.lists[listId] : false;
   });
-  console.log(list);
 
-  return null;
-  //
-  // /* edit task */
-  // const [open, setOpen] = useState<boolean>(false);
-  // const [currentEditingTask, setCurrentEditingTask] = useState<
-  //   editTaskInterface
-  // >({
-  //   task: '',
-  //   taskId: ''
-  // });
-  //
-  // const handleClose = () => {
-  //   setOpen(false);
-  //   setCurrentEditingTask({ task: '', taskId: '' });
-  // };
-  //
-  // if (tasks.length === 0) {
-  //   return null;
-  // }
-  //
-  // return (
-  //   <>
-  //     <b>{listTitle}</b>
-  //     <List>
-  //       {tasks.map(item => {
-  //         return (
-  //           <Task
-  //             key={item.id}
-  //             button
-  //             completed={item.completed ? 1 : 0}
-  //             onClick={(e: React.MouseEvent<HTMLElement>) => {
-  //               e.preventDefault();
-  //               dispatch(
-  //                 toggleTask({
-  //                   id: item.id,
-  //                   task: item.value,
-  //                   completed: item.completed
-  //                 })
-  //               );
-  //             }}
-  //           >
-  //             <ListItemIcon>
-  //               {item.completed ? (
-  //                 <CheckBoxIcon color="primary" />
-  //               ) : (
-  //                 <CheckBoxOutlineBlankIcon color="primary" />
-  //               )}
-  //             </ListItemIcon>
-  //             <ListItemText primary={item.value} />
-  //             <ListItemIcon
-  //               onClick={(e: React.MouseEvent<HTMLElement>) => {
-  //                 e.preventDefault();
-  //                 e.stopPropagation();
-  //                 setCurrentEditingTask({ task: item.value, taskId: item.id });
-  //                 setOpen(true);
-  //               }}
-  //             >
-  //               <EditIcon color="primary" />
-  //             </ListItemIcon>
-  //             <ListItemIcon
-  //               onClick={(e: React.MouseEvent<HTMLElement>) => {
-  //                 e.preventDefault();
-  //                 dispatch(deleteTask({ id: item.id }));
-  //               }}
-  //             >
-  //               <DeleteIcon color="primary" />
-  //             </ListItemIcon>
-  //           </Task>
-  //         );
-  //       })}
-  //       <EditDialog
-  //         open={open}
-  //         onClose={handleClose}
-  //         task={currentEditingTask.task}
-  //         taskId={currentEditingTask.taskId}
-  //       />
-  //     </List>
-  //   </>
-  // );
+  const { listTitle, tasks } = list;
+
+  /* edit task */
+  const [open, setOpen] = useState<boolean>(false);
+  const [currentEditingTask, setCurrentEditingTask] = useState<
+    editTaskInterface
+  >({
+    task: '',
+    taskId: ''
+  });
+
+  const handleClose = () => {
+    setOpen(false);
+    setCurrentEditingTask({ task: '', taskId: '' });
+  };
+
+  if (tasks.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      <b>{listTitle}</b>
+      <List>
+        {tasks.map((item: any) => {
+          return (
+            <Task
+              key={item.id}
+              button
+              completed={item.completed ? 1 : 0}
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+                dispatch(
+                  toggleTask({
+                    id: item.id,
+                    task: item.value,
+                    completed: item.completed
+                  })
+                );
+              }}
+            >
+              <ListItemIcon>
+                {item.completed ? (
+                  <CheckBoxIcon color="primary" />
+                ) : (
+                  <CheckBoxOutlineBlankIcon color="primary" />
+                )}
+              </ListItemIcon>
+              <ListItemText primary={item.value} />
+              <ListItemIcon
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setCurrentEditingTask({ task: item.value, taskId: item.id });
+                  setOpen(true);
+                }}
+              >
+                <EditIcon color="primary" />
+              </ListItemIcon>
+              <ListItemIcon
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  e.preventDefault();
+                  dispatch(deleteTask({ id: item.id }));
+                }}
+              >
+                <DeleteIcon color="primary" />
+              </ListItemIcon>
+            </Task>
+          );
+        })}
+        <EditDialog
+          open={open}
+          onClose={handleClose}
+          task={currentEditingTask.task}
+          taskId={currentEditingTask.taskId}
+        />
+      </List>
+    </>
+  );
 };
 
 export default TodoList;
