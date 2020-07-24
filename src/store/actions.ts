@@ -56,8 +56,8 @@ export const addList = ({ tasks, listID, listTitle }: any): any => ({
   tasks
 });
 
-export const toggleTaskInList = ({ listID, taskId }: any): any => ({
+export const toggleTaskInList = ({ listId, taskId }: any): any => ({
   type: TOGGLE_TASK_IN_LIST,
-  listID,
+  listId,
   taskId
 });
