@@ -1,4 +1,8 @@
-import { ADD_LIST, DELETE_LIST, TOGGLE_TASK_IN_LIST } from '../constants';
+import {
+  ADD_LIST,
+  TOGGLE_TASK_IN_LIST,
+  DELETE_TASK_IN_LIST
+} from '../constants';
 import taskInterface from '../../interfaces/taskInterface';
 // import { getRandomKey } from '../../helpers';
 // import ITaskAction from '../interfaces/ITaskAction';
@@ -26,6 +30,16 @@ const listsReducer = (state: any = {}, action: any) => {
                   completed: !currentTask.completed
                 }
               : currentTask;
+          })
+        }
+      };
+    case DELETE_TASK_IN_LIST:
+      return {
+        ...state,
+        [action.listId]: {
+          ...state[action.listId],
+          tasks: state[action.listId].tasks.filter((currentTask: any) => {
+            return currentTask.id !== action.taskId;
           })
         }
       };

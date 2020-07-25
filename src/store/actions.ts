@@ -7,7 +7,8 @@ import {
   SET_TASKS,
   ADD_LIST,
   DELETE_LIST,
-  TOGGLE_TASK_IN_LIST
+  TOGGLE_TASK_IN_LIST,
+  DELETE_TASK_IN_LIST
 } from './constants';
 import ITaskAction from './interfaces/ITaskAction';
 
@@ -58,6 +59,12 @@ export const addList = ({ tasks, listID, listTitle }: any): any => ({
 
 export const toggleTaskInList = ({ listId, taskId }: any): any => ({
   type: TOGGLE_TASK_IN_LIST,
+  listId,
+  taskId
+});
+
+export const deleteTaskInList = ({ listId, taskId }: any): any => ({
+  type: DELETE_TASK_IN_LIST,
   listId,
   taskId
 });
