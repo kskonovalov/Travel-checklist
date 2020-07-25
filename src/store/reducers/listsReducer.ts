@@ -15,22 +15,20 @@ const listsReducer = (state: any = {}, action: any) => {
         }
       };
     case TOGGLE_TASK_IN_LIST:
-      return Object.keys(state).map((listKey: string) => {
-        return listKey === action.listId
-          ? {
-              ...state[listKey],
-              tasks: state[listKey].tasks.map((currentTask: any) => {
-                console.log(currentTask);
-                return currentTask.id === action.taskId
-                  ? {
-                      ...currentTask,
-                      completed: !currentTask.completed
-                    }
-                  : currentTask;
-              })
-            }
-          : state[listKey];
-      });
+      return {
+        ...state,
+        [action.listId]: {
+          ...state[action.listId],
+          tasks: state[action.listId].tasks.map((currentTask: any) => {
+            return currentTask.id === action.taskId
+              ? {
+                  ...currentTask,
+                  completed: !currentTask.completed
+                }
+              : currentTask;
+          })
+        }
+      };
     default:
       return state;
   }
