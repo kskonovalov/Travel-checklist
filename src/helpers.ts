@@ -22,21 +22,18 @@ const maybePrepareTask = (
   task:
     | string
     | {
-        id?: string;
         value?: string;
         completed?: boolean;
       }
 ): taskInterface => {
   if (typeof task === 'string') {
     return {
-      id: getRandomKey(),
       value: task,
       completed: false
     };
   }
   return {
     ...task,
-    id: task.id || getRandomKey(),
     value: task.value || '',
     completed: task.completed || false
   };

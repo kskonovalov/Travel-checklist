@@ -23,14 +23,13 @@ const listsReducer = (state: any = {}, action: any) => {
         ...state,
         [action.listId]: {
           ...state[action.listId],
-          tasks: state[action.listId].tasks.map((currentTask: any) => {
-            return currentTask.id === action.taskId
-              ? {
-                  ...currentTask,
-                  completed: !currentTask.completed
-                }
-              : currentTask;
-          })
+          tasks: {
+            ...state[action.listId].tasks,
+            [action.taskId]: {
+              ...state[action.listId].tasks[action.taskId],
+              completed: !state[action.listId].tasks[action.taskId].completed
+            }
+          }
         }
       };
     case DELETE_TASK_IN_LIST:

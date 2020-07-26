@@ -49,9 +49,20 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
       addList({
         listID: getRandomKey(),
         listTitle: key,
-        tasks: defaultLists[key].map((item: string | object) => {
-          return maybePrepareTask(item);
-        })
+        tasks: defaultLists[key].reduce(function(
+          result: any,
+          item: any,
+          index: any,
+          array: any
+        ) {
+          result[getRandomKey()] = maybePrepareTask(item); //a, b, c
+          return result;
+        },
+        {})
+
+        // .map((item: string | object) => {
+        //   return getRandomKey(): maybePrepareTask(item);
+        // })
       })
     );
   });

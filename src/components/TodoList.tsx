@@ -67,35 +67,36 @@ const TodoList: React.FC<TList> = ({ listId }) => {
     <>
       <b>{listTitle}</b>
       <List>
-        {tasks.map((item: any) => {
+        {Object.keys(tasks).map((key: any) => {
+          const { completed, value } = tasks[key];
           return (
             <Task
-              key={item.id}
+              key={key}
               button
-              completed={item.completed ? 1 : 0}
+              completed={completed ? 1 : 0}
               onClick={(e: React.MouseEvent<HTMLElement>) => {
                 e.preventDefault();
                 dispatch(
                   toggleTaskInList({
                     listId,
-                    taskId: item.id
+                    taskId: key
                   })
                 );
               }}
             >
               <ListItemIcon>
-                {item.completed ? (
+                {completed ? (
                   <CheckBoxIcon color="primary" />
                 ) : (
                   <CheckBoxOutlineBlankIcon color="primary" />
                 )}
               </ListItemIcon>
-              <ListItemText primary={item.value} />
+              <ListItemText primary={value} />
               <ListItemIcon
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  setCurrentEditingTask({ task: item.value, taskId: item.id });
+                  setCurrentEditingTask({ task: value, taskId: key });
                   setOpen(true);
                 }}
               >
@@ -107,7 +108,7 @@ const TodoList: React.FC<TList> = ({ listId }) => {
                   dispatch(
                     deleteTaskInList({
                       listId,
-                      taskId: item.id
+                      taskId: key
                     })
                   );
                 }}

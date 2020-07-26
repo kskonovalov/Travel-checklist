@@ -1,5 +1,4 @@
 interface taskInterface {
-  id: string;
   value: string;
   completed: boolean;
 }
