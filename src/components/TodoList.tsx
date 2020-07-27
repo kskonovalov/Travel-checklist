@@ -105,6 +105,7 @@ const TodoList: React.FC<TList> = ({ listId }) => {
               <ListItemIcon
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   dispatch(
                     deleteTaskInList({
                       listId,
