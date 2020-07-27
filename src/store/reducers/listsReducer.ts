@@ -37,9 +37,16 @@ const listsReducer = (state: any = {}, action: any) => {
         ...state,
         [action.listId]: {
           ...state[action.listId],
-          tasks: state[action.listId].tasks.filter((currentTask: any) => {
-            return currentTask.id !== action.taskId;
-          })
+          tasks: Object.keys(state[action.listId].tasks)
+            .filter(currentId => currentId !== action.taskId)
+            .reduce((obj: any, key) => {
+              obj[key] = state[action.listId].tasks[key];
+              return obj;
+            }, {})
+
+          // state[action.listId].tasks.filter((currentTask: any) => {
+          // return currentTask.id !== action.taskId;
+          // })
         }
       };
     default:
