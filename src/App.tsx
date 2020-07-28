@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Container, Box, Button } from '@material-ui/core';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -38,6 +39,10 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   //   dispatch(setTasks({ tasks: defaultTasks }));
   // }
 };
+
+const Columns = styled(Box)`
+  column-count: 3;
+`;
 
 const fillWithDefaultLists = ({ dispatch }: any) => {
   // const savedLists = localStorage.getItem('lists');
@@ -189,28 +194,30 @@ const App: React.FC = () => {
   return (
     <>
       <Box mt={5} mb={5}>
-        <Container maxWidth="sm">
-          <Box mt={1} mb={1}>
-            <LinkToList />
-          </Box>
-          {initialLoad ? (
-            <Loader loadingMessage="Список задач загружается.." />
-          ) : (
-            <>
-              {Object.keys(lists).map((key: any) => {
-                return <TodoList key={key} listId={key} />;
-              })}
-              <Box mt={3} mb={1}>
-                <TodoForm />
-              </Box>
-            </>
-          )}
-          <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
-            Хочу новый лист
-          </Button>
-          <ConfirmDialog open={open} onClose={handleClose} />
-          {error && <ErrorMessage text={error} />}
-        </Container>
+        <Box mt={1} mb={1}>
+          <LinkToList />
+        </Box>
+        {initialLoad ? (
+          <Loader loadingMessage="Список задач загружается.." />
+        ) : (
+          <Columns>
+            {Object.keys(lists).map((key: any) => {
+              return (
+                <Container maxWidth="sm">
+                  <TodoList key={key} listId={key} />
+                </Container>
+              );
+            })}
+            <Box mt={3} mb={1}>
+              <TodoForm />
+            </Box>
+          </Columns>
+        )}
+        <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
+          Хочу новый лист
+        </Button>
+        <ConfirmDialog open={open} onClose={handleClose} />
+        {error && <ErrorMessage text={error} />}
       </Box>
     </>
   );
