@@ -214,8 +214,8 @@ const App: React.FC = () => {
           <Columns>
             {Object.keys(lists).map((key: any) => {
               return (
-                <ColumnItem maxWidth="sm">
-                  <TodoList key={key} listId={key} />
+                <ColumnItem maxWidth="sm" key={key}>
+                  <TodoList listId={key} />
                 </ColumnItem>
               );
             })}
