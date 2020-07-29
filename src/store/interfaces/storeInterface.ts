@@ -1,7 +1,6 @@
 import taskInterface from '../../interfaces/taskInterface';
 
 export default interface storeInterface {
-  tasks: taskInterface[]; // TODO: remove
-  lists: any;
+  lists: any; // taskInterface[]
   listID: string;
 }

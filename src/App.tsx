@@ -94,7 +94,7 @@ const App: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [initialLoad, setInitialLoad] = useState<boolean>(true);
+  const [initialLoad, setInitialLoad] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
@@ -131,63 +131,63 @@ const App: React.FC = () => {
   }, [listID]);
 
   // initial load. get tasks
-  const tasks = useSelector((state: storeInterface) => state.tasks);
-  useEffect(() => {
-    if (listID.length > 0) {
-      axios
-        .post(
-          apiUrl,
-          {
-            listID,
-            action: 'get'
-          },
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
-        .then(response => {
-          const { data } = response;
-          // load tasks from api
-          if (data.success && data.data.length > 0) {
-            dispatch(setTasks({ tasks: data.data }));
-          } else {
-            // or fill with default tasks in case of api error
-            fillWithDefaultTasks({ dispatch, setTasks });
-          }
-          setInitialLoad(false);
-        })
-        .catch(e => {
-          // fill with default tasks in case of api error
-          fillWithDefaultTasks({ dispatch, setTasks });
-        });
-    }
-  }, [listID]);
-
-  // save tasks
-  useEffect(() => {
-    if (!initialLoad && listID.length > 0) {
-      // save in local storage
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      localStorage.setItem('listID', listID);
-      // save to api
-      setError('');
-      axios
-        .post(
-          apiUrl,
-          {
-            listID,
-            tasks,
-            action: 'save'
-          },
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
-        .catch(e => {
-          setError(saveErrorMessage);
-        });
-    }
-  }, [tasks]);
+  // const tasks = useSelector((state: storeInterface) => state.tasks);
+  // useEffect(() => {
+  //   if (listID.length > 0) {
+  //     axios
+  //       .post(
+  //         apiUrl,
+  //         {
+  //           listID,
+  //           action: 'get'
+  //         },
+  //         {
+  //           headers: { 'Content-Type': 'application/json' }
+  //         }
+  //       )
+  //       .then(response => {
+  //         const { data } = response;
+  //         // load tasks from api
+  //         if (data.success && data.data.length > 0) {
+  //           dispatch(setTasks({ tasks: data.data }));
+  //         } else {
+  //           // or fill with default tasks in case of api error
+  //           fillWithDefaultTasks({ dispatch, setTasks });
+  //         }
+  //         setInitialLoad(false);
+  //       })
+  //       .catch(e => {
+  //         // fill with default tasks in case of api error
+  //         fillWithDefaultTasks({ dispatch, setTasks });
+  //       });
+  //   }
+  // }, [listID]);
+  //
+  // // save tasks
+  // useEffect(() => {
+  //   if (!initialLoad && listID.length > 0) {
+  //     // save in local storage
+  //     localStorage.setItem('tasks', JSON.stringify(tasks));
+  //     localStorage.setItem('listID', listID);
+  //     // save to api
+  //     setError('');
+  //     axios
+  //       .post(
+  //         apiUrl,
+  //         {
+  //           listID,
+  //           tasks,
+  //           action: 'save'
+  //         },
+  //         {
+  //           headers: { 'Content-Type': 'application/json' }
+  //         }
+  //       )
+  //       .catch(e => {
+  //         setError(saveErrorMessage);
+  //       });
+  //   }
+  // }, [tasks]);
 
   // new list confirmation
   const [open, setOpen] = useState<boolean>(false);
