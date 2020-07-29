@@ -41,7 +41,16 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
 };
 
 const Columns = styled(Box)`
-  column-count: 3;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const ColumnItem = styled(Box)`
+  width: 31%;
+  margin: 1%;
+  @media (max-width: 768px) {
+    width: 98%;
+  }
 `;
 
 const fillWithDefaultLists = ({ dispatch }: any) => {
@@ -194,18 +203,20 @@ const App: React.FC = () => {
   return (
     <>
       <Box mt={5} mb={5}>
-        <Box mt={1} mb={1}>
-          <LinkToList />
-        </Box>
+        <Container maxWidth="sm">
+          <Box mt={1} mb={1}>
+            <LinkToList />
+          </Box>
+        </Container>
         {initialLoad ? (
           <Loader loadingMessage="Список задач загружается.." />
         ) : (
           <Columns>
             {Object.keys(lists).map((key: any) => {
               return (
-                <Container maxWidth="sm">
+                <ColumnItem maxWidth="sm">
                   <TodoList key={key} listId={key} />
-                </Container>
+                </ColumnItem>
               );
             })}
             <Box mt={3} mb={1}>
