@@ -9,16 +9,17 @@ import {
   TextField
 } from '@material-ui/core';
 
-import { editTask } from '../store/actions';
+import { editTask, editTaskInList } from '../store/actions';
 
 interface IProps {
   open: boolean;
+  listId: string;
   task: string;
   taskId: string;
   onClose: () => void;
 }
 
-const EditDialog = ({ open, task, taskId, onClose }: IProps) => {
+const EditDialog = ({ open, listId, task, taskId, onClose }: IProps) => {
   const dispatch = useDispatch();
   const [newTaskText, setNewTaskText] = useState<string>('');
 
@@ -44,7 +45,9 @@ const EditDialog = ({ open, task, taskId, onClose }: IProps) => {
         </Button>
         <Button
           onClick={() => {
-            dispatch(editTask({ id: taskId, task: newTaskText }));
+            dispatch(
+              editTaskInList({ listId, taskId: taskId, taskText: newTaskText })
+            );
             onClose();
           }}
           color="primary"

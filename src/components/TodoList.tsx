@@ -124,6 +124,7 @@ const TodoList: React.FC<TList> = ({ listId }) => {
           onClose={handleClose}
           task={currentEditingTask.task}
           taskId={currentEditingTask.taskId}
+          listId={listId}
         />
       </List>
     </>

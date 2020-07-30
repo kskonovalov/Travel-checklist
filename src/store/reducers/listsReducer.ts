@@ -1,7 +1,8 @@
 import {
   ADD_LIST,
   TOGGLE_TASK_IN_LIST,
-  DELETE_TASK_IN_LIST
+  DELETE_TASK_IN_LIST,
+  EDIT_TASK_IN_LIST
 } from '../constants';
 import taskInterface from '../../interfaces/taskInterface';
 // import { getRandomKey } from '../../helpers';
@@ -43,6 +44,20 @@ const listsReducer = (state: any = {}, action: any) => {
               obj[key] = state[action.listId].tasks[key];
               return obj;
             }, {})
+        }
+      };
+    case EDIT_TASK_IN_LIST:
+      return {
+        ...state,
+        [action.listId]: {
+          ...state[action.listId],
+          tasks: {
+            ...state[action.listId].tasks,
+            [action.taskId]: {
+              ...state[action.listId].tasks[action.taskId],
+              value: action.taskText
+            }
+          }
         }
       };
     default:
