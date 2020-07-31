@@ -40,19 +40,6 @@ const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   // }
 };
 
-const Columns = styled(Box)`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const ColumnItem = styled(Box)`
-  width: 31%;
-  margin: 1%;
-  @media (max-width: 768px) {
-    width: 98%;
-  }
-`;
-
 const fillWithDefaultLists = ({ dispatch }: any) => {
   // const savedLists = localStorage.getItem('lists');
   const defaultLists =
@@ -207,28 +194,28 @@ const App: React.FC = () => {
           <Box mt={1} mb={1}>
             <LinkToList />
           </Box>
-        </Container>
-        {initialLoad ? (
-          <Loader loadingMessage="Список задач загружается.." />
-        ) : (
-          <Columns>
-            {Object.keys(lists).map((key: any) => {
-              return (
-                <ColumnItem maxWidth="sm" key={key}>
-                  <TodoList listId={key} />
-                </ColumnItem>
-              );
-            })}
-            <Box mt={3} mb={1}>
-              <TodoForm />
+          {initialLoad ? (
+            <Loader loadingMessage="Список задач загружается.." />
+          ) : (
+            <Box>
+              {Object.keys(lists).map((key: any) => {
+                return (
+                  <Box maxWidth="sm" key={key}>
+                    <TodoList listId={key} />
+                  </Box>
+                );
+              })}
+              <Box mt={3} mb={1}>
+                <TodoForm />
+              </Box>
             </Box>
-          </Columns>
-        )}
-        <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
-          Хочу новый лист
-        </Button>
-        <ConfirmDialog open={open} onClose={handleClose} />
-        {error && <ErrorMessage text={error} />}
+          )}
+          <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
+            Хочу новый лист
+          </Button>
+          <ConfirmDialog open={open} onClose={handleClose} />
+          {error && <ErrorMessage text={error} />}
+        </Container>
       </Box>
     </>
   );
