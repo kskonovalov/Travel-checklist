@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { Container, Box, Button } from '@material-ui/core';
+import { Container, Box, Button, Tabs, Tab } from '@material-ui/core';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -26,6 +26,35 @@ window.__DATA__ = window.__DATA__ || {};
 interface IUrlParams {
   listID?: string;
 }
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: any;
+  value: any;
+}
+
+const TabPanel = (props: TabPanelProps) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box maxWidth="sm">{children}</Box>}
+    </div>
+  );
+};
+
+const a11yProps = (index: any) => {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`
+  };
+};
 
 const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   // const savedTasks = localStorage.getItem('tasks');
@@ -185,6 +214,12 @@ const App: React.FC = () => {
     setOpen(false);
   };
 
+  // tabs
+  const [tab, setTab] = useState(0);
+  const handleTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setTab(newValue);
+  };
+
   const lists = useSelector((state: any) => state.lists);
 
   return (
@@ -198,14 +233,35 @@ const App: React.FC = () => {
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
             <Box>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={tab}
+                onChange={handleTabs}
+                aria-label="Vertical tabs example"
+              >
+                {Object.keys(lists).map((key: any) => {
+                  const { listTitle } = lists[key];
+                  return (
+                    <Tab label={listTitle} key={key} {...a11yProps(key)} />
+                  );
+                })}
+              </Tabs>
               {Object.keys(lists).map((key: any) => {
                 return (
-                  <Box maxWidth="sm" key={key}>
+                  <TabPanel value={tab} index={key} key={key}>
                     <TodoList listId={key} />
-                  </Box>
+                  </TabPanel>
                 );
               })}
               <Box mt={3} mb={1}>
+                {/*{Object.keys(lists).map((key: any) => {*/}
+                {/*  return (*/}
+                {/*    <Box maxWidth="sm" key={key}>*/}
+                {/*      <TodoList listId={key} />*/}
+                {/*    </Box>*/}
+                {/*  );*/}
+                {/*})}*/}
                 <TodoForm />
               </Box>
             </Box>
