@@ -35,7 +35,7 @@ interface TabPanelProps {
 
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
-
+  console.log(value, index);
   return (
     <div
       role="tabpanel"
@@ -215,8 +215,12 @@ const App: React.FC = () => {
   };
 
   // tabs
-  const [tab, setTab] = useState(0);
-  const handleTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const [tab, setTab] = useState<number | string>(0);
+  const handleTabs = (
+    event: React.ChangeEvent<{}>,
+    newValue: number | string
+  ) => {
+    console.log(newValue);
     setTab(newValue);
   };
 
@@ -225,7 +229,7 @@ const App: React.FC = () => {
   return (
     <>
       <Box mt={5} mb={5}>
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <Box mt={1} mb={1}>
             <LinkToList />
           </Box>
@@ -249,7 +253,7 @@ const App: React.FC = () => {
               </Tabs>
               {Object.keys(lists).map((key: any) => {
                 return (
-                  <TabPanel value={tab} index={key} key={key}>
+                  <TabPanel value={tab} index={tab} key={key}>
                     <TodoList listId={key} />
                   </TabPanel>
                 );
