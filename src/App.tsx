@@ -56,6 +56,10 @@ const a11yProps = (index: any) => {
   };
 };
 
+const TabsWrap = styled(Box)`
+  display: flex;
+`;
+
 const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
   // const savedTasks = localStorage.getItem('tasks');
   // const defaultTasks =
@@ -236,7 +240,7 @@ const App: React.FC = () => {
           {initialLoad ? (
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
-            <Box>
+            <TabsWrap>
               <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -247,29 +251,27 @@ const App: React.FC = () => {
                 {Object.keys(lists).map((key: any) => {
                   const { listTitle } = lists[key];
                   return (
-                    <Tab label={listTitle} key={key} {...a11yProps(key)} />
+                    <Tab
+                      label={listTitle}
+                      value={key}
+                      key={key}
+                      {...a11yProps(key)}
+                    />
                   );
                 })}
               </Tabs>
               {Object.keys(lists).map((key: any) => {
                 return (
-                  <TabPanel value={tab} index={tab} key={key}>
+                  <TabPanel value={tab} index={key} key={key}>
                     <TodoList listId={key} />
                   </TabPanel>
                 );
               })}
-              <Box mt={3} mb={1}>
-                {/*{Object.keys(lists).map((key: any) => {*/}
-                {/*  return (*/}
-                {/*    <Box maxWidth="sm" key={key}>*/}
-                {/*      <TodoList listId={key} />*/}
-                {/*    </Box>*/}
-                {/*  );*/}
-                {/*})}*/}
-                <TodoForm />
-              </Box>
-            </Box>
+            </TabsWrap>
           )}
+          <Box mt={3} mb={1}>
+            <TodoForm />
+          </Box>
           <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
             Хочу новый лист
           </Button>
