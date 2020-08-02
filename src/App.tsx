@@ -229,14 +229,20 @@ const App: React.FC = () => {
   };
 
   const lists = useSelector((state: any) => state.lists);
+
   // tabs
-  const [tab, setTab] = useState<number | string>(Object.keys(lists)[0]);
+  const [tab, setTab] = useState<number | string>(0);
   const handleTabs = (
     event: React.ChangeEvent<{}>,
     newValue: number | string
   ) => {
     setTab(newValue);
   };
+  useEffect(() => {
+    if (typeof Object.keys(lists)[0] !== 'undefined') {
+      setTab(Object.keys(lists)[0]);
+    }
+  }, [lists]);
 
   return (
     <>
