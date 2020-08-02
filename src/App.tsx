@@ -58,6 +58,16 @@ const a11yProps = (index: any) => {
 
 const TabsWrap = styled(Box)`
   display: flex;
+  justify-content: space-between;
+`;
+const ListsWrap = styled(Tabs)`
+  width: 300px;
+  height: 70vh;
+`;
+const TasksWrap = styled(Box)`
+  width: calc(100% - 320px);
+  height: 70vh;
+  overflow-y: scroll;
 `;
 
 const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
@@ -218,17 +228,15 @@ const App: React.FC = () => {
     setOpen(false);
   };
 
+  const lists = useSelector((state: any) => state.lists);
   // tabs
-  const [tab, setTab] = useState<number | string>(0);
+  const [tab, setTab] = useState<number | string>(Object.keys(lists)[0]);
   const handleTabs = (
     event: React.ChangeEvent<{}>,
     newValue: number | string
   ) => {
-    console.log(newValue);
     setTab(newValue);
   };
-
-  const lists = useSelector((state: any) => state.lists);
 
   return (
     <>
@@ -241,7 +249,7 @@ const App: React.FC = () => {
             <Loader loadingMessage="Список задач загружается.." />
           ) : (
             <TabsWrap>
-              <Tabs
+              <ListsWrap
                 orientation="vertical"
                 variant="scrollable"
                 value={tab}
@@ -259,14 +267,16 @@ const App: React.FC = () => {
                     />
                   );
                 })}
-              </Tabs>
-              {Object.keys(lists).map((key: any) => {
-                return (
-                  <TabPanel value={tab} index={key} key={key}>
-                    <TodoList listId={key} />
-                  </TabPanel>
-                );
-              })}
+              </ListsWrap>
+              <TasksWrap>
+                {Object.keys(lists).map((key: any) => {
+                  return (
+                    <TabPanel value={tab} index={key} key={key}>
+                      <TodoList listId={key} />
+                    </TabPanel>
+                  );
+                })}
+              </TasksWrap>
             </TabsWrap>
           )}
           <Box mt={3} mb={1}>
