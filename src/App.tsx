@@ -70,19 +70,6 @@ const TasksWrap = styled(Box)`
   overflow-y: scroll;
 `;
 
-const fillWithDefaultTasks = ({ dispatch, setTasks }: any) => {
-  // const savedTasks = localStorage.getItem('tasks');
-  // const defaultTasks =
-  //   typeof window.__DATA__.tasks !== 'undefined' ? window.__DATA__.tasks : [];
-  // if (savedTasks !== null) {
-  //   // or fill with local saved tasks
-  //   dispatch(setTasks({ tasks: JSON.parse(savedTasks) }));
-  // } else {
-  //   // or fill with default tasks
-  //   dispatch(setTasks({ tasks: defaultTasks }));
-  // }
-};
-
 const fillWithDefaultLists = ({ dispatch }: any) => {
   // const savedLists = localStorage.getItem('lists');
   const defaultLists =
@@ -93,20 +80,10 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
       addList({
         listID: getRandomKey(),
         listTitle: key,
-        tasks: defaultLists[key].reduce(function(
-          result: any,
-          item: any,
-          index: any,
-          array: any
-        ) {
+        tasks: defaultLists[key].reduce(function(result: any, item: any) {
           result[getRandomKey()] = maybePrepareTask(item); //a, b, c
           return result;
-        },
-        {})
-
-        // .map((item: string | object) => {
-        //   return getRandomKey(): maybePrepareTask(item);
-        // })
+        }, {})
       })
     );
   });
