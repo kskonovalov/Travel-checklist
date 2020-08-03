@@ -71,16 +71,20 @@ const TasksWrap = styled(Box)`
 `;
 
 const fillWithDefaultLists = ({ dispatch }: any) => {
-  // const savedLists = localStorage.getItem('lists');
+  const savedLists =
+    localStorage.getItem('lists') !== null
+      ? JSON.parse(localStorage.getItem('lists') || '')
+      : false;
   const defaultLists =
     typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
+  const listsToFill = savedLists || defaultLists;
 
-  Object.keys(defaultLists).map((key: string) => {
+  Object.keys(listsToFill).map((key: string) => {
     dispatch(
       addList({
         listID: getRandomKey(),
         listTitle: key,
-        tasks: defaultLists[key].reduce(function(result: any, item: any) {
+        tasks: listsToFill[key].reduce(function(result: any, item: any) {
           result[getRandomKey()] = maybePrepareTask(item); //a, b, c
           return result;
         }, {})
