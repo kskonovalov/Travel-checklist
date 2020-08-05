@@ -75,16 +75,27 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
     localStorage.getItem('lists') !== null
       ? JSON.parse(localStorage.getItem('lists') || '')
       : false;
+  if (savedLists) {
+    Object.keys(savedLists).map((key: string) => {
+      dispatch(
+        addList({
+          listID: key,
+          listTitle: savedLists[key].listTitle,
+          tasks: savedLists[key].tasks
+        })
+      );
+    });
+    return;
+  }
   const defaultLists =
     typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
-  const listsToFill = savedLists || defaultLists;
 
-  Object.keys(listsToFill).map((key: string) => {
+  Object.keys(defaultLists).map((key: string) => {
     dispatch(
       addList({
         listID: getRandomKey(),
         listTitle: key,
-        tasks: listsToFill[key].reduce(function(result: any, item: any) {
+        tasks: defaultLists[key].reduce(function(result: any, item: any) {
           result[getRandomKey()] = maybePrepareTask(item); //a, b, c
           return result;
         }, {})
@@ -105,11 +116,14 @@ const App: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [initialLoad, setInitialLoad] = useState<boolean>(false);
+  const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
+
+  const lists = useSelector((state: any) => state.lists);
 
   useEffect(() => {
     fillWithDefaultLists({ dispatch });
+    setInitialLoad(false);
   }, []);
 
   // set new listID if needed
@@ -175,30 +189,30 @@ const App: React.FC = () => {
   // }, [listID]);
   //
   // // save tasks
-  // useEffect(() => {
-  //   if (!initialLoad && listID.length > 0) {
-  //     // save in local storage
-  //     localStorage.setItem('tasks', JSON.stringify(tasks));
-  //     localStorage.setItem('listID', listID);
-  //     // save to api
-  //     setError('');
-  //     axios
-  //       .post(
-  //         apiUrl,
-  //         {
-  //           listID,
-  //           tasks,
-  //           action: 'save'
-  //         },
-  //         {
-  //           headers: { 'Content-Type': 'application/json' }
-  //         }
-  //       )
-  //       .catch(e => {
-  //         setError(saveErrorMessage);
-  //       });
-  //   }
-  // }, [tasks]);
+  useEffect(() => {
+    if (!initialLoad && listID.length > 0) {
+      // save in local storage
+      localStorage.setItem('lists', JSON.stringify(lists));
+      localStorage.setItem('listID', listID);
+      //     // save to api
+      //     setError('');
+      //     axios
+      //       .post(
+      //         apiUrl,
+      //         {
+      //           listID,
+      //           tasks,
+      //           action: 'save'
+      //         },
+      //         {
+      //           headers: { 'Content-Type': 'application/json' }
+      //         }
+      //       )
+      //       .catch(e => {
+      //         setError(saveErrorMessage);
+      //       });
+    }
+  }, [lists]);
 
   // new list confirmation
   const [open, setOpen] = useState<boolean>(false);
@@ -208,8 +222,6 @@ const App: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const lists = useSelector((state: any) => state.lists);
 
   // tabs
   const [tab, setTab] = useState<number | string>(0);
