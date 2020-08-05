@@ -35,7 +35,6 @@ interface TabPanelProps {
 
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
-  console.log(value, index);
   return (
     <div
       role="tabpanel"
@@ -224,7 +223,9 @@ const App: React.FC = () => {
   };
 
   // tabs
-  const [tab, setTab] = useState<number | string>(0);
+  const [tab, setTab] = useState<number | string>(
+    typeof Object.keys(lists)[0] !== 'undefined' ? Object.keys(lists)[0] : 0
+  );
   const handleTabs = (
     event: React.ChangeEvent<{}>,
     newValue: number | string
@@ -235,7 +236,7 @@ const App: React.FC = () => {
     if (typeof Object.keys(lists)[0] !== 'undefined') {
       setTab(Object.keys(lists)[0]);
     }
-  }, [lists]);
+  }, [initialLoad]);
 
   return (
     <>
@@ -253,7 +254,7 @@ const App: React.FC = () => {
                 variant="scrollable"
                 value={tab}
                 onChange={handleTabs}
-                aria-label="Vertical tabs example"
+                aria-label="Список задач"
               >
                 {Object.keys(lists).map((key: any) => {
                   const { listTitle } = lists[key];
