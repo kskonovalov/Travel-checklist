@@ -19,8 +19,8 @@ $listID = $mysqli->real_escape_string($postData["listID"]);
 // action type
 $availableActions = [
     'check', // check list id availability
-    'save', // save tasks
-    'get' // get all tasks to db
+    'save', // save lists
+    'get' // get all lists to db
 ];
 if(isset($postData["action"]) && in_array($postData["action"], $availableActions)) {
     $action = $postData["action"];
@@ -53,13 +53,13 @@ if($action == 'check') {
     }
 } if($action == 'save') {
     // update list
-    $tasks = json_encode($postData["tasks"]);
-    $tasks = $mysqli->real_escape_string($tasks);
+    $lists = json_encode($postData["lists"]);
+    $lists = $mysqli->real_escape_string($lists);
     $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
     if ($result->num_rows > 0) {
-        $res = $mysqli->query("UPDATE checklist set content = '{$tasks}' WHERE list_id = '{$listID}'");
+        $res = $mysqli->query("UPDATE checklist set content = '{$lists}' WHERE list_id = '{$listID}'");
     } else {
-        $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$tasks}')");
+        $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$lists}')");
     }
     echo json_encode([
         'success' => true

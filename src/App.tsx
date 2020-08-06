@@ -193,23 +193,23 @@ const App: React.FC = () => {
       // save in local storage
       localStorage.setItem('lists', JSON.stringify(lists));
       localStorage.setItem('listID', listID);
-      //     // save to api
-      //     setError('');
-      //     axios
-      //       .post(
-      //         apiUrl,
-      //         {
-      //           listID,
-      //           tasks,
-      //           action: 'save'
-      //         },
-      //         {
-      //           headers: { 'Content-Type': 'application/json' }
-      //         }
-      //       )
-      //       .catch(e => {
-      //         setError(saveErrorMessage);
-      //       });
+      // save to api
+      setError('');
+      axios
+        .post(
+          apiUrl,
+          {
+            listID,
+            lists,
+            action: 'save'
+          },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        )
+        .catch(e => {
+          setError(saveErrorMessage);
+        });
     }
   }, [lists]);
 
