@@ -101,14 +101,6 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
       })
     );
   });
-
-  // if (savedLists !== null) {
-  //   // or fill with local saved tasks
-  //   dispatch(setTasks({ tasks: JSON.parse(savedLists) }));
-  // } else {
-  //   // or fill with default tasks
-  //   dispatch(setTasks({ tasks: defaultLists }));
-  // }
 };
 
 const App: React.FC = () => {
@@ -120,10 +112,10 @@ const App: React.FC = () => {
 
   const lists = useSelector((state: any) => state.lists);
 
-  useEffect(() => {
-    fillWithDefaultLists({ dispatch });
-    setInitialLoad(false);
-  }, []);
+  // useEffect(() => {
+  //   fillWithDefaultLists({ dispatch });
+  //   setInitialLoad(false);
+  // }, []);
 
   // set new listID if needed
   const { listID = '' }: IUrlParams = useParams();
@@ -155,37 +147,44 @@ const App: React.FC = () => {
   }, [listID]);
 
   // initial load. get tasks
-  // const tasks = useSelector((state: storeInterface) => state.tasks);
-  // useEffect(() => {
-  //   if (listID.length > 0) {
-  //     axios
-  //       .post(
-  //         apiUrl,
-  //         {
-  //           listID,
-  //           action: 'get'
-  //         },
-  //         {
-  //           headers: { 'Content-Type': 'application/json' }
-  //         }
-  //       )
-  //       .then(response => {
-  //         const { data } = response;
-  //         // load tasks from api
-  //         if (data.success && data.data.length > 0) {
-  //           dispatch(setTasks({ tasks: data.data }));
-  //         } else {
-  //           // or fill with default tasks in case of api error
-  //           fillWithDefaultTasks({ dispatch, setTasks });
-  //         }
-  //         setInitialLoad(false);
-  //       })
-  //       .catch(e => {
-  //         // fill with default tasks in case of api error
-  //         fillWithDefaultTasks({ dispatch, setTasks });
-  //       });
-  //   }
-  // }, [listID]);
+  useEffect(() => {
+    if (listID.length > 0) {
+      axios
+        .post(
+          apiUrl,
+          {
+            listID,
+            action: 'get'
+          },
+          {
+            headers: { 'Content-Type': 'application/json' }
+          }
+        )
+        .then(response => {
+          const { data } = response;
+          // load lists from api
+          if (data.success && typeof data.data === 'object') {
+            Object.keys(data.data).map((key: string) => {
+              dispatch(
+                addList({
+                  listID: key,
+                  listTitle: data.data[key].listTitle,
+                  tasks: data.data[key].tasks
+                })
+              );
+            });
+          } else {
+            // or fill with default tasks in case of api error
+            fillWithDefaultLists({ dispatch });
+          }
+          setInitialLoad(false);
+        })
+        .catch(e => {
+          // fill with default tasks in case of api error
+          fillWithDefaultLists({ dispatch });
+        });
+    }
+  }, [listID]);
   //
   // // save tasks
   useEffect(() => {
