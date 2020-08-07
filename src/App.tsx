@@ -70,11 +70,8 @@ const TasksWrap = styled(Box)`
 `;
 
 const fillWithDefaultLists = ({ dispatch }: any) => {
-  const savedLists =
-    localStorage.getItem('lists') !== null
-      ? JSON.parse(localStorage.getItem('lists') || '')
-      : false;
-  if (savedLists) {
+  const savedLists = JSON.parse(localStorage.getItem('lists') || '[]');
+  if (savedLists.length > 0) {
     Object.keys(savedLists).map((key: string) => {
       dispatch(
         addList({
