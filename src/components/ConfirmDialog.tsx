@@ -8,16 +8,14 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 
 interface IProps {
   open: boolean;
   onClose: () => void;
+  onConfirm: () => void;
 }
 
-const ConfirmDialog = ({ onClose, open }: IProps) => {
-  const history = useHistory();
-
+const ConfirmDialog = ({ open, onClose, onConfirm }: IProps) => {
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Вы уверены?</DialogTitle>
@@ -32,15 +30,7 @@ const ConfirmDialog = ({ onClose, open }: IProps) => {
         <Button onClick={onClose} color="primary">
           Отменить
         </Button>
-        <Button
-          onClick={() => {
-            localStorage.removeItem('listID');
-            localStorage.removeItem('tasks');
-            history.push(`/`);
-          }}
-          color="primary"
-          variant="outlined"
-        >
+        <Button onClick={onConfirm} color="primary" variant="outlined">
           Создать новый
         </Button>
       </DialogActions>

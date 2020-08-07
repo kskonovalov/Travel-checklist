@@ -217,6 +217,12 @@ const App: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const createNewList = () => {
+    localStorage.removeItem('listID');
+    localStorage.removeItem('lists');
+    setInitialLoad(true);
+    history.push(`/`);
+  };
 
   // tabs
   const [tab, setTab] = useState<number | string>(
@@ -281,7 +287,11 @@ const App: React.FC = () => {
           <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
             Хочу новый лист
           </Button>
-          <ConfirmDialog open={open} onClose={handleClose} />
+          <ConfirmDialog
+            open={open}
+            onClose={handleClose}
+            onConfirm={createNewList}
+          />
           {error && <ErrorMessage text={error} />}
         </Container>
       </Box>
