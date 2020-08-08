@@ -2,7 +2,8 @@ import {
   ADD_LIST,
   TOGGLE_TASK_IN_LIST,
   DELETE_TASK_IN_LIST,
-  EDIT_TASK_IN_LIST
+  EDIT_TASK_IN_LIST,
+  EMPTY_STORE
 } from '../constants';
 import taskInterface from '../../interfaces/taskInterface';
 // import { getRandomKey } from '../../helpers';
@@ -60,6 +61,8 @@ const listsReducer = (state: any = {}, action: any) => {
           }
         }
       };
+    case EMPTY_STORE:
+      return {};
     default:
       return state;
   }

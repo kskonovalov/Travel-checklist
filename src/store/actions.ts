@@ -9,7 +9,8 @@ import {
   DELETE_LIST,
   TOGGLE_TASK_IN_LIST,
   DELETE_TASK_IN_LIST,
-  EDIT_TASK_IN_LIST
+  EDIT_TASK_IN_LIST,
+  EMPTY_STORE
 } from './constants';
 import ITaskAction from './interfaces/ITaskAction';
 
@@ -75,4 +76,8 @@ export const editTaskInList = ({ listId, taskId, taskText }: any): any => ({
   listId,
   taskId,
   taskText
+});
+
+export const emptyStore = (): any => ({
+  type: EMPTY_STORE
 });

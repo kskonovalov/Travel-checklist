@@ -11,7 +11,7 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import { getRandomKey, maybePrepareTask } from './helpers';
-import { setListId, setTasks, addList } from './store/actions';
+import { setListId, setTasks, addList, emptyStore } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
@@ -145,43 +145,46 @@ const App: React.FC = () => {
 
   // initial load. get tasks
   useEffect(() => {
-    if (listID.length > 0) {
-      axios
-        .post(
-          apiUrl,
-          {
-            listID,
-            action: 'get'
-          },
-          {
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
-        .then(response => {
-          const { data } = response;
-          // load lists from api
-          if (data.success && typeof data.data === 'object') {
-            Object.keys(data.data).map((key: string) => {
-              dispatch(
-                addList({
-                  listID: key,
-                  listTitle: data.data[key].listTitle,
-                  tasks: data.data[key].tasks
-                })
-              );
-            });
-          } else {
-            // or fill with default tasks in case of api error
+    if (initialLoad) {
+      dispatch(emptyStore());
+      if (listID.length > 0) {
+        axios
+          .post(
+            apiUrl,
+            {
+              listID,
+              action: 'get'
+            },
+            {
+              headers: { 'Content-Type': 'application/json' }
+            }
+          )
+          .then(response => {
+            const { data } = response;
+            // load lists from api
+            if (data.success && typeof data.data === 'object') {
+              Object.keys(data.data).map((key: string) => {
+                dispatch(
+                  addList({
+                    listID: key,
+                    listTitle: data.data[key].listTitle,
+                    tasks: data.data[key].tasks
+                  })
+                );
+              });
+            } else {
+              // or fill with default tasks in case of api error
+              fillWithDefaultLists({ dispatch });
+            }
+            setInitialLoad(false);
+          })
+          .catch(e => {
+            // fill with default tasks in case of api error
             fillWithDefaultLists({ dispatch });
-          }
-          setInitialLoad(false);
-        })
-        .catch(e => {
-          // fill with default tasks in case of api error
-          fillWithDefaultLists({ dispatch });
-        });
+          });
+      }
     }
-  }, [listID]);
+  }, [listID, initialLoad]);
   //
   // // save tasks
   useEffect(() => {
