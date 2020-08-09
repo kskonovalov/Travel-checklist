@@ -3,10 +3,11 @@ import {
   TOGGLE_TASK_IN_LIST,
   DELETE_TASK_IN_LIST,
   EDIT_TASK_IN_LIST,
-  EMPTY_STORE
+  EMPTY_STORE,
+  ADD_TASK_TO_LIST
 } from '../constants';
 import taskInterface from '../../interfaces/taskInterface';
-// import { getRandomKey } from '../../helpers';
+import { getRandomKey } from '../../helpers';
 // import ITaskAction from '../interfaces/ITaskAction';
 // import taskInterface from '../../interfaces/taskInterface';
 
@@ -57,6 +58,21 @@ const listsReducer = (state: any = {}, action: any) => {
             [action.taskId]: {
               ...state[action.listId].tasks[action.taskId],
               value: action.taskText
+            }
+          }
+        }
+      };
+    case ADD_TASK_TO_LIST:
+      const taskId = getRandomKey();
+      return {
+        ...state,
+        [action.listId]: {
+          ...state[action.listId],
+          tasks: {
+            ...state[action.listId].tasks,
+            [action.taskId]: {
+              value: action.taskText,
+              completed: false
             }
           }
         }

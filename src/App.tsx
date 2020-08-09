@@ -278,15 +278,15 @@ const App: React.FC = () => {
                   return (
                     <TabPanel value={tab} index={key} key={key}>
                       <TodoList listId={key} />
+                      <Box mt={3} mb={1}>
+                        <TodoForm listId={key} />
+                      </Box>
                     </TabPanel>
                   );
                 })}
               </TasksWrap>
             </TabsWrap>
           )}
-          <Box mt={3} mb={1}>
-            <TodoForm />
-          </Box>
           <Button variant="outlined" fullWidth={true} onClick={handleClickOpen}>
             Хочу новый лист
           </Button>

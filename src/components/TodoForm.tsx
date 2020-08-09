@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import styled from 'styled-components';
 
 import { theme } from '../config';
-import { addTask } from '../store/actions';
+import { addTask, addTaskToList } from '../store/actions';
 
 const FormFieldsWrap = styled.div`
   display: flex;
@@ -13,14 +13,18 @@ const FormFieldsWrap = styled.div`
   justify-content: center;
 `;
 
-const TodoForm: React.FC = () => {
+interface ITodoForm {
+  listId: string;
+}
+
+const TodoForm: React.FC<ITodoForm> = ({ listId }) => {
   const dispatch = useDispatch();
 
   const [newTask, setNewTask] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addTask({ task: newTask }));
+    dispatch(addTaskToList({ taskText: newTask, listId }));
     setNewTask('');
   };
 
