@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import styled from 'styled-components';
 
 import { theme } from '../config';
-import { addTask, addTaskToList } from '../store/actions';
+import { addTaskToList } from '../store/actions';
 
 const FormFieldsWrap = styled.div`
   display: flex;

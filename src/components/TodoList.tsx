@@ -12,12 +12,7 @@ import {
 import EditDialog from './EditDialog';
 import taskInterface from '../interfaces/taskInterface';
 import editTaskInterface from '../interfaces/editTaskInterface';
-import {
-  deleteTask,
-  deleteTaskInList,
-  toggleTask,
-  toggleTaskInList
-} from '../store/actions';
+import { deleteTaskInList, toggleTaskInList } from '../store/actions';
 
 interface ITasks {
   tasks: taskInterface[];

@@ -9,7 +9,7 @@ import {
   TextField
 } from '@material-ui/core';
 
-import { editTask, editTaskInList } from '../store/actions';
+import { editTaskInList } from '../store/actions';
 
 interface IProps {
   open: boolean;

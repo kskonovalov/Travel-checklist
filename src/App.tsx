@@ -11,7 +11,7 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import Loader from './components/Loader';
 import { getRandomKey, maybePrepareTask } from './helpers';
-import { setListId, setTasks, addList, emptyStore } from './store/actions';
+import { setListId, addList, emptyStore } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
 import ErrorMessage from './components/ErrorMessage';
