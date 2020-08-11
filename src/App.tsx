@@ -9,6 +9,7 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
+import TabPanel from './components/TabPanel';
 import Loader from './components/Loader';
 import { getRandomKey, maybePrepareTask } from './helpers';
 import { setListId, addList, emptyStore } from './store/actions';
@@ -26,27 +27,6 @@ window.__DATA__ = window.__DATA__ || {};
 interface IUrlParams {
   listID?: string;
 }
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
-}
-
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box maxWidth="sm">{children}</Box>}
-    </div>
-  );
-};
 
 const a11yProps = (index: any) => {
   return {
