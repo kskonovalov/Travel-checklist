@@ -49,6 +49,10 @@ const TasksWrap = styled(Box)`
   overflow-y: scroll;
 `;
 
+const StyledTab = styled(Tab)`
+  min-height: 32px;
+`;
+
 const App: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -129,8 +133,8 @@ const App: React.FC = () => {
       }
     }
   }, [listID, initialLoad]);
-  //
-  // // save tasks
+
+  // save tasks
   useEffect(() => {
     if (!initialLoad && listID.length > 0) {
       // save in local storage
@@ -208,7 +212,7 @@ const App: React.FC = () => {
                 {Object.keys(lists).map((key: any) => {
                   const { listTitle } = lists[key];
                   return (
-                    <Tab
+                    <StyledTab
                       label={listTitle}
                       value={key}
                       key={key}
