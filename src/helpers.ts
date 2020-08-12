@@ -1,4 +1,5 @@
 import taskInterface from './interfaces/taskInterface';
+import { addList } from './store/actions';
 
 /**
  * Generates string of random characters with max length of @length
@@ -40,3 +41,36 @@ const maybePrepareTask = (
 };
 
 export { maybePrepareTask };
+
+const fillWithDefaultLists = ({ dispatch }: any) => {
+  const savedLists = JSON.parse(localStorage.getItem('lists') || '[]');
+  if (savedLists.length > 0) {
+    Object.keys(savedLists).map((key: string) => {
+      dispatch(
+        addList({
+          listID: key,
+          listTitle: savedLists[key].listTitle,
+          tasks: savedLists[key].tasks
+        })
+      );
+    });
+    return;
+  }
+  const defaultLists =
+    typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
+
+  Object.keys(defaultLists).map((key: string) => {
+    dispatch(
+      addList({
+        listID: getRandomKey(),
+        listTitle: key,
+        tasks: defaultLists[key].reduce(function(result: any, item: any) {
+          result[getRandomKey()] = maybePrepareTask(item); //a, b, c
+          return result;
+        }, {})
+      })
+    );
+  });
+};
+
+export { fillWithDefaultLists };

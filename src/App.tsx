@@ -11,7 +11,7 @@ import LinkToList from './components/LinkToList';
 import ConfirmDialog from './components/ConfirmDialog';
 import TabPanel from './components/TabPanel';
 import Loader from './components/Loader';
-import { getRandomKey, maybePrepareTask } from './helpers';
+import { getRandomKey, fillWithDefaultLists } from './helpers';
 import { setListId, addList, emptyStore } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import storeInterface from './store/interfaces/storeInterface';
@@ -49,37 +49,6 @@ const TasksWrap = styled(Box)`
   overflow-y: scroll;
 `;
 
-const fillWithDefaultLists = ({ dispatch }: any) => {
-  const savedLists = JSON.parse(localStorage.getItem('lists') || '[]');
-  if (savedLists.length > 0) {
-    Object.keys(savedLists).map((key: string) => {
-      dispatch(
-        addList({
-          listID: key,
-          listTitle: savedLists[key].listTitle,
-          tasks: savedLists[key].tasks
-        })
-      );
-    });
-    return;
-  }
-  const defaultLists =
-    typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
-
-  Object.keys(defaultLists).map((key: string) => {
-    dispatch(
-      addList({
-        listID: getRandomKey(),
-        listTitle: key,
-        tasks: defaultLists[key].reduce(function(result: any, item: any) {
-          result[getRandomKey()] = maybePrepareTask(item); //a, b, c
-          return result;
-        }, {})
-      })
-    );
-  });
-};
-
 const App: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -88,11 +57,6 @@ const App: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   const lists = useSelector((state: any) => state.lists);
-
-  // useEffect(() => {
-  //   fillWithDefaultLists({ dispatch });
-  //   setInitialLoad(false);
-  // }, []);
 
   // set new listID if needed
   const { listID = '' }: IUrlParams = useParams();
