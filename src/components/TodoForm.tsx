@@ -11,6 +11,12 @@ const FormFieldsWrap = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  margin: 5px 10px;
+`;
+
+const StyledButton = styled(Button)`
+  width: 300px;
+  padding: 5px 10px;
 `;
 
 interface ITodoForm {
@@ -41,9 +47,9 @@ const TodoForm: React.FC<ITodoForm> = ({ listId }) => {
               setNewTask(e.target.value);
             }}
           />
-          <Button variant="outlined" type="submit">
-            Добавить
-          </Button>
+          <StyledButton variant="outlined" type="submit">
+            Добавить в список
+          </StyledButton>
         </FormFieldsWrap>
       </form>
     </ThemeProvider>
