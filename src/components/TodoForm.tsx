@@ -30,8 +30,10 @@ const TodoForm: React.FC<ITodoForm> = ({ listId }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addTaskToList({ taskText: newTask, listId }));
-    setNewTask('');
+    if (newTask.length > 0) {
+      dispatch(addTaskToList({ taskText: newTask, listId }));
+      setNewTask('');
+    }
   };
 
   return (
