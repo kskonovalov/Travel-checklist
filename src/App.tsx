@@ -38,13 +38,22 @@ const a11yProps = (index: any) => {
 const TabsWrap = styled(Box)`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 `;
 const ListsWrap = styled(Tabs)`
   width: 300px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
   height: 70vh;
 `;
 const TasksWrap = styled(Box)`
   width: calc(100% - 320px);
+  @media (max-width: 768px) {
+    width: 100%;
+  }
   height: 70vh;
   overflow-y: scroll;
 `;
