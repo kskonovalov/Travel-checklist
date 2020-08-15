@@ -14,7 +14,7 @@ import Loader from './components/Loader';
 import { getRandomKey, fillWithDefaultLists } from './helpers';
 import { setListId, addList, emptyStore } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
-import storeInterface from './store/interfaces/storeInterface';
+import IStore from './store/interfaces/IStore';
 import ErrorMessage from './components/ErrorMessage';
 
 declare global {

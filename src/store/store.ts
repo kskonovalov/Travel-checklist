@@ -2,7 +2,7 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import rootReducer from './reducers';
-import storeInterface from './interfaces/storeInterface';
+import IStore from './interfaces/IStore';
 
 declare global {
   interface Window {
@@ -12,7 +12,7 @@ declare global {
 }
 window.__DATA__ = window.__DATA__ || {};
 
-const initialState: storeInterface = {
+const initialState: IStore = {
   lists: {},
   listID: ''
 };

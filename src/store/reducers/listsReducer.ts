@@ -6,17 +6,25 @@ import {
   EMPTY_STORE,
   ADD_TASK_TO_LIST
 } from '../constants';
-import taskInterface from '../../interfaces/taskInterface';
 import { getRandomKey } from '../../helpers';
-// import ITaskAction from '../interfaces/ITaskAction';
-// import taskInterface from '../../interfaces/taskInterface';
+import taskInterface from '../../interfaces/taskInterface';
+import ITaskAction from '../interfaces/ITaskAction';
 
-const listsReducer = (state: any = {}, action: any) => {
+interface IListAction {
+  type: string;
+  listId: string;
+  listTitle: string;
+  taskId: string;
+  taskText: string;
+  tasks: taskInterface[];
+}
+
+const listsReducer = (state: any = {}, action: IListAction) => {
   switch (action.type) {
     case ADD_LIST:
       return {
         ...state,
-        [action.listID]: {
+        [action.listId]: {
           listTitle: action.listTitle,
           tasks: action.tasks
         }
