@@ -21,14 +21,14 @@ interface ITask {
 //   id
 // });
 
-export const setListId = ({ listID }: { listID: string }) => ({
+export const setListId = ({ listId }: { listId: string }) => ({
   type: SET_LIST_ID,
-  listID
+  listId
 });
 
-export const addList = ({ tasks, listID, listTitle }: any): any => ({
+export const addList = ({ tasks, listId, listTitle }: any): any => ({
   type: ADD_LIST,
-  listID,
+  listId,
   listTitle,
   tasks
 });

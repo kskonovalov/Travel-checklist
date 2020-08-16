@@ -14,7 +14,7 @@ window.__DATA__ = window.__DATA__ || {};
 
 const initialState: IStore = {
   lists: {},
-  listID: ''
+  listId: ''
 };
 
 const composeEnhancers =

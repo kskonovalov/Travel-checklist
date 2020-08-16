@@ -48,7 +48,7 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
     Object.keys(savedLists).map((key: string) => {
       dispatch(
         addList({
-          listID: key,
+          listId: key,
           listTitle: savedLists[key].listTitle,
           tasks: savedLists[key].tasks
         })
@@ -62,7 +62,7 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
   Object.keys(defaultLists).map((key: string) => {
     dispatch(
       addList({
-        listID: getRandomKey(),
+        listId: getRandomKey(),
         listTitle: key,
         tasks: defaultLists[key].reduce(function(result: any, item: any) {
           result[getRandomKey()] = maybePrepareTask(item); //a, b, c

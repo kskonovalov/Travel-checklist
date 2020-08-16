@@ -25,7 +25,7 @@ declare global {
 window.__DATA__ = window.__DATA__ || {};
 
 interface IUrlParams {
-  listID?: string;
+  listId?: string;
 }
 
 const a11yProps = (index: any) => {
@@ -71,12 +71,12 @@ const App: React.FC = () => {
 
   const lists = useSelector((state: any) => state.lists);
 
-  // set new listID if needed
-  const { listID = '' }: IUrlParams = useParams();
+  // set new listId if needed
+  const { listId = '' }: IUrlParams = useParams();
   useEffect(() => {
-    if (listID.length === 0) {
+    if (listId.length === 0) {
       // first, checking localStorage
-      const savedListID = localStorage.getItem('listID');
+      const savedListID = localStorage.getItem('listId');
       if (savedListID !== null) {
         history.replace(`/${savedListID}`);
         return;
@@ -97,19 +97,19 @@ const App: React.FC = () => {
             getRandomKey(13);
       history.replace(`/${newListID}`);
     }
-    dispatch(setListId({ listID }));
-  }, [listID]);
+    dispatch(setListId({ listId }));
+  }, [listId]);
 
   // initial load. get tasks
   useEffect(() => {
     if (initialLoad) {
       dispatch(emptyStore());
-      if (listID.length > 0) {
+      if (listId.length > 0) {
         axios
           .post(
             apiUrl,
             {
-              listID,
+              listId,
               action: 'get'
             },
             {
@@ -123,7 +123,7 @@ const App: React.FC = () => {
               Object.keys(data.data).map((key: string) => {
                 dispatch(
                   addList({
-                    listID: key,
+                    listId: key,
                     listTitle: data.data[key].listTitle,
                     tasks: data.data[key].tasks
                   })
@@ -141,21 +141,21 @@ const App: React.FC = () => {
           });
       }
     }
-  }, [listID, initialLoad]);
+  }, [listId, initialLoad]);
 
   // save tasks
   useEffect(() => {
-    if (!initialLoad && listID.length > 0) {
+    if (!initialLoad && listId.length > 0) {
       // save in local storage
       localStorage.setItem('lists', JSON.stringify(lists));
-      localStorage.setItem('listID', listID);
+      localStorage.setItem('listId', listId);
       // save to api
       setError('');
       axios
         .post(
           apiUrl,
           {
-            listID,
+            listId,
             lists,
             action: 'save'
           },
@@ -178,7 +178,7 @@ const App: React.FC = () => {
     setOpen(false);
   };
   const createNewList = () => {
-    localStorage.removeItem('listID');
+    localStorage.removeItem('listId');
     localStorage.removeItem('lists');
     setInitialLoad(true);
     history.push(`/`);

@@ -1,12 +1,12 @@
 import { SET_LIST_ID } from '../constants';
 
-const listIDReducer = (state = '', action: any) => {
+const listIdReducer = (state = '', action: any) => {
   switch (action.type) {
     case SET_LIST_ID:
-      return action.listID;
+      return action.listId;
     default:
       return state;
   }
 };
 
-export default listIDReducer;
+export default listIdReducer;

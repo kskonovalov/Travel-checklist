@@ -12,7 +12,7 @@ ReactDOM.render(
   <Provider store={store}>
     <HashRouter>
       <Route path="/" exact component={App} />
-      <Route path="/:listID" component={App} />
+      <Route path="/:listId" component={App} />
     </HashRouter>
   </Provider>,
   document.getElementById('root')
