@@ -8,18 +8,21 @@ import {
 } from '../constants';
 import { getRandomKey } from '../../helpers';
 import taskInterface from '../../interfaces/taskInterface';
-import ITaskAction from '../interfaces/ITaskAction';
 
 interface IListAction {
   type: string;
   listId: string;
   listTitle: string;
-  taskId: string;
-  taskText: string;
-  tasks: taskInterface[];
+  tasks?: taskInterface[];
 }
 
-const listsReducer = (state: any = {}, action: IListAction) => {
+interface ITaskAction {
+  type: string;
+  taskId: string;
+  taskText?: string;
+}
+
+const listsReducer = (state: any = {}, action: IListAction & ITaskAction) => {
   switch (action.type) {
     case ADD_LIST:
       return {
