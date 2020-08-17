@@ -15,7 +15,7 @@ if ($mysqli->connect_error) {
 
 $postData = json_decode(file_get_contents('php://input'), true);
 // list ID
-$listID = $mysqli->real_escape_string($postData["listID"]);
+$listId = $mysqli->real_escape_string($postData["listId"]);
 // action type
 $availableActions = [
     'check', // check list id availability
@@ -39,7 +39,7 @@ if(isset($postData["action"]) && in_array($postData["action"], $availableActions
 //VAR_DUMP($action);
 if($action == 'check') {
     // check availability of list ID
-    if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1")) {
+    if ($result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listId}' LIMIT 1")) {
         if($result->num_rows > 0) {
             echo json_encode(['available' => false]);
         } else {
@@ -55,11 +55,11 @@ if($action == 'check') {
     // update list
     $lists = json_encode($postData["lists"]);
     $lists = $mysqli->real_escape_string($lists);
-    $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
+    $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listId}' LIMIT 1");
     if ($result->num_rows > 0) {
-        $res = $mysqli->query("UPDATE checklist set content = '{$lists}' WHERE list_id = '{$listID}'");
+        $res = $mysqli->query("UPDATE checklist set content = '{$lists}' WHERE list_id = '{$listId}'");
     } else {
-        $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listID}','{$lists}')");
+        $res = $mysqli->query("INSERT INTO `checklist`(`list_id`, `content`) VALUES ('{$listId}','{$lists}')");
     }
     echo json_encode([
         'success' => true
@@ -68,7 +68,7 @@ if($action == 'check') {
     die();
 } else {
     // get current list data
-   $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listID}' LIMIT 1");
+   $result = $mysqli->query("SELECT * FROM checklist WHERE list_id = '{$listId}' LIMIT 1");
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $response =  json_encode([

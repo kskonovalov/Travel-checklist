@@ -23,8 +23,12 @@ interface ITaskAction {
 }
 
 const listsReducer = (state: any = {}, action: IListAction & ITaskAction) => {
+  console.log(action);
   switch (action.type) {
     case ADD_LIST:
+      if (typeof action.tasks === 'undefined') {
+        return state;
+      }
       return {
         ...state,
         [action.listId]: {

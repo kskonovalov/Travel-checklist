@@ -54,7 +54,7 @@ const TodoList: React.FC<TList> = ({ listId }) => {
     setCurrentEditingTask({ task: '', taskId: '' });
   };
 
-  if (tasks.length === 0) {
+  if (typeof tasks !== 'undefined' && tasks.length === 0) {
     return null;
   }
 
