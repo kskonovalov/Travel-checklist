@@ -121,7 +121,6 @@ const App: React.FC = () => {
             // load lists from api
             if (data.success && typeof data.data === 'object') {
               Object.keys(data.data).map((key: string) => {
-                console.log(data.data);
                 dispatch(
                   addList({
                     listId: key,
