@@ -58,8 +58,12 @@ const TasksWrap = styled(Box)`
   overflow-y: scroll;
 `;
 
-const StyledTab = styled(Tab)`
+interface IStyledTab {
+  listCompleted: boolean;
+}
+const StyledTab = styled(Tab)<IStyledTab>`
   min-height: 32px;
+  ${p => p.listCompleted && 'text-decoration: line-through;'}
 `;
 
 const App: React.FC = () => {
@@ -218,13 +222,19 @@ const App: React.FC = () => {
                 onChange={handleTabs}
                 aria-label="Список задач"
               >
-                {Object.keys(lists).map((key: any) => {
-                  const { listTitle } = lists[key];
+                {Object.keys(lists).map((key: string) => {
+                  const { listTitle, tasks } = lists[key];
+                  const completedTasks = Object.keys(tasks).filter(
+                    (item: string) => {
+                      return tasks[item].completed;
+                    }
+                  );
                   return (
                     <StyledTab
                       label={listTitle}
                       value={key}
                       key={key}
+                      listCompleted={tasks.length === completedTasks.length}
                       {...a11yProps(key)}
                     />
                   );
