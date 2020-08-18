@@ -234,7 +234,9 @@ const App: React.FC = () => {
                       label={listTitle}
                       value={key}
                       key={key}
-                      listCompleted={tasks.length === completedTasks.length}
+                      listCompleted={
+                        Object.keys(tasks).length === completedTasks.length
+                      }
                       {...a11yProps(key)}
                     />
                   );
