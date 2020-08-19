@@ -9,6 +9,10 @@ import {
 import { getRandomKey } from '../../helpers';
 import taskInterface from '../../interfaces/taskInterface';
 
+interface ITasks {
+  [taskId: string]: taskInterface;
+}
+
 interface IListAction {
   type: string;
   listId: string;
@@ -56,7 +60,7 @@ const listsReducer = (state: any = {}, action: IListAction & ITaskAction) => {
           ...state[action.listId],
           tasks: Object.keys(state[action.listId].tasks)
             .filter(currentId => currentId !== action.taskId)
-            .reduce((obj: any, key) => {
+            .reduce((obj: ITasks, key: string) => {
               obj[key] = state[action.listId].tasks[key];
               return obj;
             }, {})
