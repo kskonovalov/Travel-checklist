@@ -62,7 +62,7 @@ const TodoList: React.FC<TList> = ({ listId }) => {
     <>
       <b>{listTitle}</b>
       <List>
-        {Object.keys(tasks).map((key: any) => {
+        {Object.keys(tasks).map((key: string) => {
           const { completed, value } = tasks[key];
           return (
             <Task
