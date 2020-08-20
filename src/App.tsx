@@ -59,11 +59,11 @@ const TasksWrap = styled(Box)`
 `;
 
 interface IStyledTab {
-  listCompleted: boolean;
+  $listCompleted: boolean;
 }
 const StyledTab = styled(Tab)<IStyledTab>`
   min-height: 32px;
-  ${p => p.listCompleted && 'text-decoration: line-through;'}
+  ${p => p.$listCompleted && 'text-decoration: line-through;'}
 `;
 
 const App: React.FC = () => {
@@ -234,7 +234,7 @@ const App: React.FC = () => {
                       label={listTitle}
                       value={key}
                       key={key}
-                      listCompleted={
+                      $listCompleted={
                         Object.keys(tasks).length === completedTasks.length
                       }
                       {...a11yProps(key)}
