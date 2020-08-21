@@ -189,13 +189,8 @@ const App: React.FC = () => {
   };
 
   // tabs
-  const [tab, setTab] = useState<number | string>(
-    typeof Object.keys(lists)[0] !== 'undefined' ? Object.keys(lists)[0] : 0
-  );
-  const handleTabs = (
-    event: React.ChangeEvent<{}>,
-    newValue: number | string
-  ) => {
+  const [tab, setTab] = useState<string>(Object.keys(lists)[0] || '');
+  const handleTabs = (event: React.ChangeEvent<{}>, newValue: string) => {
     setTab(newValue);
   };
   useEffect(() => {
