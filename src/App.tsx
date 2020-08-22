@@ -14,7 +14,6 @@ import Loader from './components/Loader';
 import { getRandomKey, fillWithDefaultLists } from './helpers';
 import { setListId, addList, emptyStore } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
-import IStore from './store/interfaces/IStore';
 import ErrorMessage from './components/ErrorMessage';
 
 declare global {
@@ -102,7 +101,7 @@ const App: React.FC = () => {
       history.replace(`/${newListID}`);
     }
     dispatch(setListId({ listId }));
-  }, [listId]);
+  }, [listId, history, dispatch]);
 
   // initial load. get tasks
   useEffect(() => {
@@ -145,7 +144,7 @@ const App: React.FC = () => {
           });
       }
     }
-  }, [listId, initialLoad]);
+  }, [listId, initialLoad, dispatch]);
 
   // save tasks
   useEffect(() => {
@@ -171,7 +170,7 @@ const App: React.FC = () => {
           setError(saveErrorMessage);
         });
     }
-  }, [lists]);
+  }, [lists, initialLoad, listId]);
 
   // new list confirmation
   const [open, setOpen] = useState<boolean>(false);
