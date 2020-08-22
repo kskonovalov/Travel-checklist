@@ -189,15 +189,10 @@ const App: React.FC = () => {
   };
 
   // tabs
-  const [tab, setTab] = useState<string>(Object.keys(lists)[0] || '');
-  const handleTabs = (event: React.ChangeEvent<{}>, newValue: string) => {
+  const [tab, setTab] = useState<number>(0);
+  const handleTabs = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
-  useEffect(() => {
-    if (typeof Object.keys(lists)[0] !== 'undefined') {
-      setTab(Object.keys(lists)[0]);
-    }
-  }, [initialLoad]);
 
   return (
     <>
@@ -217,7 +212,7 @@ const App: React.FC = () => {
                 onChange={handleTabs}
                 aria-label="Список задач"
               >
-                {Object.keys(lists).map((key: string) => {
+                {Object.keys(lists).map((key: string, index) => {
                   const { listTitle, tasks } = lists[key];
                   const completedTasks = Object.keys(tasks).filter(
                     (item: string) => {
@@ -227,7 +222,7 @@ const App: React.FC = () => {
                   return (
                     <StyledTab
                       label={listTitle}
-                      value={key}
+                      value={index}
                       key={key}
                       $listCompleted={
                         Object.keys(tasks).length === completedTasks.length
@@ -238,9 +233,9 @@ const App: React.FC = () => {
                 })}
               </ListsWrap>
               <TasksWrap>
-                {Object.keys(lists).map((key: any) => {
+                {Object.keys(lists).map((key: string, index) => {
                   return (
-                    <TabPanel value={tab} index={key} key={key}>
+                    <TabPanel value={tab} index={index} key={key}>
                       <TodoList listId={key} />
                       <Box mt={3} mb={1}>
                         <TodoForm listId={key} />
