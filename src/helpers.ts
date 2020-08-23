@@ -45,7 +45,7 @@ export { maybePrepareTask };
 const fillWithDefaultLists = ({ dispatch }: any) => {
   const savedLists = JSON.parse(localStorage.getItem('lists') || '[]');
   if (savedLists.length > 0) {
-    Object.keys(savedLists).map((key: string) => {
+    Object.keys(savedLists).forEach((key: string) => {
       dispatch(
         addList({
           listId: key,
@@ -59,7 +59,7 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
   const defaultLists =
     typeof window.__DATA__.lists !== 'undefined' ? window.__DATA__.lists : {};
 
-  Object.keys(defaultLists).map((key: string) => {
+  Object.keys(defaultLists).forEach((key: string) => {
     dispatch(
       addList({
         listId: getRandomKey(),
