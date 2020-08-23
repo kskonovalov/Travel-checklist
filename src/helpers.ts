@@ -64,8 +64,13 @@ const fillWithDefaultLists = ({ dispatch }: any) => {
       addList({
         listId: getRandomKey(),
         listTitle: key,
-        tasks: defaultLists[key].reduce(function(result: any, item: any) {
-          result[getRandomKey()] = maybePrepareTask(item); //a, b, c
+        tasks: defaultLists[key].reduce(function(
+          result: {
+            [taskId: string]: taskInterface;
+          },
+          item: any
+        ) {
+          result[getRandomKey()] = maybePrepareTask(item);
           return result;
         }, {})
       })
