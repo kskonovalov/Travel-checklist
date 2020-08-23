@@ -15,6 +15,7 @@ import { getRandomKey, fillWithDefaultLists } from './helpers';
 import { setListId, addList, emptyStore } from './store/actions';
 import { apiUrl, saveErrorMessage } from './config';
 import ErrorMessage from './components/ErrorMessage';
+import IStore from './store/interfaces/IStore';
 
 declare global {
   interface Window {
@@ -27,7 +28,7 @@ interface IUrlParams {
   listId?: string;
 }
 
-const a11yProps = (index: any) => {
+const a11yProps = (index: string) => {
   return {
     id: `vertical-tab-${index}`,
     'aria-controls': `vertical-tabpanel-${index}`
@@ -72,7 +73,7 @@ const App: React.FC = () => {
   const [initialLoad, setInitialLoad] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
-  const lists = useSelector((state: any) => state.lists);
+  const lists = useSelector((state: IStore) => state.lists);
 
   // set new listId if needed
   const { listId = '' }: IUrlParams = useParams();
