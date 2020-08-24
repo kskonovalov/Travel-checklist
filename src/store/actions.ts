@@ -11,8 +11,11 @@ import {
 import taskInterface from '../interfaces/taskInterface';
 // import ITaskAction from './interfaces/ITaskAction';
 
-interface ICommonAction {
+interface IActionType {
   type: string;
+}
+
+interface ICommonAction {
   listId: string;
 }
 
@@ -37,7 +40,11 @@ interface ITaskAction extends ICommonAction {
 //   id
 // });
 
-export const setListId = ({ listId }: { listId: string }): IListAction => ({
+export const setListId = ({
+  listId
+}: {
+  listId: string;
+}): IListAction & IActionType => ({
   type: SET_LIST_ID,
   listId
 });
@@ -46,7 +53,7 @@ export const addList = ({
   tasks,
   listId,
   listTitle
-}: IListAction): IListAction => ({
+}: IListAction): IListAction & IActionType => ({
   type: ADD_LIST,
   listId,
   listTitle,
@@ -56,7 +63,7 @@ export const addList = ({
 export const toggleTaskInList = ({
   listId,
   taskId
-}: ITaskAction): ITaskAction => ({
+}: ITaskAction): ITaskAction & IActionType => ({
   type: TOGGLE_TASK_IN_LIST,
   listId,
   taskId
@@ -65,7 +72,7 @@ export const toggleTaskInList = ({
 export const deleteTaskInList = ({
   listId,
   taskId
-}: ITaskAction): ITaskAction => ({
+}: ITaskAction): ITaskAction & IActionType => ({
   type: DELETE_TASK_IN_LIST,
   listId,
   taskId
@@ -75,7 +82,7 @@ export const editTaskInList = ({
   listId,
   taskId,
   taskText
-}: ITaskAction): ITaskAction => ({
+}: ITaskAction): ITaskAction & IActionType => ({
   type: EDIT_TASK_IN_LIST,
   listId,
   taskId,
@@ -85,7 +92,7 @@ export const editTaskInList = ({
 export const addTaskToList = ({
   listId,
   taskText
-}: ITaskAction): ITaskAction => ({
+}: ITaskAction): ITaskAction & IActionType => ({
   type: ADD_TASK_TO_LIST,
   listId,
   taskText
