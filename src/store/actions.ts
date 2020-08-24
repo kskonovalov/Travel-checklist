@@ -42,20 +42,30 @@ export const setListId = ({ listId }: { listId: string }): IListAction => ({
   listId
 });
 
-export const addList = ({ tasks, listId, listTitle }: any): IListAction => ({
+export const addList = ({
+  tasks,
+  listId,
+  listTitle
+}: IListAction): IListAction => ({
   type: ADD_LIST,
   listId,
   listTitle,
   tasks
 });
 
-export const toggleTaskInList = ({ listId, taskId }: any): ITaskAction => ({
+export const toggleTaskInList = ({
+  listId,
+  taskId
+}: ITaskAction): ITaskAction => ({
   type: TOGGLE_TASK_IN_LIST,
   listId,
   taskId
 });
 
-export const deleteTaskInList = ({ listId, taskId }: any): ITaskAction => ({
+export const deleteTaskInList = ({
+  listId,
+  taskId
+}: ITaskAction): ITaskAction => ({
   type: DELETE_TASK_IN_LIST,
   listId,
   taskId
@@ -65,14 +75,17 @@ export const editTaskInList = ({
   listId,
   taskId,
   taskText
-}: any): ITaskAction => ({
+}: ITaskAction): ITaskAction => ({
   type: EDIT_TASK_IN_LIST,
   listId,
   taskId,
   taskText
 });
 
-export const addTaskToList = ({ listId, taskText }: any): ITaskAction => ({
+export const addTaskToList = ({
+  listId,
+  taskText
+}: ITaskAction): ITaskAction => ({
   type: ADD_TASK_TO_LIST,
   listId,
   taskText
