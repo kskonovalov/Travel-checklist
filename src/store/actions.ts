@@ -8,37 +8,7 @@ import {
   EMPTY_STORE,
   ADD_TASK_TO_LIST
 } from './constants';
-import taskInterface from '../interfaces/taskInterface';
-// import ITaskAction from './interfaces/ITaskAction';
-
-interface IActionType {
-  type: string;
-}
-
-interface ICommonAction {
-  listId: string;
-}
-
-interface IListAction extends ICommonAction {
-  listTitle?: string;
-  tasks?: taskInterface[];
-}
-
-interface ITaskAction extends ICommonAction {
-  taskId?: string;
-  taskText?: string;
-}
-
-// interface ITask {
-//   task?: string;
-//   id?: string;
-//   completed?: boolean;
-// }
-
-// export const deleteTask = ({ id }: ITask): ITaskAction => ({
-//   type: DELETE_TASK,
-//   id
-// });
+import { IActionType, IListAction, ITaskAction } from './interfaces/IActions';
 
 export const setListId = ({
   listId
