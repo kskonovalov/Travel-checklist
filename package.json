@@ -9,7 +9,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
     "@types/node": "^12.12.55",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.0",
@@ -48,9 +47,15 @@
     ]
   },
   "devDependencies": {
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^24.9.1",
     "@types/react-redux": "^7.1.9",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.4",
+    "enzyme-to-json": "^3.5.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-jest-enzyme": "^7.1.2",
@@ -61,19 +66,11 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
-    "prettier": "^1.19.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "enzyme-to-json": "^3.5.0",
-    "identity-obj-proxy": "^3.0.0"
+    "identity-obj-proxy": "^3.0.0",
+    "prettier": "^1.19.1"
   },
   "jest": {
-    "verbose": true,
     "clearMocks": true,
-    "collectCoverage": true,
-    "setupFilesAfterEnv": [
-      "./config/setupTest.js"
-    ],
     "snapshotSerializers": [
       "./node_modules/enzyme-to-json/serializer"
     ],
