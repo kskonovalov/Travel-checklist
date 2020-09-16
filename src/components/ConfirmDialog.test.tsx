@@ -7,7 +7,7 @@ configure({ adapter: new Adapter() });
 import ConfirmDialog from './ConfirmDialog';
 
 describe('Component: ConfirmDialog', () => {
-  test('should render componen', () => {
+  test('should render component', () => {
     // @ts-ignore
     const component = shallow(
       <ConfirmDialog open={true} onClose={() => {}} onConfirm={() => {}} />
