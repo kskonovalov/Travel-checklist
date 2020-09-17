@@ -10,18 +10,21 @@ const setUp = () => {
   return <ConfirmDialog open={true} onClose={() => {}} onConfirm={() => {}} />;
 };
 
+// todo line coverage
 describe('Component: ConfirmDialog', () => {
   test('Should contain description', () => {
-    // @ts-ignore
     const component = shallow(setUp());
     const description = component.find('#alert-dialog-description');
     expect(description.length).toBe(1);
   });
   test('Should contain 2 buttons', () => {
-    // @ts-ignore
     const component = shallow(setUp());
     const buttons = component.find('WithStyles(ForwardRef(Button))');
     expect(buttons.length).toBe(2); // confirm & cancel
     // console.log(component.debug());
+  });
+  test('Should match snapshot', () => {
+    const component = shallow(setUp());
+    expect(component).toMatchSnapshot();
   });
 });

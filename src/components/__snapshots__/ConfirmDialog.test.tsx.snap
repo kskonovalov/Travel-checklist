@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: ConfirmDialog Should match snapshot 1`] = `
+<WithStyles(ForwardRef(Dialog))
+  onClose={[Function]}
+  open={true}
+>
+  <WithStyles(ForwardRef(DialogTitle))>
+    Вы уверены?
+  </WithStyles(ForwardRef(DialogTitle))>
+  <WithStyles(ForwardRef(DialogContent))>
+    <WithStyles(ForwardRef(DialogContentText))
+      id="alert-dialog-description"
+    >
+      Это действие создаст новый список дел, старый список останется доступен по ссылке:
+    </WithStyles(ForwardRef(DialogContentText))>
+    <WithStyles(ForwardRef(TextField))
+      fullWidth={true}
+      value="http://localhost/"
+    />
+  </WithStyles(ForwardRef(DialogContent))>
+  <WithStyles(ForwardRef(DialogActions))>
+    <WithStyles(ForwardRef(Button))
+      color="primary"
+      onClick={[Function]}
+    >
+      Отменить
+    </WithStyles(ForwardRef(Button))>
+    <WithStyles(ForwardRef(Button))
+      color="primary"
+      onClick={[Function]}
+      variant="outlined"
+    >
+      Создать новый
+    </WithStyles(ForwardRef(Button))>
+  </WithStyles(ForwardRef(DialogActions))>
+</WithStyles(ForwardRef(Dialog))>
+`;
+
+exports[`Component: ConfirmDialog Should render 1`] = `
+<WithStyles(ForwardRef(Dialog))
+  onClose={[Function]}
+  open={true}
+>
+  <WithStyles(ForwardRef(DialogTitle))>
+    Вы уверены?
+  </WithStyles(ForwardRef(DialogTitle))>
+  <WithStyles(ForwardRef(DialogContent))>
+    <WithStyles(ForwardRef(DialogContentText))
+      id="alert-dialog-description"
+    >
+      Это действие создаст новый список дел, старый список останется доступен по ссылке :
+    </WithStyles(ForwardRef(DialogContentText))>
+    <WithStyles(ForwardRef(TextField))
+      fullWidth={true}
+      value="http://localhost/"
+    />
+  </WithStyles(ForwardRef(DialogContent))>
+  <WithStyles(ForwardRef(DialogActions))>
+    <WithStyles(ForwardRef(Button))
+      color="primary"
+      onClick={[Function]}
+    >
+      Отменить
+    </WithStyles(ForwardRef(Button))>
+    <WithStyles(ForwardRef(Button))
+      color="primary"
+      onClick={[Function]}
+      variant="outlined"
+    >
+      Создать новый
+    </WithStyles(ForwardRef(Button))>
+  </WithStyles(ForwardRef(DialogActions))>
+</WithStyles(ForwardRef(Dialog))>
+`;
