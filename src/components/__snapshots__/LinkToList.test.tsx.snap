@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: ErrorMessage Should match snapshot 1`] = `
+<WithStyles(ForwardRef(TextField))
+  InputProps={
+    Object {
+      "startAdornment": <ForwardRef(WithStyles)
+        position="start"
+      >
+        <UNDEFINED
+          onClick={[Function]}
+          style={
+            Object {
+              "cursor": "pointer",
+            }
+          }
+        />
+      </ForwardRef(WithStyles)>,
+    }
+  }
+  fullWidth={true}
+  helperText="Нажмите на скрепку, чтобы скопировать ссылку на Ваш лист"
+  id="standard-basic"
+  inputRef={
+    Object {
+      "current": null,
+    }
+  }
+  label="Ссылка на Ваш личный чеклист путешественника"
+  value="http://localhost/"
+/>
+`;
