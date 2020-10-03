@@ -19,7 +19,7 @@ const StyledButton = styled(Button)`
   padding: 5px 10px;
 `;
 
-interface ITodoForm {
+export interface ITodoForm {
   listId: string;
 }
 
