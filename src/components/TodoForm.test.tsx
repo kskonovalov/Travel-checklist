@@ -10,13 +10,9 @@ const setUp = ({listId}: ITodoForm) => {
   return <TodoForm listId={listId}/>;
 };
 
-describe('Component: Loader', () => {
+describe('Component: TodoForm', () => {
   test('Should match snapshot', () => {
     const component = shallow(setUp({listId: "test"}));
     expect(component).toMatchSnapshot();
-  });
-  test('Should render text if index === value', () => {
-    const component = shallow(setUp({index: "1", value: "1", children: <div id="testdiv">test text</div>}));
-    expect(component.find('#testdiv').length).toBe(1);
   });
 });
