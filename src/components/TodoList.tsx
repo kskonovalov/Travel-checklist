@@ -27,7 +27,7 @@ const Task = styled(ListItem)`
     props.completed ? 'text-decoration: line-through;' : ''}
 `;
 
-type TList = {
+export type TList = {
   listId: string;
 };
 
