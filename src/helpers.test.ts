@@ -1,4 +1,4 @@
-import { getRandomKey } from './helpers';
+import { getRandomKey, maybePrepareTask } from './helpers';
 
 describe('getRandomKey test', () => {
   it('It should generate non-empty string by default', () => {
@@ -9,5 +9,13 @@ describe('getRandomKey test', () => {
     const keyLength = 10;
     const randomKey: string = getRandomKey(keyLength);
     expect(randomKey.length).toEqual(keyLength);
+  });
+});
+
+describe('maybePrepareTask test', () => {
+  it('It should create from string', () => {
+    const task: string = 'String task';
+    const result = maybePrepareTask(task);
+    expect(result).toEqual({ completed: false, value: 'String task' });
   });
 });
