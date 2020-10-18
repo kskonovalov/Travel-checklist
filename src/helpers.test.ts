@@ -1,4 +1,5 @@
 import { getRandomKey, maybePrepareTask } from './helpers';
+import taskInterface from './interfaces/taskInterface';
 
 describe('getRandomKey test', () => {
   it('It should generate non-empty string by default', () => {
@@ -17,5 +18,13 @@ describe('maybePrepareTask test', () => {
     const task: string = 'String task';
     const result = maybePrepareTask(task);
     expect(result).toEqual({ completed: false, value: 'String task' });
+  });
+  it('It should not modify task', () => {
+    const completedTask: taskInterface = {
+      value: 'Task value',
+      completed: true
+    };
+    const result = maybePrepareTask(completedTask);
+    expect(result).toEqual(completedTask);
   });
 });
