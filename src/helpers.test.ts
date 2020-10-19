@@ -19,10 +19,18 @@ describe('maybePrepareTask test', () => {
     const result = maybePrepareTask(task);
     expect(result).toEqual({ completed: false, value: 'String task' });
   });
-  it('It should not modify task', () => {
+  it('It should not modify TRUE task', () => {
     const completedTask: taskInterface = {
       value: 'Task value',
       completed: true
+    };
+    const result = maybePrepareTask(completedTask);
+    expect(result).toEqual(completedTask);
+  });
+  it('It should not modify FALSE task', () => {
+    const completedTask: taskInterface = {
+      value: 'Task value',
+      completed: false
     };
     const result = maybePrepareTask(completedTask);
     expect(result).toEqual(completedTask);
